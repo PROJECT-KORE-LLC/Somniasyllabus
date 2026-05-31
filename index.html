@@ -7,19 +7,23 @@
     <style>
         /* ============================================================
            SOMNIASCAPES — THE DIGITAL TOY SHELL
-           Luxurious • Calm • ND-Friendly • Frosted Glass Tabs
+           Luxurious • Calm • ND-Friendly • Unified Palette
            ============================================================ */
 
         *, *::before, *::after { box-sizing: border-box; }
 
         :root {
-            --glass: rgba(10, 15, 25, 0.7);
-            --text-muted: #a09ba5;
+            /* GLOBAL CONSTANTS */
+            --glass: rgba(10, 15, 25, 0.75);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            
+            /* DYNAMIC CONTROLS */
             --bg-zoom: 1;
             --bg-bright: 0.85;
             --glow-opac: 0.3;
             --anim-speed: 10s;
 
+            /* LUNAR BASELINE */
             --primary: #e0e7ff; 
             --primary-glow: rgba(224, 231, 255, 0.4);
             --accent: #a5b4fc; 
@@ -47,6 +51,7 @@
             height: 100vh; width: 100vw; color: var(--text-main); -webkit-font-smoothing: antialiased; user-select: none;
         }
 
+        /* --- VISUAL CANVAS --- */
         #bg-anchor {
             position: fixed; inset: 0; background: #020204 url('ship.png') no-repeat center center;
             background-size: cover; z-index: 1; transform: scale(var(--bg-zoom)); filter: brightness(var(--bg-bright));
@@ -57,7 +62,7 @@
             position: fixed; inset: 0; background: radial-gradient(circle at 50% 50%, var(--glow-color) 0%, transparent 70%);
             z-index: 2; opacity: var(--glow-opac); pointer-events: none; transition: opacity 0.3s ease, background 1s ease;
         }
-
+        
         .glow-pulse { animation: g-pulse var(--anim-speed) infinite alternate ease-in-out; }
         .glow-breathe { animation: g-breathe var(--anim-speed) infinite alternate ease-in-out; }
         .glow-strobe { animation: g-strobe var(--anim-speed) infinite alternate linear; }
@@ -78,20 +83,25 @@
 
         #particleCanvas { position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: var(--glow-opac); transition: opacity 0.3s ease; }
 
+        /* --- UI LAYOUT --- */
         #ui-wrapper { position: relative; z-index: 100; height: 100vh; width: 100vw; display: flex; flex-direction: column; align-items: center; transition: opacity 0.8s ease; }
         body.cloaked #ui-wrapper { opacity: 0; pointer-events: none; }
+        
         #top-nav { display: flex; gap: 10px; padding: 20px; width: 100%; justify-content: center; flex-wrap: wrap; }
-        .nav-logo { font-size: 1.5rem; letter-spacing: 8px; color: var(--primary); text-transform: uppercase; text-shadow: 0 0 15px var(--primary-glow); margin-top: auto; margin-bottom: 20px; text-align: center; }
+        .nav-logo { font-size: 1.5rem; letter-spacing: 8px; color: var(--primary); text-transform: uppercase; text-shadow: 0 0 15px var(--primary-glow); margin-top: auto; margin-bottom: 20px; text-align: center; transition: 0.3s ease; }
 
-        .artifact-btn {
-            background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); color: var(--primary);
-            padding: 10px 20px; border-radius: 30px; cursor: pointer; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
-            transition: 0.4s ease; font-family: inherit;
+        /* UNIFIED BUTTON STYLE */
+        .ui-btn {
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border); color: var(--primary);
+            padding: 10px 18px; border-radius: 8px; cursor: pointer;
+            font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
+            transition: all 0.3s ease; font-family: inherit; text-align: center;
         }
-        .artifact-btn:hover { border-color: var(--accent); color: #fff; box-shadow: 0 0 15px var(--primary-glow); }
-        .oracle-btn { border-color: #ec4899; color: #ec4899; text-shadow: 0 0 5px #ec4899; }
-        .oracle-btn:hover { border-color: #fbcfe8; color: #fbcfe8; box-shadow: 0 0 15px #ec4899; }
+        .ui-btn.rounded { border-radius: 30px; }
+        .ui-btn:hover, .ui-btn.active { border-color: var(--accent); color: var(--text-main); background: rgba(255,255,255,0.05); box-shadow: 0 0 15px var(--primary-glow); }
 
+        /* --- MAKER PANEL --- */
         #maker-panel {
             width: 95%; max-width: 600px; margin-bottom: 40px; background: var(--glass); backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border); border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.8);
@@ -101,35 +111,37 @@
         .tab-bar { display: flex; border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); }
         .tab-btn {
             flex: 1; background: transparent; border: none; color: var(--text-muted); padding: 16px 0; font-size: 0.75rem;
-            letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: 0.3s; font-family: inherit; border-bottom: 2px solid transparent;
+            letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: 0.3s; font-family: inherit; border-bottom: 2px solid transparent;
         }
         .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(255,255,255,0.02); }
-        .tab-content { display: none; padding: 20px; max-height: 45vh; overflow-y: auto; }
+        .tab-content { display: none; padding: 20px; max-height: 50vh; overflow-y: auto; }
         .tab-content.active { display: flex; flex-direction: column; gap: 15px; }
         .tab-content::-webkit-scrollbar { width: 4px; }
         .tab-content::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 2px; }
 
+        .btn-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+        @media (max-width: 500px) { .btn-grid { grid-template-columns: repeat(3, 1fr); } }
+        h4.section-title { margin: 0 0 5px 0; font-size: 0.65rem; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; }
+
+        /* --- INPUTS & ZONES --- */
         .upload-zone {
             border: 1px dashed var(--glass-border); padding: 15px; text-align: center; border-radius: 10px; cursor: pointer;
             color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: rgba(0,0,0,0.2);
         }
         .upload-zone:hover { background: rgba(255,255,255,0.05); color: var(--primary); border-color: var(--primary); }
         .upload-zone input { display: none; }
-
-        .btn-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-        @media (max-width: 500px) { .btn-grid { grid-template-columns: repeat(3, 1fr); } }
         
-        .toy-btn {
-            background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); color: var(--text-main); padding: 10px;
-            border-radius: 8px; cursor: pointer; font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; transition: 0.3s; font-family: inherit;
+        .core-input {
+            flex: 1; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); padding: 8px; 
+            color: var(--text-main); border-radius: 6px; outline: none; font-family: inherit; font-size: 0.75rem; transition: 0.3s;
         }
-        .toy-btn:hover, .toy-btn.active { border-color: var(--accent); background: rgba(255,255,255,0.05); color: var(--accent); }
-        h4.section-title { margin: 0 0 5px 0; font-size: 0.65rem; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; }
+        .core-input:focus { border-color: var(--accent); }
 
-        .mixer-card { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; gap: 10px; }
-        .mixer-card.playing { border-color: var(--accent); background: rgba(45, 212, 191, 0.05); }
-        .mixer-btn { background: none; border: none; color: var(--text-muted); font-size: 0.8rem; text-align: left; cursor: pointer; font-family: inherit; flex: 1; padding: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .mixer-card.playing .mixer-btn { color: var(--accent); text-shadow: 0 0 10px rgba(45, 212, 191, 0.5); }
+        /* --- MIXER & SLIDERS --- */
+        .mixer-card { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; gap: 10px; transition: 0.3s; }
+        .mixer-card.playing { border-color: var(--accent); background: rgba(255,255,255,0.05); }
+        .mixer-btn { background: none; border: none; color: var(--text-muted); font-size: 0.8rem; text-align: left; cursor: pointer; font-family: inherit; flex: 1; padding: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: 0.3s; }
+        .mixer-card.playing .mixer-btn { color: var(--accent); text-shadow: 0 0 10px var(--primary-glow); }
         .mixer-slider { -webkit-appearance: none; width: 80px; height: 3px; background: rgba(255,255,255,0.1); outline: none; border-radius: 2px; }
         .mixer-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: var(--accent); border-radius: 50%; cursor: pointer; box-shadow: 0 0 8px var(--primary-glow); }
 
@@ -141,53 +153,58 @@
         .modal-overlay { position: fixed; inset: 0; z-index: 200; display: none; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px; }
         .modal-overlay.active { display: flex; }
 
-        .scribes-bubble, .oracle-bubble {
-            width: 100%; max-width: 900px; max-height: 80vh; background: rgba(6, 6, 8, 0.98); border: 1px solid var(--glass-border);
+        .app-bubble {
+            width: 100%; max-width: 900px; max-height: 85vh; background: rgba(6, 6, 8, 0.98); border: 1px solid var(--glass-border);
             border-radius: 20px; padding: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); display: flex; flex-direction: column; gap: 15px; overflow: hidden;
         }
-
         .archive-vault {
-            width: 100%; height: 55vh; background: rgba(0,0,0,0.8); border: 2px solid var(--primary); padding: 20px; box-sizing: border-box;
-            display: flex; flex-direction: column; gap: 15px; box-shadow: 0 0 60px #000, inset 0 0 40px var(--primary-glow); backdrop-filter: blur(15px);
+            width: 100%; height: 55vh; background: rgba(0,0,0,0.8); border: 1px solid var(--primary); border-radius: 12px; padding: 20px; box-sizing: border-box;
+            display: flex; flex-direction: column; gap: 15px; box-shadow: 0 0 40px #000, inset 0 0 30px var(--primary-glow);
         }
+        .vault-header { border-bottom: 1px solid var(--primary); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .vault-header h2 { margin: 0; font-size: 1.2rem; letter-spacing: 8px; text-transform: uppercase; color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); }
 
-        .vault-header { border-bottom: 2px solid var(--primary); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-end; }
-        .vault-header h2 { margin: 0; font-size: 1.2rem; letter-spacing: 10px; text-transform: uppercase; color: var(--primary); text-shadow: 0 0 20px var(--primary-glow); }
-
+        /* --- SCRIBE --- */
         #search-annals { background: rgba(0,0,0,0.5); border: none; border-bottom: 1px solid var(--primary); color: var(--primary); font-family: monospace; font-size: 0.8rem; padding: 5px; outline: none; width: 180px; text-transform: uppercase; letter-spacing: 2px; }
         .annals-body { flex: 1; overflow-y: auto; padding-right: 10px; scrollbar-width: none; }
         .annals-body::-webkit-scrollbar { display: none; }
-
-        .lore-entry { position: relative; margin-bottom: 15px; border-bottom: 1px solid rgba(212,175,55,0.15); padding-bottom: 10px; }
+        .lore-entry { position: relative; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; }
         .entry-meta { font-size: 0.6rem; color: var(--primary); opacity: 0.6; letter-spacing: 2px; margin-bottom: 4px; }
-        .shred-btn { position: absolute; top: 0; right: 0; background: transparent; border: none; color: var(--primary); font-size: 1rem; cursor: pointer; opacity: 0.4; transition: 0.3s; }
-        .shred-btn:hover { opacity: 1; color: #ff4444; }
-
-        .lore-input { background: rgba(0,0,0,0.6); border: none; border-left: 4px solid var(--primary); color: var(--primary); padding: 12px; outline: none; resize: none; font-family: monospace; font-size: 0.95rem; }
-        .command-array { display: flex; gap: 10px; flex-wrap: wrap; width: 100%; }
-        .lux-btn { background: rgba(0,0,0,0.7); border: 1px solid var(--primary); color: var(--primary); padding: 10px; cursor: pointer; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 3px; flex: 1; text-align: center; transition: 0.3s; }
-        .lux-btn:hover { background: var(--primary-glow); box-shadow: 0 0 20px var(--primary-glow); }
-        .kore-footer { font-size: 0.55rem; opacity: 0.4; letter-spacing: 6px; text-transform: uppercase; text-align: center; width: 100%; }
-
-        /* --- ORACLE CHAT UI --- */
+        .lore-input { background: rgba(0,0,0,0.6); border: none; border-left: 2px solid var(--primary); color: var(--primary); padding: 12px; outline: none; resize: none; font-family: monospace; font-size: 0.9rem; }
+        
+        /* --- ORACLE --- */
         .oracle-chat-body { flex: 1; overflow-y: auto; padding-right: 10px; display: flex; flex-direction: column; gap: 10px; scrollbar-width: none; }
         .oracle-msg { padding: 10px 15px; border-radius: 10px; max-width: 85%; font-family: sans-serif; font-size: 0.85rem; line-height: 1.5; }
-        .oracle-msg.user { background: rgba(255,255,255,0.1); align-self: flex-end; color: #fff; border: 1px solid var(--glass-border); }
-        .oracle-msg.ai { background: rgba(236,72,153,0.15); align-self: flex-start; color: #fbcfe8; border: 1px solid rgba(236,72,153,0.3); }
+        .oracle-msg.user { background: rgba(255,255,255,0.05); align-self: flex-end; color: var(--text-main); border: 1px solid var(--glass-border); }
+        .oracle-msg.ai { background: var(--primary-glow); align-self: flex-start; color: var(--text-main); border: 1px solid var(--primary); }
 
-        /* --- ACADEMY TAB UI --- */
-        .student-card { background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; padding: 15px; margin-bottom: 15px; }
-        .student-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 10px; }
-        .student-name { font-size: 1rem; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; }
-        .input-group { display: flex; gap: 5px; margin-bottom: 10px; }
-        .academy-input { flex: 1; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); padding: 8px; color: #fff; border-radius: 6px; outline: none; font-family: inherit; font-size: 0.75rem; }
-        .academy-input:focus { border-color: var(--accent); }
-        .academy-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-main); padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: 0.3s; font-size: 0.7rem; text-transform: uppercase; }
-        .academy-btn:hover { border-color: var(--accent); background: var(--accent); color: #000; }
-        .badge { padding: 3px 6px; border-radius: 4px; font-size: 0.6rem; letter-spacing: 1px; text-transform: uppercase; }
-        .badge.present { background: rgba(52,211,153,0.2); color: #34d399; border: 1px solid #34d399; }
-        .badge.absent { background: rgba(251,113,133,0.2); color: #fb7185; border: 1px solid #fb7185; }
+        /* --- SCHEDS --- */
+        .sched-card { background: rgba(0,0,0,0.35); border: 1px solid var(--glass-border); border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+        .sched-header-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 0.7rem; color: var(--text-muted); }
+        .sched-header-main { font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--primary); }
+        .sched-calendar-nav { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 0.75rem; }
+        .sched-calendar-month { text-align: center; flex: 1; letter-spacing: 2px; text-transform: uppercase; color: var(--primary); }
+        .sched-calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 6px; font-size: 0.65rem; }
+        .sched-day-label { text-align: center; opacity: 0.6; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); }
+        .sched-day { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.2s; color: var(--text-main); }
+        .sched-day:hover { border-color: var(--accent); }
+        .sched-day.today { border-color: var(--accent); box-shadow: 0 0 10px rgba(0,0,0,0.8); background: rgba(255,255,255,0.05); }
+        .sched-day.has-event { border-bottom: 2px solid var(--primary); }
+        .sched-day.selected { background: var(--primary-glow); border-color: var(--primary); color: var(--text-main); }
+        .sched-section-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); opacity: 0.9; }
+        .sched-subtext { font-size: 0.65rem; color: var(--text-muted); }
+        .sched-input-row { display: flex; gap: 6px; align-items: center; }
+        .sched-list { display: flex; flex-direction: column; gap: 6px; max-height: 120px; overflow-y: auto; }
+        .sched-list-item { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: 0.7rem; background: rgba(0,0,0,0.5); border-radius: 8px; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.06); }
+        .sched-timer-display { font-size: 1.5rem; letter-spacing: 3px; color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); text-align: center; margin: 10px 0; font-family: monospace; }
+        
+        /* --- ACADEMY --- */
+        .badge { padding: 3px 6px; border-radius: 4px; font-size: 0.6rem; letter-spacing: 1px; text-transform: uppercase; transition: 0.3s; border: 1px solid transparent; }
+        .badge.present { background: var(--primary-glow); color: var(--text-main); border-color: var(--primary); }
+        .badge.absent { background: rgba(0,0,0,0.5); color: var(--text-muted); border-color: var(--glass-border); }
         .log-row { display: flex; justify-content: space-between; font-size: 0.75rem; padding: 5px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); }
+
+        .kore-footer { font-size: 0.55rem; opacity: 0.4; letter-spacing: 6px; text-transform: uppercase; text-align: center; width: 100%; color: var(--primary); }
     </style>
 </head>
 <body id="os-body" class="lunar-mode" onclick="restoreUI()">
@@ -198,11 +215,11 @@
 
     <div id="ui-wrapper">
         <div id="top-nav" onclick="event.stopPropagation()">
-            <button class="artifact-btn" onclick="toggleCloak()">Cloak</button>
-            <button class="artifact-btn" onclick="toggleModal('scheds-modal')" style="border-color: #34d399; color: #34d399;">SCHEDS</button>
-            <button class="artifact-btn" onclick="toggleModal('scratchpad-modal')">SCRIBE</button>
-            <button class="artifact-btn oracle-btn" onclick="toggleModal('oracle-modal')">ORACLE</button>
-            <button class="artifact-btn" onclick="toggleProjectorMode()" style="border-color: #fbbf24; color: #fbbf24;">Cast</button>
+            <button class="ui-btn rounded" onclick="toggleCloak()">Cloak</button>
+            <button class="ui-btn rounded" onclick="toggleModal('scratchpad-modal')">SCRIBE</button>
+            <button class="ui-btn rounded" onclick="toggleModal('oracle-modal')">ORACLE</button>
+            <button class="ui-btn rounded" onclick="toggleFullscreen()">Projector</button>
+            <button id="shareButton" class="ui-btn rounded">Share</button>
         </div>
 
         <div class="nav-logo">SOMNIASCAPES</div>
@@ -213,16 +230,17 @@
                 <button class="tab-btn" onclick="switchTab('tab-canvas', this)">Canvas</button>
                 <button class="tab-btn" onclick="switchTab('tab-atmos', this)">Atmos</button>
                 <button class="tab-btn" onclick="switchTab('tab-academy', this)">Academy</button>
+                <button class="tab-btn" onclick="switchTab('tab-scheds', this)">Scheds</button>
                 <button class="tab-btn" onclick="switchTab('tab-vault', this)">Vault</button>
             </div>
 
             <div id="tab-audio" class="tab-content active">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <label class="toy-btn" style="flex:1; text-align:center; margin-right:10px;">
-                        + Upload Custom Audio
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+                    <label class="ui-btn" style="flex:1; text-align:center;">
+                        + Custom Audio
                         <input type="file" style="display:none;" accept="audio/*" onchange="handleAudioUpload(this)">
                     </label>
-                    <button class="toy-btn" onclick="stopAllAudio()" style="border-color:#ec4899; color:#ec4899;">Silence All</button>
+                    <button class="ui-btn" onclick="stopAllAudio()" style="flex:1;">Silence All</button>
                 </div>
                 <div id="mixer-container" style="display:flex; flex-direction:column; gap:8px;"></div>
             </div>
@@ -230,7 +248,6 @@
             <div id="tab-canvas" class="tab-content">
                 <h4 class="section-title">Backgrounds</h4>
                 <div class="btn-grid" id="bg-presets"></div>
-
                 <h4 class="section-title" style="margin-top:10px;">Custom</h4>
                 <label class="upload-zone">
                     <span>+ Upload Local Background Image</span>
@@ -260,81 +277,101 @@
             </div>
 
             <div id="tab-academy" class="tab-content">
-                <div class="input-group">
-                    <input type="text" id="new-student-name" class="academy-input" placeholder="Enter student name...">
-                    <button class="academy-btn" onclick="addStudent()">Add Student</button>
+                <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                    <input type="text" id="new-student-name" class="core-input" placeholder="Student name...">
+                    <button class="ui-btn" onclick="addStudent()">Add Student</button>
                 </div>
-                
-                <div style="display: flex; gap: 10px; margin-top: 5px;">
-                    <button class="academy-btn" style="flex: 1; border-color: var(--accent);" onclick="exportAcademyData()">📤 Export Academy JSON</button>
-                    <button class="academy-btn" style="flex: 1; border-color: var(--accent);" onclick="document.getElementById('academy-import-trigger').click()">📥 Import Academy JSON</button>
+                <div style="display: flex; gap: 10px;">
+                    <button class="ui-btn" style="flex: 1;" onclick="exportAcademyData()">📤 Export JSON</button>
+                    <button class="ui-btn" style="flex: 1;" onclick="document.getElementById('academy-import-trigger').click()">📥 Import JSON</button>
                 </div>
                 <input type="file" id="academy-import-trigger" style="display:none" accept=".json" onchange="importAcademyData(event)">
-
                 <div id="academy-container" style="margin-top: 15px;"></div>
             </div>
 
+            <div id="tab-scheds" class="tab-content">
+                <div class="sched-card">
+                    <div class="sched-header-row">
+                        <div>
+                            <div class="sched-header-main" id="sched-today-label">Today</div>
+                            <div class="sched-subtext" id="sched-today-date"></div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div class="sched-subtext" id="sched-time-label">--:--</div>
+                            <div class="sched-subtext" id="sched-weather-label">Weather: --</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sched-card">
+                    <div class="sched-calendar-nav">
+                        <button class="ui-btn" style="padding: 4px 10px;" onclick="changeSchedsMonth(-1)">◀</button>
+                        <div class="sched-calendar-month" id="sched-month-label"></div>
+                        <button class="ui-btn" style="padding: 4px 10px;" onclick="changeSchedsMonth(1)">▶</button>
+                    </div>
+                    <div class="sched-calendar-grid" id="sched-calendar-grid"></div>
+                </div>
+
+                <div class="sched-card">
+                    <div class="sched-section-title">Day Plan</div>
+                    <div class="sched-subtext" id="sched-selected-date-label">Select a day to plan.</div>
+                    <div class="sched-input-row" style="margin-top:6px;">
+                        <input id="sched-event-title" class="core-input" type="text" placeholder="Task description">
+                        <input id="sched-event-time" class="core-input" style="max-width: 90px;" type="time">
+                        <button class="ui-btn" onclick="addSchedsEvent()">Add</button>
+                    </div>
+                    <div class="sched-list" id="sched-event-list"></div>
+                </div>
+
+                <div class="sched-card">
+                    <div class="sched-section-title">Notes</div>
+                    <textarea id="sched-note-input" class="core-input sched-textarea" placeholder="Type a note and press Enter..."></textarea>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 5px;">
+                        <button class="ui-btn" onclick="addSchedsNote()">Save Note</button>
+                        <span class="sched-subtext" id="sched-note-hint"></span>
+                    </div>
+                    <div class="sched-list" id="sched-note-list" style="margin-top: 5px;"></div>
+                </div>
+
+                <div class="sched-card">
+                    <div class="sched-section-title">Timer</div>
+                    <div class="sched-input-row">
+                        <input id="sched-timer-minutes" class="core-input" type="number" min="1" max="180" value="25" style="max-width: 80px;">
+                        <span class="sched-subtext">minutes</span>
+                    </div>
+                    <div class="sched-timer-display" id="sched-timer-display">25:00</div>
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap; justify-content: center;">
+                        <button class="ui-btn" onclick="startSchedsTimer()">Start</button>
+                        <button class="ui-btn" onclick="pauseSchedsTimer()">Pause</button>
+                        <button class="ui-btn" onclick="resetSchedsTimer()">Reset</button>
+                        <button class="ui-btn" onclick="setSchedsPreset(25,5)">25m</button>
+                        <button class="ui-btn" onclick="setSchedsPreset(5,0)">5m</button>
+                    </div>
+                </div>
+            </div>
+
             <div id="tab-vault" class="tab-content">
-                <button class="toy-btn" id="save-btn" style="border-color: var(--primary); padding: 15px;" onclick="savePreset()">💾 Save Current Vibe Preset</button>
-                
+                <button class="ui-btn" id="save-btn" style="padding: 15px;" onclick="savePreset()">💾 Save Current Vibe Preset</button>
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
-                    <button class="toy-btn" style="flex: 1; font-size: 0.65rem;" onclick="exportVaultPresets()">📤 Export Vault JSON</button>
-                    <button class="toy-btn" style="flex: 1; font-size: 0.65rem;" onclick="document.getElementById('vault-import-trigger').click()">📥 Import Vault JSON</button>
+                    <button class="ui-btn" style="flex: 1;" onclick="exportVaultPresets()">📤 Export Vault JSON</button>
+                    <button class="ui-btn" style="flex: 1;" onclick="document.getElementById('vault-import-trigger').click()">📥 Import Vault JSON</button>
                 </div>
                 <input type="file" id="vault-import-trigger" style="display:none" accept=".json" onchange="importVaultPresets(event)">
 
-                <h4 class="section-title" style="margin-top: 25px;">Oracle API Configuration</h4>
-                <p style="font-size: 0.65rem; color: var(--text-muted); line-height: 1.4;">Store your Gemini API key locally to enable the Oracle chat module. Your key never leaves this browser.</p>
-                <div class="input-group">
-                    <input type="password" id="gemini-key-input" class="academy-input" placeholder="AIzaSy...">
-                    <button class="academy-btn" onclick="saveApiKey()">Save Key</button>
+                <h4 class="section-title" style="margin-top: 25px;">Oracle Connection</h4>
+                <p style="font-size: 0.65rem; color: var(--text-muted); line-height: 1.4;">Store your Gemini API key locally to enable the Oracle chat module. Never leaves your browser.</p>
+                <div style="display: flex; gap: 5px;">
+                    <input type="password" id="gemini-key-input" class="core-input" placeholder="AIzaSy...">
+                    <button class="ui-btn" id="save-key-btn" onclick="saveApiKey()">Save Key</button>
                 </div>
                 
-                <div id="vault-list" style="margin-top: 15px;"></div>
+                <div id="vault-list" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;"></div>
             </div>
         </main>
     </div>
 
-    <div id="scheds-modal" class="modal-overlay" onclick="toggleModal('scheds-modal')">
-        <div class="scribes-bubble" style="border-color: #34d399; box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(52,211,153,0.1);" onclick="event.stopPropagation()">
-            <div class="archive-vault" style="height: 65vh; border-color: #34d399; box-shadow: 0 0 60px #000, inset 0 0 40px rgba(52,211,153,0.15);">
-                <div class="vault-header" style="border-color: #34d399;">
-                    <div>
-                        <h2 style="color: #34d399; text-shadow: 0 0 20px rgba(52,211,153,0.5);">Chrono-Plan</h2>
-                        <div style="font-size: 0.55rem; opacity: 0.5; letter-spacing: 5px; color: #d1fae5;">SCHEDULE & TIMER</div>
-                    </div>
-                </div>
-
-                <div class="timer-container" style="text-align: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-top: 15px;">
-                    <div id="timer-display" style="font-size: 3.5rem; font-family: monospace; color: #34d399; text-shadow: 0 0 15px rgba(52,211,153,0.8); transition: color 0.3s ease;">25:00</div>
-                    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
-                        <button class="academy-btn" style="border-color: #34d399; color: #34d399;" onclick="startTimer()">Start</button>
-                        <button class="academy-btn" onclick="pauseTimer()">Pause</button>
-                        <button class="academy-btn" onclick="resetTimer(25)">25m</button>
-                        <button class="academy-btn" onclick="resetTimer(5)">5m</button>
-                        <button class="academy-btn" onclick="resetTimer(15)">15m</button>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <input type="time" id="sched-time" class="academy-input" style="max-width: 110px;">
-                    <input type="text" id="sched-task" class="academy-input" placeholder="Task or Event (e.g. Logic & Code Prep)...">
-                    <button class="academy-btn" style="border-color: #34d399; color: #34d399;" onclick="addSchedTask()">Add</button>
-                </div>
-                <div id="sched-list" class="annals-body" style="margin-top: 15px; display: flex; flex-direction: column; gap: 8px;"></div>
-            </div>
-            
-            <div class="command-array">
-                <button class="lux-btn" style="border-color: #34d399; color: #34d399;" onclick="exportScheds()">Export Schedule JSON</button>
-                <button class="lux-btn" style="border-color: #34d399; color: #34d399;" onclick="document.getElementById('scheds-import-trigger').click()">Import Schedule JSON</button>
-            </div>
-            <input type="file" id="scheds-import-trigger" style="display:none" accept=".json" onchange="importScheds(event)">
-            <div class="kore-footer" style="color: #34d399;">© 2026 PROJECT KORE LLC // CHRONO-PLAN</div>
-        </div>
-    </div>
-
     <div id="scratchpad-modal" class="modal-overlay" onclick="toggleModal('scratchpad-modal')">
-        <div class="scribes-bubble" onclick="event.stopPropagation()">
+        <div class="app-bubble" onclick="event.stopPropagation()">
             <div class="archive-vault">
                 <div class="vault-header">
                     <div>
@@ -346,9 +383,13 @@
                 <div id="annals" class="annals-body"></div>
                 <textarea id="lore-editor" class="lore-input" rows="3" placeholder="BEGIN A NEW ENTRY... [ENTER TO COMMIT]"></textarea>
             </div>
-            <div class="command-array">
-                <button class="lux-btn" onclick="exportVault()">Export JSON</button>
-                <button class="lux-btn" onclick="document.getElementById('import-trigger').click()">Import JSON</button>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; width: 100%;">
+                <button class="ui-btn" style="flex: 1;" onclick="jolt('noir')">Noir</button>
+                <button class="ui-btn" style="flex: 1;" onclick="jolt('lunar')">Lunar</button>
+                <button class="ui-btn" style="flex: 1;" onclick="jolt('vellum')">Vellum</button>
+                <button class="ui-btn" style="flex: 1;" onclick="jolt('amethyst')">Amethyst</button>
+                <button class="ui-btn" style="flex: 1;" onclick="exportVault()">Export JSON</button>
+                <button class="ui-btn" style="flex: 1;" onclick="document.getElementById('import-trigger').click()">Import JSON</button>
             </div>
             <div class="kore-footer">© 2026 PROJECT KORE LLC // SOMNIASCRIBES</div>
             <input type="file" id="import-trigger" style="display:none" accept=".json" onchange="importVault(event)">
@@ -356,25 +397,25 @@
     </div>
 
     <div id="oracle-modal" class="modal-overlay" onclick="toggleModal('oracle-modal')">
-        <div class="oracle-bubble" onclick="event.stopPropagation()">
-            <div class="archive-vault" style="border-color: #ec4899; box-shadow: 0 0 60px #000, inset 0 0 40px rgba(236,72,153,0.2);">
-                <div class="vault-header" style="border-color: #ec4899;">
+        <div class="app-bubble" onclick="event.stopPropagation()">
+            <div class="archive-vault">
+                <div class="vault-header">
                     <div>
-                        <h2 style="color: #ec4899; text-shadow: 0 0 20px rgba(236,72,153,0.5);">The Oracle</h2>
-                        <div style="font-size: 0.55rem; opacity: 0.5; letter-spacing: 5px; color: #fbcfe8;">BYOK GEMINI LINK</div>
+                        <h2>The Oracle</h2>
+                        <div style="font-size: 0.55rem; opacity: 0.5; letter-spacing: 5px;">GEMINI API CONNECTION</div>
                     </div>
                 </div>
                 <div id="oracle-chat" class="oracle-chat-body">
                     <div class="oracle-msg ai">Connection established. Waiting for input.</div>
                 </div>
-                <textarea id="oracle-editor" class="lore-input" style="border-left-color: #ec4899; color: #fbcfe8;" rows="2" placeholder="ASK THE ORACLE... [ENTER TO SEND]"></textarea>
+                <textarea id="oracle-editor" class="lore-input" rows="2" placeholder="ASK THE ORACLE... [ENTER TO SEND]"></textarea>
             </div>
-            <div class="kore-footer" style="color: #ec4899;">POWERED BY GEMINI 1.5 FLASH</div>
+            <div class="kore-footer">POWERED BY GEMINI 1.5 FLASH</div>
         </div>
     </div>
 
     <script>
-        // === 1. GLOBAL UI ===
+        // === 1. GLOBAL UI & NAVIGATION ===
         function switchTab(tabId, btn) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
@@ -389,15 +430,13 @@
         function toggleModal(modalId) { 
             const modal = document.getElementById(modalId);
             modal.classList.toggle('active');
-            
             if(modalId === 'oracle-modal' && modal.classList.contains('active')) {
                 const chat = document.getElementById('oracle-chat');
                 chat.scrollTop = chat.scrollHeight;
             }
         }
         
-        // Direct Projector Mode Trigger
-        function toggleProjectorMode() {
+        function toggleFullscreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch(e => console.log(e));
                 document.body.classList.add('cloaked');
@@ -407,11 +446,8 @@
             }
         }
 
-        // Listen for user hitting ESC to exit fullscreen and restore the UI
         document.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement) {
-                document.body.classList.remove('cloaked');
-            }
+            if (!document.fullscreenElement) document.body.classList.remove('cloaked');
         });
 
         function updateVar(name, val) { document.documentElement.style.setProperty(name, val); }
@@ -424,19 +460,18 @@
             reader.onload = e => {
                 const imgData = e.target.result;
                 const bgAnchor = document.getElementById('bg-anchor');
-                
                 bgAnchor.style.background = `url('${imgData}') no-repeat center center`;
                 bgAnchor.style.backgroundSize = 'cover';
                 
                 const grid = document.getElementById('bg-presets');
-                grid.querySelectorAll('.toy-btn').forEach(b => b.classList.remove('active'));
+                grid.querySelectorAll('.ui-btn').forEach(b => b.classList.remove('active'));
                 
                 const btn = document.createElement('button');
-                btn.className = 'toy-btn active';
+                btn.className = 'ui-btn active';
                 btn.textContent = "📁 " + file.name.substring(0, 6); 
                 
                 btn.onclick = () => {
-                    grid.querySelectorAll('.toy-btn').forEach(b => b.classList.remove('active'));
+                    grid.querySelectorAll('.ui-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     bgAnchor.style.background = `url('${imgData}') no-repeat center center`;
                     bgAnchor.style.backgroundSize = 'cover';
@@ -447,133 +482,163 @@
             input.value = ""; 
         }
 
-        // === 2. SCHEDS ENGINE (Timer & Planner) ===
-        let timerInterval;
-        let timerSeconds = 25 * 60;
-        let isTimerRunning = false;
-
-        function updateTimerDisplay() {
-            const m = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
-            const s = (timerSeconds % 60).toString().padStart(2, '0');
-            document.getElementById('timer-display').innerText = `${m}:${s}`;
-        }
-
-        function startTimer() {
-            if (isTimerRunning) return;
-            isTimerRunning = true;
-            timerInterval = setInterval(() => {
-                if (timerSeconds > 0) {
-                    timerSeconds--;
-                    updateTimerDisplay();
-                } else {
-                    pauseTimer();
-                    const display = document.getElementById('timer-display');
-                    display.style.color = '#fb7185';
-                    display.style.textShadow = '0 0 15px rgba(251,113,133,0.8)';
-                    setTimeout(() => {
-                        display.style.color = '#34d399';
-                        display.style.textShadow = '0 0 15px rgba(52,211,153,0.8)';
-                    }, 3000);
-                }
-            }, 1000);
-        }
-
-        function pauseTimer() {
-            isTimerRunning = false;
-            clearInterval(timerInterval);
-        }
-
-        function resetTimer(mins) {
-            pauseTimer();
-            timerSeconds = mins * 60;
-            updateTimerDisplay();
-            const display = document.getElementById('timer-display');
-            display.style.color = '#34d399';
-            display.style.textShadow = '0 0 15px rgba(52,211,153,0.8)';
-        }
-
-        let schedData = JSON.parse(localStorage.getItem('somnia_scheds')) || [
-            { id: 1, time: "09:00", task: "Logic & Code Prep", done: false },
-            { id: 2, time: "10:30", task: "Academy Core Subjects", done: false }
+        // === 2. AUDIO MIXER ENGINE ===
+        const activeAudio = {};
+        const soundLibrary = [
+            { id: "rain", name: "🌧️ Gentle Rain", url: "rain.mp3" }, { id: "thunder", name: "🌩️ Thunderstorm", url: "thunder.mp3" },
+            { id: "winterwind", name: "🌬️ Winter Wind", url: "winterwind.mp3" }, { id: "owls", name: "🦉 Midnight Owls", url: "owls.mp3" },
+            { id: "raven", name: "🐦‍⬛ Raven Calls", url: "raven.mp3" }, { id: "frogs", name: "🐸 Swamp Frogs", url: "frogs.mp3" },
+            { id: "crickets", name: "🦗 Night Crickets", url: "crickets.mp3" }, { id: "fire", name: "🔥 Hearth Fire", url: "fire.mp3" },
+            { id: "simmering", name: "🍲 Simmering Pot", url: "simmeringpot.mp3" }, { id: "teacup", name: "☕ Teacup Clinks", url: "teacup.mp3" },
+            { id: "clock", name: "🕰️ Ticking Clock", url: "clock.mp3" }, { id: "cat", name: "🐾 Purring Cat", url: "cat.mp3" },
+            { id: "windchimes", name: "🎐 Wind Chimes", url: "windchimes.mp3" }, { id: "musicbox1", name: "🎶 Music Box I", url: "musicbox1.mp3" },
+            { id: "musicbox2", name: "🎶 Music Box II", url: "musicbox2.mp3" }, { id: "musicbox3", name: "🎶 Music Box III", url: "musicbox3.mp3" },
+            { id: "xmas1", name: "🎄 Yule Box I", url: "xmasmusicbox1.mp3" }, { id: "xmas2", name: "🎄 Yule Box II", url: "xmasmusicbox2.mp3" },
+            { id: "xmas3", name: "🎄 Yule Box III", url: "xmasmusicbox3.mp3" }, { id: "darkmusic", name: "🖤 Dark Atmos", url: "darkmusic1.mp3" },
+            { id: "binary", name: "🎵 Binary Box", url: "binarymusicbox.mp3" }
         ];
 
-        function saveScheds() {
-            localStorage.setItem('somnia_scheds', JSON.stringify(schedData));
-            renderScheds();
-        }
-
-        function addSchedTask() {
-            const timeIn = document.getElementById('sched-time').value;
-            const taskIn = document.getElementById('sched-task').value.trim();
-            if(!taskIn) return;
-            
-            schedData.push({ id: Date.now(), time: timeIn || "--:--", task: taskIn, done: false });
-            
-            // Sort entries chronologically if time is provided
-            schedData.sort((a, b) => {
-                if(a.time === "--:--" && b.time !== "--:--") return 1;
-                if(b.time === "--:--" && a.time !== "--:--") return -1;
-                return a.time.localeCompare(b.time);
-            });
-            
-            document.getElementById('sched-task').value = '';
-            document.getElementById('sched-time').value = '';
-            saveScheds();
-        }
-
-        function toggleSchedTask(id) {
-            const task = schedData.find(t => t.id === id);
-            if(task) { task.done = !task.done; saveScheds(); }
-        }
-
-        function deleteSchedTask(id) {
-            schedData = schedData.filter(t => t.id !== id);
-            saveScheds();
-        }
-
-        function renderScheds() {
-            const container = document.getElementById('sched-list');
-            if(!container) return;
-            
-            if(schedData.length === 0) {
-                container.innerHTML = `<div style="text-align:center; font-size:0.7rem; color:var(--text-muted); letter-spacing:2px; margin-top:20px;">NO TASKS PLANNED</div>`;
-                return;
-            }
-
-            container.innerHTML = schedData.map(t => `
-                <div class="mixer-card" style="opacity: ${t.done ? '0.4' : '1'}; border-color: ${t.done ? 'rgba(255,255,255,0.05)' : 'rgba(52,211,153,0.3)'}; transition: all 0.3s ease;">
-                    <span style="font-family: monospace; color: #34d399; font-size: 0.85rem; width: 60px;">${t.time}</span>
-                    <span style="flex: 1; font-size: 0.85rem; text-decoration: ${t.done ? 'line-through' : 'none'}; cursor: pointer;" onclick="toggleSchedTask(${t.id})">${t.task}</span>
-                    <button class="toy-btn" style="padding: 4px 8px; font-size: 0.6rem; border-color: #fb7185; color: #fb7185;" onclick="deleteSchedTask(${t.id})">✕</button>
+        function initMixer() {
+            const container = document.getElementById('mixer-container');
+            container.innerHTML = soundLibrary.map(track => `
+                <div class="mixer-card" id="card-${track.id}">
+                    <button class="mixer-btn" onclick="toggleStem('${track.id}', '${track.url}')">${track.name}</button>
+                    <input type="range" id="vol-${track.id}" class="mixer-slider" min="0" max="1" step="0.05" value="0.5" oninput="adjustVol('${track.id}', this.value)">
                 </div>
             `).join('');
+            Object.keys(activeAudio).forEach(id => { const c = document.getElementById(`card-${id}`); if(c) c.classList.add('playing'); });
         }
 
-        function exportScheds() {
-            const blob = new Blob([JSON.stringify(schedData, null, 2)], { type: "application/json" });
-            const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-            a.download = `SOMNIA_SCHEDS_${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
+        function handleAudioUpload(input) {
+            if (!input.files || input.files.length === 0) return;
+            const file = input.files[0];
+            soundLibrary.unshift({ id: 'custom-'+Date.now(), name: "📁 " + file.name.substring(0,15), url: URL.createObjectURL(file) });
+            initMixer();
+            input.value = ""; 
         }
 
-        function importScheds(e) {
-            const reader = new FileReader();
-            reader.onload = (x) => {
-                try {
-                    const imported = JSON.parse(x.target.result);
-                    if(Array.isArray(imported)) {
-                        schedData = imported;
-                        saveScheds();
-                    } else {
-                        alert("Invalid file format. Ensure it is a valid Somnia Schedule array.");
-                    }
-                } catch(err) { alert("Failed to parse schedule JSON file."); }
-            };
-            if(e.target.files[0]) { reader.readAsText(e.target.files[0]); e.target.value = ''; }
+        function toggleStem(id, url) {
+            const card = document.getElementById(`card-${id}`);
+            if (activeAudio[id]) {
+                activeAudio[id].pause(); delete activeAudio[id]; if(card) card.classList.remove('playing');
+            } else {
+                const audio = new Audio(url); audio.loop = true; const slider = document.getElementById(`vol-${id}`);
+                audio.volume = slider ? slider.value : 0.5;
+                audio.play().then(() => { activeAudio[id] = audio; if(card) card.classList.add('playing'); }).catch(e => console.log("Unlock audio first."));
+            }
+        }
+        function adjustVol(id, val) { if (activeAudio[id]) activeAudio[id].volume = val; }
+        function stopAllAudio() { Object.keys(activeAudio).forEach(id => { activeAudio[id].pause(); const c = document.getElementById(`card-${id}`); if(c) c.classList.remove('playing'); delete activeAudio[id]; }); }
+
+        // === 3. ATMOS & PARTICLES ===
+        const bgPresets = [{ name: 'Void', value: '#000000' }, { name: 'Abyss', value: '#020204' }, { name: 'Slate', value: '#0f172a' }, { name: 'Sepia', value: '#1c1917' }];
+        const colors = ['lunar','noir','vellum','amethyst','crimson','emerald','solar','void','obsidian','ghost'];
+        const glows = ['pulse','breathe','strobe','phantom','wave','flicker','aurora','radar','static','none'];
+        const particlesList = ['dust','embers','snow','void','rain','ash','stars','bubbles','matrix','spores'];
+        
+        const particleColors = [
+            { name: 'Lunar', value: '#e0e7ff' }, { name: 'Noir', value: '#D4AF37' }, { name: 'Vellum', value: '#C2B280' }, { name: 'Amethyst', value: '#d8b4e2' },
+            { name: 'Crimson', value: '#fb7185' }, { name: 'Emerald', value: '#34d399' }, { name: 'Solar', value: '#fbbf24' }, { name: 'Void', value: '#ec4899' },
+            { name: 'Obsidian', value: '#9ca3af' }, { name: 'Ghost', value: '#f8fafc' }
+        ];
+
+        const glowColors = [
+            { name: 'Lunar', value: 'rgba(224,231,255,0.4)' }, { name: 'Noir', value: 'rgba(212,175,55,0.4)' }, { name: 'Vellum', value: 'rgba(194,178,128,0.4)' }, { name: 'Amethyst', value: 'rgba(216,180,226,0.4)' },
+            { name: 'Crimson', value: 'rgba(251,113,133,0.4)' }, { name: 'Emerald', value: 'rgba(52,211,153,0.4)' }, { name: 'Solar', value: 'rgba(251,191,36,0.4)' }, { name: 'Void', value: 'rgba(236,72,153,0.4)' },
+            { name: 'Obsidian', value: 'rgba(156,163,175,0.4)' }, { name: 'Ghost', value: 'rgba(248,250,252,0.4)' }
+        ];
+
+        function populateGrid(id, arr, type) {
+            const grid = document.getElementById(id);
+            arr.forEach((item, index) => {
+                const isObj = typeof item === 'object';
+                const label = isObj ? item.name : item;
+                const val = isObj ? item.value : item;
+                const b = document.createElement('button');
+                b.className = 'ui-btn'; b.textContent = label; 
+                if(index === 0) b.classList.add('active'); 
+
+                b.onclick = () => {
+                    document.querySelectorAll(`#${id} .ui-btn`).forEach(btn => btn.classList.remove('active'));
+                    b.classList.add('active');
+                    if(type === 'bg') { document.getElementById('bg-anchor').style.background = val; document.getElementById('bg-anchor').style.backgroundImage = 'none'; }
+                    if(type === 'color') document.body.className = `${val}-mode`;
+                    if(type === 'glow') document.getElementById('glow-layer').className = `glow-${val}`;
+                    if(type === 'particle') window.particleType = val;
+                    if(type === 'particleColor') updateVar('--particle-color', val);
+                    if(type === 'glowColor') updateVar('--glow-color', val);
+                };
+                grid.appendChild(b);
+            });
         }
 
+        window.particleType = 'dust';
+        let particleCount = 50; 
+        function buildParticles(w, h) { return Array.from({ length: particleCount }, () => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 2 + 0.5, vx: (Math.random() - 0.5), vy: (Math.random() - 0.5) })); }
+        function updateParticleDensity(val) { particleCount = parseInt(val); }
 
-        // === 3. ACADEMY ENGINE (Grades, Attendance, Backup Logic) ===
+        let lowGpu = false;
+        function toggleLowGpu() {
+            lowGpu = !lowGpu;
+            const canvas = document.getElementById('particleCanvas');
+            if (lowGpu) {
+                canvas.width = window.innerWidth / 2; canvas.height = window.innerHeight / 2;
+                canvas.style.transform = "scale(2)";
+                updateVar('--glow-opac', '0.15'); updateVar('--anim-speed', '15s');
+            } else {
+                canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+                canvas.style.transform = "scale(1)";
+                updateVar('--glow-opac', '0.3'); updateVar('--anim-speed', '10s');
+            }
+        }
+
+        function initParticles() {
+            const canvas = document.getElementById('particleCanvas'); const ctx = canvas.getContext('2d');
+            let w = canvas.width = window.innerWidth; let h = canvas.height = window.innerHeight;
+            window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; particles = buildParticles(w, h); });
+            let particles = buildParticles(w, h);
+            const isDinosaur = navigator.hardwareConcurrency < 4 || window.innerWidth < 1024;
+            let lastTime = 0;
+
+            function loop(timestamp) {
+                requestAnimationFrame(loop);
+                if (!timestamp) timestamp = performance.now();
+                if (timestamp - lastTime < (isDinosaur ? 33 : 16)) return;
+                lastTime = timestamp;
+
+                ctx.clearRect(0, 0, w, h);
+                if (particles.length !== particleCount) particles = buildParticles(w, h);
+
+                let color = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim();
+                if (color.includes('var(')) {
+                    const varName = color.match(/var\(([^)]+)\)/)[1].trim();
+                    color = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+                }
+                ctx.fillStyle = color; ctx.shadowBlur = lowGpu ? 2 : (isDinosaur ? 0 : 8); ctx.shadowColor = color;
+
+                particles.forEach((p, i) => {
+                    let spd = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--anim-speed')) || 10;
+                    let mult = 10 / spd;
+
+                    if (particleType === 'dust') { p.x += p.vx * mult; p.y += p.vy * mult; }
+                    else if (particleType === 'embers') { p.y -= (Math.abs(p.vy)+0.5)*mult; p.x += p.vx*mult; }
+                    else if (particleType === 'snow') { p.y += (Math.abs(p.vy)+0.5)*mult; p.x += Math.sin(p.y/50)*mult; }
+                    else if (particleType === 'void') { p.x += p.vx*2*mult; p.y += p.vy*2*mult; ctx.shadowBlur=0; }
+                    else if (particleType === 'rain') { p.y += 8*mult; p.x -= 1*mult; }
+                    else if (particleType === 'ash') { p.y -= p.vy*mult; p.x += Math.cos(p.y/30)*mult; ctx.fillStyle="#555"; }
+                    else if (particleType === 'stars') { p.x += 0.05*mult; p.y += 0.05*mult; if(Math.random()<0.01) p.r = Math.random()*3; }
+                    else if (particleType === 'bubbles') { p.y -= 2*mult; p.x += Math.sin(p.y/20)*2*mult; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*2,0,Math.PI*2); ctx.strokeStyle=color; ctx.stroke(); return; }
+                    else if (particleType === 'matrix') { p.y += 4*mult; if(i%2===0) ctx.fillText(String.fromCharCode(0x30A0+Math.random()*96), p.x, p.y); return; }
+                    else if (particleType === 'spores') { p.x += (Math.random()-0.5)*mult; p.y += (Math.random()-0.5)*mult; p.r = Math.abs(Math.sin(Date.now()/1000+i))*3; }
+
+                    if (p.x < 0) p.x = w; if (p.x > w) p.x = 0; if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+                });
+            }
+            requestAnimationFrame(loop);
+        }
+
+        // === 4. ACADEMY ENGINE ===
         let academyData = JSON.parse(localStorage.getItem('somnia_academy')) || { students: [] };
         
         function saveAcademyData() {
@@ -586,12 +651,7 @@
             const name = input.value.trim();
             if(!name) return;
             
-            academyData.students.push({
-                id: 'stu_' + Date.now(),
-                name: name,
-                attendance: {}, 
-                grades: [] 
-            });
+            academyData.students.push({ id: 'stu_' + Date.now(), name: name, attendance: {}, grades: [] });
             input.value = '';
             saveAcademyData();
         }
@@ -599,10 +659,7 @@
         function setAttendance(studentId, status) {
             const today = new Date().toISOString().split('T')[0];
             const student = academyData.students.find(s => s.id === studentId);
-            if(student) {
-                student.attendance[today] = status;
-                saveAcademyData();
-            }
+            if(student) { student.attendance[today] = status; saveAcademyData(); }
         }
 
         function removeStudent(studentId) {
@@ -619,13 +676,8 @@
 
             const student = academyData.students.find(s => s.id === studentId);
             if(student) {
-                student.grades.unshift({
-                    date: new Date().toLocaleDateString(),
-                    subject: subjInput.value.trim(),
-                    score: scoreInput.value.trim()
-                });
-                subjInput.value = '';
-                scoreInput.value = '';
+                student.grades.unshift({ date: new Date().toLocaleDateString(), subject: subjInput.value.trim(), score: scoreInput.value.trim() });
+                subjInput.value = ''; scoreInput.value = '';
                 saveAcademyData();
             }
         }
@@ -644,20 +696,11 @@
                 try {
                     const imported = JSON.parse(x.target.result);
                     if(imported && Array.isArray(imported.students)) {
-                        academyData = imported;
-                        localStorage.setItem('somnia_academy', JSON.stringify(academyData));
-                        renderAcademy();
-                    } else {
-                        alert("Invalid file format. Ensure it is a valid Somnia Academy snapshot.");
-                    }
-                } catch (err) {
-                    alert("Failed to parse file structural hierarchy.");
-                }
+                        academyData = imported; localStorage.setItem('somnia_academy', JSON.stringify(academyData)); renderAcademy();
+                    } else { alert("Invalid file format."); }
+                } catch (err) { alert("Failed to parse file."); }
             };
-            if (e.target.files[0]) {
-                reader.readAsText(e.target.files[0]);
-                e.target.value = '';
-            }
+            if (e.target.files[0]) { reader.readAsText(e.target.files[0]); e.target.value = ''; }
         }
 
         function renderAcademy() {
@@ -672,8 +715,8 @@
 
             container.innerHTML = academyData.students.map(student => {
                 const todayStatus = student.attendance[today];
-                const presentClass = todayStatus === 'Present' ? 'badge present' : 'academy-btn';
-                const absentClass = todayStatus === 'Absent' ? 'badge absent' : 'academy-btn';
+                const presentClass = todayStatus === 'Present' ? 'badge present' : 'ui-btn';
+                const absentClass = todayStatus === 'Absent' ? 'badge absent' : 'ui-btn';
 
                 const gradesHtml = student.grades.slice(0, 5).map(g => `
                     <div class="log-row">
@@ -683,95 +726,231 @@
                 `).join('');
 
                 return `
-                    <div class="student-card">
-                        <div class="student-header">
-                            <span class="student-name">${student.name}</span>
+                    <div class="sched-card" style="margin-bottom: 15px;">
+                        <div class="sched-header-row" style="margin-bottom: 10px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
+                            <span class="sched-header-main">${student.name}</span>
                             <div style="display:flex; gap:5px; align-items:center;">
-                                <button class="${presentClass}" style="${todayStatus === 'Present' ? 'padding: 4px 8px;' : ''}" onclick="setAttendance('${student.id}', 'Present')">Present</button>
-                                <button class="${absentClass}" style="${todayStatus === 'Absent' ? 'padding: 4px 8px;' : ''}" onclick="setAttendance('${student.id}', 'Absent')">Absent</button>
-                                <button class="academy-btn" style="border-color:#ff4444; color:#ff4444; padding: 4px 8px;" onclick="removeStudent('${student.id}')">✕</button>
+                                <button class="${presentClass}" style="${todayStatus === 'Present' ? 'padding: 4px 8px;' : 'padding: 4px 8px; font-size:0.6rem;'}" onclick="setAttendance('${student.id}', 'Present')">Present</button>
+                                <button class="${absentClass}" style="${todayStatus === 'Absent' ? 'padding: 4px 8px;' : 'padding: 4px 8px; font-size:0.6rem;'}" onclick="setAttendance('${student.id}', 'Absent')">Absent</button>
+                                <button class="ui-btn" style="padding: 4px 8px; font-size:0.6rem;" onclick="removeStudent('${student.id}')">✕</button>
                             </div>
                         </div>
-                        <div class="input-group">
-                            <input type="text" id="subj-${student.id}" class="academy-input" placeholder="Subject">
-                            <input type="text" id="score-${student.id}" class="academy-input" style="max-width: 80px;" placeholder="Grade/Score">
-                            <button class="academy-btn" onclick="addGrade('${student.id}')">Log Grade</button>
+                        <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                            <input type="text" id="subj-${student.id}" class="core-input" placeholder="Subject">
+                            <input type="text" id="score-${student.id}" class="core-input" style="max-width: 80px;" placeholder="Score">
+                            <button class="ui-btn" onclick="addGrade('${student.id}')">Log</button>
                         </div>
-                        <div style="margin-top:10px;">
-                            ${gradesHtml}
-                        </div>
+                        <div>${gradesHtml}</div>
                     </div>
                 `;
             }).join('');
         }
 
-        // === 4. ORACLE LLM INTEGRATION (BYOK) ===
-        function saveApiKey() {
-            const input = document.getElementById('gemini-key-input');
-            const btn = document.querySelector('#tab-vault .academy-btn');
-            if(input.value.trim() !== '') {
-                localStorage.setItem('gemini_api_key', input.value.trim());
-                btn.innerText = "Saved!";
-                input.value = "";
-                setTimeout(() => { btn.innerText = "Save Key"; }, 2000);
+        // === 5. SCHEDS CALENDAR & TIMER ===
+        const SCHEDS_EVENTS_KEY = 'somnia_scheds_events';
+        const SCHEDS_NOTES_KEY = 'somnia_scheds_notes';
+
+        let schedsEvents = []; let schedsNotes = []; let schedsCurrentMonth = new Date(); let schedsSelectedDate = null;
+        let schedsTimerSeconds = 25 * 60; let schedsTimerInterval = null;
+
+        function loadSchedsData() {
+            try {
+                const e = JSON.parse(localStorage.getItem(SCHEDS_EVENTS_KEY) || '[]');
+                const n = JSON.parse(localStorage.getItem(SCHEDS_NOTES_KEY) || '[]');
+                schedsEvents = Array.isArray(e) ? e : []; schedsNotes = Array.isArray(n) ? n : [];
+            } catch { schedsEvents = []; schedsNotes = []; }
+        }
+
+        function saveSchedsData() {
+            localStorage.setItem(SCHEDS_EVENTS_KEY, JSON.stringify(schedsEvents));
+            localStorage.setItem(SCHEDS_NOTES_KEY, JSON.stringify(schedsNotes));
+        }
+
+        function formatDateKey(date) {
+            const y = date.getFullYear(); const m = String(date.getMonth() + 1).padStart(2, '0'); const d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        function renderSchedsHeader() {
+            const today = new Date();
+            const todayLabel = document.getElementById('sched-today-label'); const todayDate = document.getElementById('sched-today-date');
+            if (todayLabel) todayLabel.textContent = 'Today';
+            if (todayDate) todayDate.textContent = today.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+        }
+
+        function renderSchedsTime() {
+            const el = document.getElementById('sched-time-label');
+            if (!el) return;
+            const now = new Date();
+            el.textContent = now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+        }
+
+        async function initSchedsWeather() {
+            const label = document.getElementById('sched-weather-label');
+            if (!label) return;
+            if (!navigator.geolocation) { label.textContent = 'Weather: unavailable'; return; }
+            try {
+                navigator.geolocation.getCurrentPosition(async (pos) => {
+                    const lat = pos.coords.latitude; const lon = pos.coords.longitude;
+                    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+                    const res = await fetch(url); const data = await res.json();
+                    if (data && data.current_weather) { label.textContent = `Weather: ${Math.round(data.current_weather.temperature)}°`; } 
+                    else { label.textContent = 'Weather: --'; }
+                }, () => { label.textContent = 'Weather: location blocked'; });
+            } catch { label.textContent = 'Weather: error'; }
+        }
+
+        function renderSchedsCalendar() {
+            const monthLabel = document.getElementById('sched-month-label'); const grid = document.getElementById('sched-calendar-grid');
+            if (!monthLabel || !grid) return;
+
+            const viewMonth = schedsCurrentMonth.getMonth(); const viewYear = schedsCurrentMonth.getFullYear();
+            monthLabel.textContent = schedsCurrentMonth.toLocaleString(undefined, { month: 'long', year: 'numeric' });
+            grid.innerHTML = '';
+
+            const dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+            dayNames.forEach(d => {
+                const label = document.createElement('div'); label.className = 'sched-day-label'; label.textContent = d; grid.appendChild(label);
+            });
+
+            const firstDay = new Date(viewYear, viewMonth, 1).getDay(); const lastDate = new Date(viewYear, viewMonth + 1, 0).getDate();
+            for (let i = 0; i < firstDay; i++) grid.appendChild(document.createElement('div'));
+
+            const today = new Date(); const todayKey = formatDateKey(today);
+
+            for (let d = 1; d <= lastDate; d++) {
+                const cell = document.createElement('div'); cell.className = 'sched-day'; cell.textContent = d;
+                const dateObj = new Date(viewYear, viewMonth, d); const key = formatDateKey(dateObj);
+
+                if (key === todayKey) cell.classList.add('today');
+                if (schedsEvents.some(ev => ev.date === key)) cell.classList.add('has-event');
+                if (schedsSelectedDate === key) cell.classList.add('selected');
+
+                cell.onclick = () => { schedsSelectedDate = key; renderSchedsCalendar(); renderSchedsDay(); };
+                grid.appendChild(cell);
             }
         }
 
-        async function summonOracle() {
-            const input = document.getElementById('oracle-editor');
-            const chat = document.getElementById('oracle-chat');
-            const prompt = input.value.trim();
-            if(!prompt) return;
+        function changeSchedsMonth(delta) {
+            const m = schedsCurrentMonth.getMonth(); schedsCurrentMonth.setMonth(m + delta); renderSchedsCalendar();
+        }
 
-            const apiKey = localStorage.getItem('gemini_api_key');
-            if(!apiKey) {
-                chat.innerHTML += `<div class="oracle-msg ai">ERROR: No API Key found. Please save your Gemini key in the Vault tab.</div>`;
-                input.value = '';
+        function renderSchedsDay() {
+            const label = document.getElementById('sched-selected-date-label'); const list = document.getElementById('sched-event-list');
+            const noteList = document.getElementById('sched-note-list'); const noteHint = document.getElementById('sched-note-hint');
+
+            if (!schedsSelectedDate) {
+                if (label) label.textContent = 'Select a day to plan.';
+                if (list) list.innerHTML = ''; if (noteList) noteList.innerHTML = ''; if (noteHint) noteHint.textContent = '';
                 return;
             }
 
-            chat.innerHTML += `<div class="oracle-msg user">${prompt}</div>`;
-            input.value = '';
-            chat.scrollTop = chat.scrollHeight;
+            const dateObj = new Date(schedsSelectedDate);
+            const localDateObj = new Date(dateObj.getTime() + dateObj.getTimezoneOffset() * 60000); 
 
-            const loadingId = 'loading-' + Date.now();
-            chat.innerHTML += `<div id="${loadingId}" class="oracle-msg ai" style="opacity: 0.5;">Communing...</div>`;
-            chat.scrollTop = chat.scrollHeight;
+            if (label) label.textContent = localDateObj.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
 
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                });
-                
-                const data = await response.json();
-                document.getElementById(loadingId).remove();
-
-                if(data.error) {
-                    chat.innerHTML += `<div class="oracle-msg ai" style="color:#fb7185;">API Error: ${data.error.message}</div>`;
-                } else {
-                    const reply = data.candidates[0].content.parts[0].text;
-                    const formattedReply = reply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
-                    chat.innerHTML += `<div class="oracle-msg ai">${formattedReply}</div>`;
-                }
-            } catch(e) {
-                document.getElementById(loadingId).remove();
-                chat.innerHTML += `<div class="oracle-msg ai" style="color:#fb7185;">Network Error. Check console.</div>`;
-                console.error(e);
+            const eventsForDay = schedsEvents.filter(ev => ev.date === schedsSelectedDate);
+            if (list) {
+                if (eventsForDay.length === 0) list.innerHTML = '<div class="sched-subtext">No events scheduled.</div>';
+                else list.innerHTML = eventsForDay.map(ev => `
+                    <div class="sched-list-item"><span>${ev.time ? ev.time + ' — ' : ''}${ev.title}</span><button class="ui-btn" style="padding: 2px 6px; font-size: 0.5rem;" onclick="deleteSchedsEvent('${ev.id}')">✕</button></div>
+                `).join('');
             }
-            chat.scrollTop = chat.scrollHeight;
+
+            const notesForDay = schedsNotes.filter(n => n.date === schedsSelectedDate);
+            if (noteList) {
+                if (notesForDay.length === 0) noteList.innerHTML = '<div class="sched-subtext">No notes yet.</div>';
+                else noteList.innerHTML = notesForDay.map(n => `
+                    <div class="sched-list-item">
+                        <span>${n.text}</span>
+                        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:2px;">
+                            <span class="sched-note-meta" style="font-size:0.55rem; color:var(--text-muted);">${new Date(n.createdAt).toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'})}</span>
+                            <button class="ui-btn" style="padding: 2px 6px; font-size: 0.5rem;" onclick="deleteSchedsNote('${n.id}')">✕</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            if (noteHint) noteHint.textContent = `Notes stored for ${localDateObj.toLocaleDateString()}`;
         }
 
+        function addSchedsEvent() {
+            if (!schedsSelectedDate) return;
+            const titleInput = document.getElementById('sched-event-title'); const timeInput = document.getElementById('sched-event-time');
+            if (!titleInput || !titleInput.value.trim()) return;
+            schedsEvents.push({ id: 'ev-' + Date.now(), date: schedsSelectedDate, title: titleInput.value.trim(), time: timeInput && timeInput.value ? timeInput.value : '' });
+            saveSchedsData(); titleInput.value = ''; if (timeInput) timeInput.value = '';
+            renderSchedsCalendar(); renderSchedsDay();
+        }
 
-        // === 5. VAULT PRESETS MEMORY ENGINE + BACKUP MODULE ===
+        function deleteSchedsEvent(id) {
+            schedsEvents = schedsEvents.filter(ev => ev.id !== id); saveSchedsData(); renderSchedsCalendar(); renderSchedsDay();
+        }
+
+        function addSchedsNote() {
+            if (!schedsSelectedDate) return;
+            const input = document.getElementById('sched-note-input');
+            if (!input || !input.value.trim()) return;
+            schedsNotes.unshift({ id: 'note-' + Date.now(), date: schedsSelectedDate, text: input.value.trim(), createdAt: new Date().toISOString() });
+            saveSchedsData(); input.value = ''; renderSchedsDay();
+        }
+
+        function deleteSchedsNote(id) {
+            schedsNotes = schedsNotes.filter(n => n.id !== id); saveSchedsData(); renderSchedsDay();
+        }
+
+        function updateSchedsTimerDisplay() {
+            const display = document.getElementById('sched-timer-display'); if (!display) return;
+            const m = Math.floor(schedsTimerSeconds / 60); const s = schedsTimerSeconds % 60;
+            display.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        }
+
+        function startSchedsTimer() {
+            const minutesInput = document.getElementById('sched-timer-minutes');
+            if (minutesInput && !schedsTimerInterval) {
+                const mins = parseInt(minutesInput.value, 10);
+                if (!isNaN(mins) && mins > 0) schedsTimerSeconds = mins * 60;
+            }
+            if (schedsTimerInterval) return;
+            schedsTimerInterval = setInterval(() => {
+                schedsTimerSeconds = Math.max(0, schedsTimerSeconds - 1); updateSchedsTimerDisplay();
+                if (schedsTimerSeconds <= 0) { clearInterval(schedsTimerInterval); schedsTimerInterval = null; }
+            }, 1000);
+        }
+
+        function pauseSchedsTimer() {
+            if (schedsTimerInterval) { clearInterval(schedsTimerInterval); schedsTimerInterval = null; }
+        }
+
+        function resetSchedsTimer() {
+            pauseSchedsTimer(); const minutesInput = document.getElementById('sched-timer-minutes');
+            const mins = minutesInput ? parseInt(minutesInput.value, 10) : 25;
+            schedsTimerSeconds = (isNaN(mins) || mins <= 0 ? 25 : mins) * 60; updateSchedsTimerDisplay();
+        }
+
+        function setSchedsPreset(workMinutes, breakMinutes) {
+            const minutesInput = document.getElementById('sched-timer-minutes');
+            if (minutesInput) minutesInput.value = workMinutes;
+            pauseSchedsTimer(); schedsTimerSeconds = workMinutes * 60; updateSchedsTimerDisplay();
+        }
+
+        function initScheds() {
+            loadSchedsData(); renderSchedsHeader(); renderSchedsCalendar(); updateSchedsTimerDisplay();
+            setInterval(renderSchedsTime, 1000); initSchedsWeather();
+            const noteInput = document.getElementById('sched-note-input');
+            if (noteInput) {
+                noteInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); addSchedsNote(); } });
+            }
+        }
+
+        // === 6. VAULT & ORACLE ENGINE ===
         let savedVault = JSON.parse(localStorage.getItem('somniaVault')) || [];
 
         function savePreset() {
             const btn = document.getElementById('save-btn');
             btn.innerText = "✓ SAVED TO VAULT";
-            btn.style.background = "rgba(45, 212, 191, 0.2)";
-            setTimeout(() => { btn.innerText = "💾 Save Current Vibe Preset"; btn.style.background = "rgba(0,0,0,0.4)"; }, 2000);
+            setTimeout(() => { btn.innerText = "💾 Save Current Vibe Preset"; }, 2000);
 
             const state = {
                 name: "Vibe Protocol " + (savedVault.length + 1),
@@ -794,65 +973,31 @@
 
             savedVault.push(state);
             try { localStorage.setItem('somniaVault', JSON.stringify(savedVault)); } 
-            catch(e) { alert("Vault Warning: Preset size parameters exceed standard bounds."); savedVault.pop(); }
+            catch(e) { alert("Vault Warning: Preset is too large to save."); savedVault.pop(); }
             renderVault();
-        }
-
-        function exportVaultPresets() {
-            const blob = new Blob([JSON.stringify(savedVault, null, 2)], { type: "application/json" });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `SOMNIA_VAULT_PRESETS_${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
-        }
-
-        function importVaultPresets(e) {
-            const reader = new FileReader();
-            reader.onload = (x) => {
-                try {
-                    const imported = JSON.parse(x.target.result);
-                    if(Array.isArray(imported)) {
-                        savedVault = imported;
-                        localStorage.setItem('somniaVault', JSON.stringify(savedVault));
-                        renderVault();
-                    } else {
-                        alert("Invalid schema footprint detected inside layout file.");
-                    }
-                } catch (err) {
-                    alert("Parsing engine failed to structure incoming preset variables.");
-                }
-            };
-            if (e.target.files[0]) {
-                reader.readAsText(e.target.files[0]);
-                e.target.value = '';
-            }
         }
 
         function renderVault() {
             let container = document.getElementById('vault-list');
-            if(!container) return;
+            if (!container) return;
             container.innerHTML = savedVault.map((preset, index) => `
-                <div class="mixer-card" style="margin-top: 10px;">
+                <div class="mixer-card">
                     <button class="mixer-btn" style="color: var(--primary);" onclick="loadPreset(${index})">▶ ${preset.name}</button>
-                    <button class="toy-btn" style="padding: 5px 10px; font-size: 0.6rem; border-color: #ec4899; color: #ec4899;" onclick="deletePreset(${index})">DEL</button>
+                    <button class="ui-btn" style="padding: 5px 10px; font-size: 0.6rem;" onclick="deletePreset(${index})">✕</button>
                 </div>
             `).join('');
         }
 
         function deletePreset(index) {
-            savedVault.splice(index, 1);
-            localStorage.setItem('somniaVault', JSON.stringify(savedVault));
-            renderVault();
+            savedVault.splice(index, 1); localStorage.setItem('somniaVault', JSON.stringify(savedVault)); renderVault();
         }
 
         function loadPreset(index) {
             const state = savedVault[index];
             if (!state) return;
 
-            document.body.className = state.bodyClass;
-            document.getElementById('glow-layer').className = state.glowClass;
-            window.particleType = state.particleType;
-            particleCount = state.particleCount;
+            document.body.className = state.bodyClass; document.getElementById('glow-layer').className = state.glowClass;
+            window.particleType = state.particleType; particleCount = state.particleCount;
             
             if (state.bgImage && state.bgImage !== 'none') {
                 document.getElementById('bg-anchor').style.background = `${state.bgImage} no-repeat center center`;
@@ -875,118 +1020,95 @@
                 }
             });
         }
-
-        // === 6. AUDIO & ATMOS INIT ===
-        const activeAudio = {};
-        const soundLibrary = [
-            { id: "rain", name: "🌧️ Gentle Rain", url: "rain.mp3" }, { id: "thunder", name: "🌩️ Thunderstorm", url: "thunder.mp3" },
-            { id: "winterwind", name: "🌬️ Winter Wind", url: "winterwind.mp3" }, { id: "owls", name: "🦉 Midnight Owls", url: "owls.mp3" },
-            { id: "raven", name: "🐦‍⬛ Raven Calls", url: "raven.mp3" }, { id: "frogs", name: "🐸 Swamp Frogs", url: "frogs.mp3" },
-            { id: "fire", name: "🔥 Hearth Fire", url: "fire.mp3" }, { id: "cat", name: "🐾 Purring Cat", url: "cat.mp3" }
-        ];
-
-        function initMixer() {
-            const container = document.getElementById('mixer-container');
-            container.innerHTML = soundLibrary.map(track => `
-                <div class="mixer-card" id="card-${track.id}">
-                    <button class="mixer-btn" onclick="toggleStem('${track.id}', '${track.url}')">${track.name}</button>
-                    <input type="range" id="vol-${track.id}" class="mixer-slider" min="0" max="1" step="0.05" value="0.5" oninput="adjustVol('${track.id}', this.value)">
-                </div>
-            `).join('');
+        
+        function exportVaultPresets() {
+            const blob = new Blob([JSON.stringify(savedVault, null, 2)], { type: "application/json" });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+            a.download = `SOMNIA_VAULT_PRESETS_${new Date().toISOString().split('T')[0]}.json`; a.click();
         }
 
-        function toggleStem(id, url) {
-            const card = document.getElementById(`card-${id}`);
-            if (activeAudio[id]) { activeAudio[id].pause(); delete activeAudio[id]; if(card) card.classList.remove('playing'); } 
-            else {
-                const audio = new Audio(url); audio.loop = true; const slider = document.getElementById(`vol-${id}`);
-                audio.volume = slider ? slider.value : 0.5;
-                audio.play().then(() => { activeAudio[id] = audio; if(card) card.classList.add('playing'); }).catch(e => console.log("Unlock audio protocol first."));
+        function importVaultPresets(e) {
+            const reader = new FileReader();
+            reader.onload = (x) => {
+                try {
+                    const imported = JSON.parse(x.target.result);
+                    if(Array.isArray(imported)) { savedVault = imported; localStorage.setItem('somniaVault', JSON.stringify(savedVault)); renderVault(); } 
+                    else { alert("Invalid schema detected."); }
+                } catch (err) { alert("Parsing engine failed."); }
+            };
+            if (e.target.files[0]) { reader.readAsText(e.target.files[0]); e.target.value = ''; }
+        }
+
+        function saveApiKey() {
+            const input = document.getElementById('gemini-key-input');
+            const btn = document.getElementById('save-key-btn');
+            if(input.value.trim() !== '') {
+                localStorage.setItem('gemini_api_key', input.value.trim());
+                btn.innerText = "Saved!";
+                input.value = "";
+                setTimeout(() => { btn.innerText = "Save Key"; }, 2000);
             }
         }
-        function adjustVol(id, val) { if (activeAudio[id]) activeAudio[id].volume = val; }
-        function stopAllAudio() { Object.keys(activeAudio).forEach(id => { activeAudio[id].pause(); const c = document.getElementById(`card-${id}`); if(c) c.classList.remove('playing'); delete activeAudio[id]; }); }
 
-        const bgPresets = [{ name: 'Void', value: '#000000' }, { name: 'Abyss', value: '#020204' }, { name: 'Slate', value: '#0f172a' }, { name: 'Sepia', value: '#1c1917' }];
-        const colors = ['lunar','noir','vellum','amethyst','crimson','emerald','solar','void','obsidian','ghost'];
-        const glows = ['pulse','breathe','strobe','phantom','wave','flicker','aurora','radar','static','none'];
-        const particlesList = ['dust','embers','snow','void','rain','ash','stars','bubbles','matrix','spores'];
-        const particleColors = [{ name: 'Lunar', value: '#e0e7ff' }, { name: 'Noir', value: '#D4AF37' }, { name: 'Void', value: '#ec4899' }, { name: 'Emerald', value: '#34d399' }];
-        const glowColors = [{ name: 'Lunar', value: 'rgba(224,231,255,0.4)' }, { name: 'Noir', value: 'rgba(212,175,55,0.4)' }, { name: 'Void', value: 'rgba(236,72,153,0.4)' }];
+        async function summonOracle() {
+            const input = document.getElementById('oracle-editor');
+            const chat = document.getElementById('oracle-chat');
+            const prompt = input.value.trim();
+            if(!prompt) return;
 
-        function populateGrid(id, arr, type) {
-            const grid = document.getElementById(id);
-            arr.forEach((item, index) => {
-                const isObj = typeof item === 'object'; const label = isObj ? item.name : item; const val = isObj ? item.value : item;
-                const b = document.createElement('button'); b.className = 'toy-btn'; b.textContent = label; if(index === 0) b.classList.add('active'); 
-                b.onclick = () => {
-                    document.querySelectorAll(`#${id} .toy-btn`).forEach(btn => btn.classList.remove('active')); b.classList.add('active');
-                    if(type === 'bg') { document.getElementById('bg-anchor').style.background = val; document.getElementById('bg-anchor').style.backgroundImage = 'none'; }
-                    if(type === 'color') document.body.className = `${val}-mode`;
-                    if(type === 'glow') document.getElementById('glow-layer').className = `glow-${val}`;
-                    if(type === 'particle') window.particleType = val;
-                    if(type === 'particleColor') updateVar('--particle-color', val);
-                    if(type === 'glowColor') updateVar('--glow-color', val);
-                };
-                grid.appendChild(b);
-            });
-        }
+            const apiKey = localStorage.getItem('gemini_api_key');
+            if(!apiKey) {
+                chat.innerHTML += `<div class="oracle-msg ai">ERROR: No API Key found. Please save your Gemini key in the Vault tab.</div>`;
+                input.value = ''; return;
+            }
 
-        window.particleType = 'dust';
-        let particleCount = 50; 
-        function buildParticles(w, h) { return Array.from({ length: particleCount }, () => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 2 + 0.5, vx: (Math.random() - 0.5), vy: (Math.random() - 0.5) })); }
-        function updateParticleDensity(val) { particleCount = parseInt(val); }
+            chat.innerHTML += `<div class="oracle-msg user">${prompt}</div>`;
+            input.value = ''; chat.scrollTop = chat.scrollHeight;
 
-        let lowGpu = false;
-        function toggleLowGpu() {
-            lowGpu = !lowGpu; const canvas = document.getElementById('particleCanvas');
-            if (lowGpu) { canvas.style.transform = "scale(2)"; updateVar('--glow-opac', '0.15'); updateVar('--anim-speed', '15s'); } 
-            else { canvas.style.transform = "scale(1)"; updateVar('--glow-opac', '0.3'); updateVar('--anim-speed', '10s'); }
-        }
+            const loadingId = 'loading-' + Date.now();
+            chat.innerHTML += `<div id="${loadingId}" class="oracle-msg ai" style="opacity: 0.5;">Connecting...</div>`;
+            chat.scrollTop = chat.scrollHeight;
 
-        function initParticles() {
-            const canvas = document.getElementById('particleCanvas'); const ctx = canvas.getContext('2d');
-            let w = canvas.width = window.innerWidth; let h = canvas.height = window.innerHeight;
-            window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; particles = buildParticles(w, h); });
-            let particles = buildParticles(w, h);
-            let lastTime = 0;
-
-            function loop(timestamp) {
-                requestAnimationFrame(loop);
-                if (!timestamp) timestamp = performance.now();
-                if (timestamp - lastTime < 33) return;
-                lastTime = timestamp;
-
-                ctx.clearRect(0, 0, w, h);
-                if (particles.length !== particleCount) particles = buildParticles(w, h);
-
-                let color = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim();
-                if (color.includes('var(')) color = getComputedStyle(document.documentElement).getPropertyValue(color.match(/var\(([^)]+)\)/)[1].trim()).trim();
-
-                ctx.fillStyle = color; ctx.shadowBlur = lowGpu ? 0 : 8; ctx.shadowColor = color;
-
-                particles.forEach((p, i) => {
-                    let spd = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--anim-speed')) || 10; let mult = 10 / spd;
-                    if (particleType === 'dust') { p.x += p.vx * mult; p.y += p.vy * mult; }
-                    else if (particleType === 'void') { p.x += p.vx*2*mult; p.y += p.vy*2*mult; ctx.shadowBlur=0; }
-                    if (p.x < 0) p.x = w; if (p.x > w) p.x = 0; if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
-                    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
                 });
+                
+                const data = await response.json();
+                document.getElementById(loadingId).remove();
+
+                if(data.error) { chat.innerHTML += `<div class="oracle-msg ai">API Error: ${data.error.message}</div>`; } 
+                else {
+                    const reply = data.candidates[0].content.parts[0].text;
+                    const formattedReply = reply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+                    chat.innerHTML += `<div class="oracle-msg ai">${formattedReply}</div>`;
+                }
+            } catch(e) {
+                document.getElementById(loadingId).remove();
+                chat.innerHTML += `<div class="oracle-msg ai">Network Error. Check console.</div>`;
+                console.error(e);
             }
-            requestAnimationFrame(loop);
+            chat.scrollTop = chat.scrollHeight;
         }
 
         // === 7. SOMNIASCRIBES JOURNAL ===
         let archive = JSON.parse(localStorage.getItem('kore_archive')) || [];
+
         function renderAnnals() {
             const query = (document.getElementById('search-annals')?.value || "").toLowerCase();
             const container = document.getElementById('annals');
             if (!container) return;
             container.innerHTML = "";
+
             archive.forEach((entry, index) => {
                 if (entry.text.toLowerCase().includes(query)) {
                     const node = document.createElement('div'); node.className = 'lore-entry';
-                    node.innerHTML = `<div class="entry-meta">${entry.timestamp}</div><button class="shred-btn" onclick="shredEntry(${index})">✕</button><div><span style="color:var(--primary); opacity:0.6; margin-right:10px;">></span> ${entry.text}</div>`;
+                    node.innerHTML = `
+                        <div class="entry-meta">${entry.timestamp}</div>
+                        <button class="shred-btn" onclick="shredEntry(${index})">✕</button>
+                        <div><span style="color:var(--primary); opacity:0.6; margin-right:10px;">></span> ${entry.text}</div>
+                    `;
                     container.appendChild(node);
                 }
             });
@@ -996,20 +1118,31 @@
         function commitLore() {
             const input = document.getElementById('lore-editor');
             if (!input || input.value.trim() === "") return;
-            const now = new Date(); const timestamp = now.toLocaleDateString() + " // " + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            archive.push({ text: input.value, timestamp }); localStorage.setItem('kore_archive', JSON.stringify(archive));
+            const now = new Date();
+            const timestamp = now.toLocaleDateString() + " // " + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            archive.push({ text: input.value, timestamp });
+            localStorage.setItem('kore_archive', JSON.stringify(archive));
             input.value = ""; renderAnnals();
         }
 
         function shredEntry(index) { archive.splice(index, 1); localStorage.setItem('kore_archive', JSON.stringify(archive)); renderAnnals(); }
-        function exportVault() { const blob = new Blob([JSON.stringify(archive, null, 2)], { type: "application/json" }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "SOMNIASCRIBES.json"; a.click(); }
+        function jolt(palette) { document.body.className = palette + '-mode'; }
+        function exportVault() {
+            const blob = new Blob([JSON.stringify(archive, null, 2)], { type: "application/json" });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+            a.download = "SOMNIASCRIBES.json"; a.click();
+        }
+
         function importVault(e) {
             const reader = new FileReader();
-            reader.onload = (x) => { try { archive = JSON.parse(x.target.result); localStorage.setItem('kore_archive', JSON.stringify(archive)); renderAnnals(); } catch (err) { alert("Import architecture error."); } };
+            reader.onload = (x) => {
+                try { archive = JSON.parse(x.target.result); localStorage.setItem('kore_archive', JSON.stringify(archive)); renderAnnals(); } 
+                catch (err) { alert("Import failed."); }
+            };
             if (e.target.files[0]) { reader.readAsText(e.target.files[0]); e.target.value = ''; }
         }
 
-        // Boot Infrastructure
+        // === BOOT SEQUENCE ===
         document.addEventListener('DOMContentLoaded', () => {
             initMixer();
             populateGrid('bg-presets', bgPresets, 'bg'); populateGrid('color-grid', colors, 'color');
@@ -1018,28 +1151,28 @@
 
             initParticles();
             renderVault(); 
+            initScheds();
             renderAcademy();
-            
-            // Scheds Init
-            updateTimerDisplay();
-            renderScheds();
 
-            // Setup listeners
             const editor = document.getElementById('lore-editor');
             if (editor) { editor.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); commitLore(); } }); }
             
             const oracleInput = document.getElementById('oracle-editor');
-            if(oracleInput) {
-                oracleInput.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        summonOracle();
-                    }
-                });
-            }
-            
+            if(oracleInput) { oracleInput.addEventListener('keydown', function(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); summonOracle(); } }); }
+
             renderAnnals();
         });
+
+        document.getElementById("shareButton").addEventListener("click", shareSomnia);
+        async function shareSomnia() {
+            const canvas = document.querySelector("canvas");
+            if (!canvas) return;
+            const dataUrl = canvas.toDataURL("image/png");
+            const blob = await (await fetch(dataUrl)).blob();
+            const file = new File([blob], "somniascape.png", { type: "image/png" });
+            try { await navigator.share({ title: "My SomniaScape", text: "Made with SomniaScapes ✨", files: [file] }); } 
+            catch (err) { console.log("Share canceled or unsupported"); }
+        }
     </script>
 </body>
 </html>
