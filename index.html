@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -170,8 +169,6 @@
         .lux-btn:hover { background: var(--primary-glow); box-shadow: 0 0 20px var(--primary-glow); }
         .kore-footer { font-size: 0.55rem; opacity: 0.4; letter-spacing: 6px; text-transform: uppercase; text-align: center; width: 100%; }
 
-        .cast-box { width: 100%; max-width: 400px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); text-align: center; }
-
         /* --- ORACLE CHAT UI --- */
         .oracle-chat-body { flex: 1; overflow-y: auto; padding-right: 10px; display: flex; flex-direction: column; gap: 10px; scrollbar-width: none; }
         .oracle-msg { padding: 10px 15px; border-radius: 10px; max-width: 85%; font-family: sans-serif; font-size: 0.85rem; line-height: 1.5; }
@@ -202,9 +199,10 @@
     <div id="ui-wrapper">
         <div id="top-nav" onclick="event.stopPropagation()">
             <button class="artifact-btn" onclick="toggleCloak()">Cloak</button>
+            <button class="artifact-btn" onclick="toggleModal('scheds-modal')" style="border-color: #34d399; color: #34d399;">SCHEDS</button>
             <button class="artifact-btn" onclick="toggleModal('scratchpad-modal')">SCRIBE</button>
             <button class="artifact-btn oracle-btn" onclick="toggleModal('oracle-modal')">ORACLE</button>
-            <button class="artifact-btn" onclick="toggleModal('cast-modal')">Cast</button>
+            <button class="artifact-btn" onclick="toggleProjectorMode()" style="border-color: #fbbf24; color: #fbbf24;">Cast</button>
         </div>
 
         <div class="nav-logo">SOMNIASCAPES</div>
@@ -266,12 +264,25 @@
                     <input type="text" id="new-student-name" class="academy-input" placeholder="Enter student name...">
                     <button class="academy-btn" onclick="addStudent()">Add Student</button>
                 </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 5px;">
+                    <button class="academy-btn" style="flex: 1; border-color: var(--accent);" onclick="exportAcademyData()">📤 Export Academy JSON</button>
+                    <button class="academy-btn" style="flex: 1; border-color: var(--accent);" onclick="document.getElementById('academy-import-trigger').click()">📥 Import Academy JSON</button>
+                </div>
+                <input type="file" id="academy-import-trigger" style="display:none" accept=".json" onchange="importAcademyData(event)">
+
                 <div id="academy-container" style="margin-top: 15px;"></div>
             </div>
 
             <div id="tab-vault" class="tab-content">
                 <button class="toy-btn" id="save-btn" style="border-color: var(--primary); padding: 15px;" onclick="savePreset()">💾 Save Current Vibe Preset</button>
                 
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="toy-btn" style="flex: 1; font-size: 0.65rem;" onclick="exportVaultPresets()">📤 Export Vault JSON</button>
+                    <button class="toy-btn" style="flex: 1; font-size: 0.65rem;" onclick="document.getElementById('vault-import-trigger').click()">📥 Import Vault JSON</button>
+                </div>
+                <input type="file" id="vault-import-trigger" style="display:none" accept=".json" onchange="importVaultPresets(event)">
+
                 <h4 class="section-title" style="margin-top: 25px;">Oracle API Configuration</h4>
                 <p style="font-size: 0.65rem; color: var(--text-muted); line-height: 1.4;">Store your Gemini API key locally to enable the Oracle chat module. Your key never leaves this browser.</p>
                 <div class="input-group">
@@ -279,9 +290,47 @@
                     <button class="academy-btn" onclick="saveApiKey()">Save Key</button>
                 </div>
                 
-                <div id="vault-list"></div>
+                <div id="vault-list" style="margin-top: 15px;"></div>
             </div>
         </main>
+    </div>
+
+    <div id="scheds-modal" class="modal-overlay" onclick="toggleModal('scheds-modal')">
+        <div class="scribes-bubble" style="border-color: #34d399; box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(52,211,153,0.1);" onclick="event.stopPropagation()">
+            <div class="archive-vault" style="height: 65vh; border-color: #34d399; box-shadow: 0 0 60px #000, inset 0 0 40px rgba(52,211,153,0.15);">
+                <div class="vault-header" style="border-color: #34d399;">
+                    <div>
+                        <h2 style="color: #34d399; text-shadow: 0 0 20px rgba(52,211,153,0.5);">Chrono-Plan</h2>
+                        <div style="font-size: 0.55rem; opacity: 0.5; letter-spacing: 5px; color: #d1fae5;">SCHEDULE & TIMER</div>
+                    </div>
+                </div>
+
+                <div class="timer-container" style="text-align: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-top: 15px;">
+                    <div id="timer-display" style="font-size: 3.5rem; font-family: monospace; color: #34d399; text-shadow: 0 0 15px rgba(52,211,153,0.8); transition: color 0.3s ease;">25:00</div>
+                    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
+                        <button class="academy-btn" style="border-color: #34d399; color: #34d399;" onclick="startTimer()">Start</button>
+                        <button class="academy-btn" onclick="pauseTimer()">Pause</button>
+                        <button class="academy-btn" onclick="resetTimer(25)">25m</button>
+                        <button class="academy-btn" onclick="resetTimer(5)">5m</button>
+                        <button class="academy-btn" onclick="resetTimer(15)">15m</button>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <input type="time" id="sched-time" class="academy-input" style="max-width: 110px;">
+                    <input type="text" id="sched-task" class="academy-input" placeholder="Task or Event (e.g. Logic & Code Prep)...">
+                    <button class="academy-btn" style="border-color: #34d399; color: #34d399;" onclick="addSchedTask()">Add</button>
+                </div>
+                <div id="sched-list" class="annals-body" style="margin-top: 15px; display: flex; flex-direction: column; gap: 8px;"></div>
+            </div>
+            
+            <div class="command-array">
+                <button class="lux-btn" style="border-color: #34d399; color: #34d399;" onclick="exportScheds()">Export Schedule JSON</button>
+                <button class="lux-btn" style="border-color: #34d399; color: #34d399;" onclick="document.getElementById('scheds-import-trigger').click()">Import Schedule JSON</button>
+            </div>
+            <input type="file" id="scheds-import-trigger" style="display:none" accept=".json" onchange="importScheds(event)">
+            <div class="kore-footer" style="color: #34d399;">© 2026 PROJECT KORE LLC // CHRONO-PLAN</div>
+        </div>
     </div>
 
     <div id="scratchpad-modal" class="modal-overlay" onclick="toggleModal('scratchpad-modal')">
@@ -324,16 +373,6 @@
         </div>
     </div>
 
-    <div id="cast-modal" class="modal-overlay" onclick="toggleModal('cast-modal')">
-        <div class="cast-box" onclick="event.stopPropagation()">
-            <h3 style="color: var(--primary); letter-spacing: 3px; margin-top: 0; margin-bottom: 5px;">PROJECTOR MODE</h3>
-            <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 25px;">
-                To project the full visual and audio experience to a TV, use your browser's native Tab Mirroring.
-            </p>
-            <button class="toy-btn" style="width: 100%; padding: 15px; border-color: var(--accent); color: var(--accent);" onclick="toggleFullscreen()">⛶ Enter Fullscreen</button>
-        </div>
-    </div>
-
     <script>
         // === 1. GLOBAL UI ===
         function switchTab(tabId, btn) {
@@ -351,18 +390,29 @@
             const modal = document.getElementById(modalId);
             modal.classList.toggle('active');
             
-            // Auto-scroll Oracle chat to bottom on open
             if(modalId === 'oracle-modal' && modal.classList.contains('active')) {
                 const chat = document.getElementById('oracle-chat');
                 chat.scrollTop = chat.scrollHeight;
             }
         }
         
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(e => console.log(e));
-            else document.exitFullscreen();
-            document.getElementById('cast-modal').classList.remove('active'); 
+        // Direct Projector Mode Trigger
+        function toggleProjectorMode() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(e => console.log(e));
+                document.body.classList.add('cloaked');
+            } else {
+                document.exitFullscreen();
+                document.body.classList.remove('cloaked');
+            }
         }
+
+        // Listen for user hitting ESC to exit fullscreen and restore the UI
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                document.body.classList.remove('cloaked');
+            }
+        });
 
         function updateVar(name, val) { document.documentElement.style.setProperty(name, val); }
 
@@ -397,7 +447,133 @@
             input.value = ""; 
         }
 
-        // === 2. ACADEMY ENGINE (Grades & Attendance) ===
+        // === 2. SCHEDS ENGINE (Timer & Planner) ===
+        let timerInterval;
+        let timerSeconds = 25 * 60;
+        let isTimerRunning = false;
+
+        function updateTimerDisplay() {
+            const m = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+            const s = (timerSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('timer-display').innerText = `${m}:${s}`;
+        }
+
+        function startTimer() {
+            if (isTimerRunning) return;
+            isTimerRunning = true;
+            timerInterval = setInterval(() => {
+                if (timerSeconds > 0) {
+                    timerSeconds--;
+                    updateTimerDisplay();
+                } else {
+                    pauseTimer();
+                    const display = document.getElementById('timer-display');
+                    display.style.color = '#fb7185';
+                    display.style.textShadow = '0 0 15px rgba(251,113,133,0.8)';
+                    setTimeout(() => {
+                        display.style.color = '#34d399';
+                        display.style.textShadow = '0 0 15px rgba(52,211,153,0.8)';
+                    }, 3000);
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            isTimerRunning = false;
+            clearInterval(timerInterval);
+        }
+
+        function resetTimer(mins) {
+            pauseTimer();
+            timerSeconds = mins * 60;
+            updateTimerDisplay();
+            const display = document.getElementById('timer-display');
+            display.style.color = '#34d399';
+            display.style.textShadow = '0 0 15px rgba(52,211,153,0.8)';
+        }
+
+        let schedData = JSON.parse(localStorage.getItem('somnia_scheds')) || [
+            { id: 1, time: "09:00", task: "Logic & Code Prep", done: false },
+            { id: 2, time: "10:30", task: "Academy Core Subjects", done: false }
+        ];
+
+        function saveScheds() {
+            localStorage.setItem('somnia_scheds', JSON.stringify(schedData));
+            renderScheds();
+        }
+
+        function addSchedTask() {
+            const timeIn = document.getElementById('sched-time').value;
+            const taskIn = document.getElementById('sched-task').value.trim();
+            if(!taskIn) return;
+            
+            schedData.push({ id: Date.now(), time: timeIn || "--:--", task: taskIn, done: false });
+            
+            // Sort entries chronologically if time is provided
+            schedData.sort((a, b) => {
+                if(a.time === "--:--" && b.time !== "--:--") return 1;
+                if(b.time === "--:--" && a.time !== "--:--") return -1;
+                return a.time.localeCompare(b.time);
+            });
+            
+            document.getElementById('sched-task').value = '';
+            document.getElementById('sched-time').value = '';
+            saveScheds();
+        }
+
+        function toggleSchedTask(id) {
+            const task = schedData.find(t => t.id === id);
+            if(task) { task.done = !task.done; saveScheds(); }
+        }
+
+        function deleteSchedTask(id) {
+            schedData = schedData.filter(t => t.id !== id);
+            saveScheds();
+        }
+
+        function renderScheds() {
+            const container = document.getElementById('sched-list');
+            if(!container) return;
+            
+            if(schedData.length === 0) {
+                container.innerHTML = `<div style="text-align:center; font-size:0.7rem; color:var(--text-muted); letter-spacing:2px; margin-top:20px;">NO TASKS PLANNED</div>`;
+                return;
+            }
+
+            container.innerHTML = schedData.map(t => `
+                <div class="mixer-card" style="opacity: ${t.done ? '0.4' : '1'}; border-color: ${t.done ? 'rgba(255,255,255,0.05)' : 'rgba(52,211,153,0.3)'}; transition: all 0.3s ease;">
+                    <span style="font-family: monospace; color: #34d399; font-size: 0.85rem; width: 60px;">${t.time}</span>
+                    <span style="flex: 1; font-size: 0.85rem; text-decoration: ${t.done ? 'line-through' : 'none'}; cursor: pointer;" onclick="toggleSchedTask(${t.id})">${t.task}</span>
+                    <button class="toy-btn" style="padding: 4px 8px; font-size: 0.6rem; border-color: #fb7185; color: #fb7185;" onclick="deleteSchedTask(${t.id})">✕</button>
+                </div>
+            `).join('');
+        }
+
+        function exportScheds() {
+            const blob = new Blob([JSON.stringify(schedData, null, 2)], { type: "application/json" });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+            a.download = `SOMNIA_SCHEDS_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+        }
+
+        function importScheds(e) {
+            const reader = new FileReader();
+            reader.onload = (x) => {
+                try {
+                    const imported = JSON.parse(x.target.result);
+                    if(Array.isArray(imported)) {
+                        schedData = imported;
+                        saveScheds();
+                    } else {
+                        alert("Invalid file format. Ensure it is a valid Somnia Schedule array.");
+                    }
+                } catch(err) { alert("Failed to parse schedule JSON file."); }
+            };
+            if(e.target.files[0]) { reader.readAsText(e.target.files[0]); e.target.value = ''; }
+        }
+
+
+        // === 3. ACADEMY ENGINE (Grades, Attendance, Backup Logic) ===
         let academyData = JSON.parse(localStorage.getItem('somnia_academy')) || { students: [] };
         
         function saveAcademyData() {
@@ -413,8 +589,8 @@
             academyData.students.push({
                 id: 'stu_' + Date.now(),
                 name: name,
-                attendance: {}, // { "2026-05-30": "Present" }
-                grades: [] // { date: "", subject: "", score: "" }
+                attendance: {}, 
+                grades: [] 
             });
             input.value = '';
             saveAcademyData();
@@ -425,6 +601,13 @@
             const student = academyData.students.find(s => s.id === studentId);
             if(student) {
                 student.attendance[today] = status;
+                saveAcademyData();
+            }
+        }
+
+        function removeStudent(studentId) {
+            if(confirm("Permanently archive this student profile?")) {
+                academyData.students = academyData.students.filter(s => s.id !== studentId);
                 saveAcademyData();
             }
         }
@@ -441,13 +624,51 @@
                     subject: subjInput.value.trim(),
                     score: scoreInput.value.trim()
                 });
+                subjInput.value = '';
+                scoreInput.value = '';
                 saveAcademyData();
+            }
+        }
+
+        function exportAcademyData() {
+            const blob = new Blob([JSON.stringify(academyData, null, 2)], { type: "application/json" });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `SOMNIA_ACADEMY_BACKUP_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+        }
+
+        function importAcademyData(e) {
+            const reader = new FileReader();
+            reader.onload = (x) => {
+                try {
+                    const imported = JSON.parse(x.target.result);
+                    if(imported && Array.isArray(imported.students)) {
+                        academyData = imported;
+                        localStorage.setItem('somnia_academy', JSON.stringify(academyData));
+                        renderAcademy();
+                    } else {
+                        alert("Invalid file format. Ensure it is a valid Somnia Academy snapshot.");
+                    }
+                } catch (err) {
+                    alert("Failed to parse file structural hierarchy.");
+                }
+            };
+            if (e.target.files[0]) {
+                reader.readAsText(e.target.files[0]);
+                e.target.value = '';
             }
         }
 
         function renderAcademy() {
             const container = document.getElementById('academy-container');
+            if(!container) return;
             const today = new Date().toISOString().split('T')[0];
+
+            if(academyData.students.length === 0) {
+                container.innerHTML = `<div style="text-align:center; font-size:0.7rem; color:var(--text-muted); letter-spacing:2px; margin-top:20px;">NO ACTIVE STUDENT ROSTERS DEFINED</div>`;
+                return;
+            }
 
             container.innerHTML = academyData.students.map(student => {
                 const todayStatus = student.attendance[today];
@@ -465,9 +686,10 @@
                     <div class="student-card">
                         <div class="student-header">
                             <span class="student-name">${student.name}</span>
-                            <div style="display:flex; gap:5px;">
+                            <div style="display:flex; gap:5px; align-items:center;">
                                 <button class="${presentClass}" style="${todayStatus === 'Present' ? 'padding: 4px 8px;' : ''}" onclick="setAttendance('${student.id}', 'Present')">Present</button>
                                 <button class="${absentClass}" style="${todayStatus === 'Absent' ? 'padding: 4px 8px;' : ''}" onclick="setAttendance('${student.id}', 'Absent')">Absent</button>
+                                <button class="academy-btn" style="border-color:#ff4444; color:#ff4444; padding: 4px 8px;" onclick="removeStudent('${student.id}')">✕</button>
                             </div>
                         </div>
                         <div class="input-group">
@@ -483,7 +705,7 @@
             }).join('');
         }
 
-        // === 3. ORACLE LLM INTEGRATION (BYOK) ===
+        // === 4. ORACLE LLM INTEGRATION (BYOK) ===
         function saveApiKey() {
             const input = document.getElementById('gemini-key-input');
             const btn = document.querySelector('#tab-vault .academy-btn');
@@ -508,12 +730,10 @@
                 return;
             }
 
-            // Add user message
             chat.innerHTML += `<div class="oracle-msg user">${prompt}</div>`;
             input.value = '';
             chat.scrollTop = chat.scrollHeight;
 
-            // Add loading indicator
             const loadingId = 'loading-' + Date.now();
             chat.innerHTML += `<div id="${loadingId}" class="oracle-msg ai" style="opacity: 0.5;">Communing...</div>`;
             chat.scrollTop = chat.scrollHeight;
@@ -532,7 +752,6 @@
                     chat.innerHTML += `<div class="oracle-msg ai" style="color:#fb7185;">API Error: ${data.error.message}</div>`;
                 } else {
                     const reply = data.candidates[0].content.parts[0].text;
-                    // Super simple formatting for bold and newlines
                     const formattedReply = reply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
                     chat.innerHTML += `<div class="oracle-msg ai">${formattedReply}</div>`;
                 }
@@ -544,21 +763,8 @@
             chat.scrollTop = chat.scrollHeight;
         }
 
-        // Bind Enter key for Oracle
-        document.addEventListener('DOMContentLoaded', () => {
-            const oracleInput = document.getElementById('oracle-editor');
-            if(oracleInput) {
-                oracleInput.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        summonOracle();
-                    }
-                });
-            }
-        });
 
-
-        // === 4. VAULT MEMORY ENGINE ===
+        // === 5. VAULT PRESETS MEMORY ENGINE + BACKUP MODULE ===
         let savedVault = JSON.parse(localStorage.getItem('somniaVault')) || [];
 
         function savePreset() {
@@ -588,8 +794,38 @@
 
             savedVault.push(state);
             try { localStorage.setItem('somniaVault', JSON.stringify(savedVault)); } 
-            catch(e) { alert("Vault Warning: Preset is too large to save."); savedVault.pop(); }
+            catch(e) { alert("Vault Warning: Preset size parameters exceed standard bounds."); savedVault.pop(); }
             renderVault();
+        }
+
+        function exportVaultPresets() {
+            const blob = new Blob([JSON.stringify(savedVault, null, 2)], { type: "application/json" });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `SOMNIA_VAULT_PRESETS_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+        }
+
+        function importVaultPresets(e) {
+            const reader = new FileReader();
+            reader.onload = (x) => {
+                try {
+                    const imported = JSON.parse(x.target.result);
+                    if(Array.isArray(imported)) {
+                        savedVault = imported;
+                        localStorage.setItem('somniaVault', JSON.stringify(savedVault));
+                        renderVault();
+                    } else {
+                        alert("Invalid schema footprint detected inside layout file.");
+                    }
+                } catch (err) {
+                    alert("Parsing engine failed to structure incoming preset variables.");
+                }
+            };
+            if (e.target.files[0]) {
+                reader.readAsText(e.target.files[0]);
+                e.target.value = '';
+            }
         }
 
         function renderVault() {
@@ -640,7 +876,7 @@
             });
         }
 
-        // === 5. AUDIO & ATMOS INIT (Condensed for space) ===
+        // === 6. AUDIO & ATMOS INIT ===
         const activeAudio = {};
         const soundLibrary = [
             { id: "rain", name: "🌧️ Gentle Rain", url: "rain.mp3" }, { id: "thunder", name: "🌩️ Thunderstorm", url: "thunder.mp3" },
@@ -665,7 +901,7 @@
             else {
                 const audio = new Audio(url); audio.loop = true; const slider = document.getElementById(`vol-${id}`);
                 audio.volume = slider ? slider.value : 0.5;
-                audio.play().then(() => { activeAudio[id] = audio; if(card) card.classList.add('playing'); }).catch(e => console.log("Unlock audio first."));
+                audio.play().then(() => { activeAudio[id] = audio; if(card) card.classList.add('playing'); }).catch(e => console.log("Unlock audio protocol first."));
             }
         }
         function adjustVol(id, val) { if (activeAudio[id]) activeAudio[id].volume = val; }
@@ -740,7 +976,7 @@
             requestAnimationFrame(loop);
         }
 
-        // === 6. SOMNIASCRIBES JOURNAL ===
+        // === 7. SOMNIASCRIBES JOURNAL ===
         let archive = JSON.parse(localStorage.getItem('kore_archive')) || [];
         function renderAnnals() {
             const query = (document.getElementById('search-annals')?.value || "").toLowerCase();
@@ -769,11 +1005,11 @@
         function exportVault() { const blob = new Blob([JSON.stringify(archive, null, 2)], { type: "application/json" }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "SOMNIASCRIBES.json"; a.click(); }
         function importVault(e) {
             const reader = new FileReader();
-            reader.onload = (x) => { try { archive = JSON.parse(x.target.result); localStorage.setItem('kore_archive', JSON.stringify(archive)); renderAnnals(); } catch (err) { alert("Import failed."); } };
+            reader.onload = (x) => { try { archive = JSON.parse(x.target.result); localStorage.setItem('kore_archive', JSON.stringify(archive)); renderAnnals(); } catch (err) { alert("Import architecture error."); } };
             if (e.target.files[0]) { reader.readAsText(e.target.files[0]); e.target.value = ''; }
         }
 
-        // Boot
+        // Boot Infrastructure
         document.addEventListener('DOMContentLoaded', () => {
             initMixer();
             populateGrid('bg-presets', bgPresets, 'bg'); populateGrid('color-grid', colors, 'color');
@@ -783,9 +1019,25 @@
             initParticles();
             renderVault(); 
             renderAcademy();
+            
+            // Scheds Init
+            updateTimerDisplay();
+            renderScheds();
 
+            // Setup listeners
             const editor = document.getElementById('lore-editor');
             if (editor) { editor.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); commitLore(); } }); }
+            
+            const oracleInput = document.getElementById('oracle-editor');
+            if(oracleInput) {
+                oracleInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        summonOracle();
+                    }
+                });
+            }
+            
             renderAnnals();
         });
     </script>
