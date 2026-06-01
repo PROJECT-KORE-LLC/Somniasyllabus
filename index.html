@@ -3,38 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOMNIASCAPES // AMBIENCE MAKER</title>
+    <title>SOMNIASCHEDS // DIGITAL SANCTUARY</title>
     <style>
         /* ============================================================
-           SOMNIASCAPES — THE DIGITAL TOY SHELL
-           Luxurious • Calm • ND-Friendly • Unified Palette
+           SOMNIASCHEDS — THE DIGITAL SANCTUARY (ACADEMY EDITION)
+           Luxurious • Heavy Glassmorphism • Absolute Sovereignty
            ============================================================ */
 
         *, *::before, *::after { box-sizing: border-box; }
 
         :root {
-            /* GLOBAL CONSTANTS */
-            --glass: rgba(10, 15, 25, 0.75);
-            --text-muted: rgba(255, 255, 255, 0.5);
-            
-            /* DYNAMIC CONTROLS */
-            --bg-zoom: 1;
-            --bg-bright: 0.85;
-            --glow-opac: 0.3;
-            --anim-speed: 10s;
-
-            /* LUNAR BASELINE */
-            --primary: #e0e7ff; 
-            --primary-glow: rgba(224, 231, 255, 0.4);
+            --primary: #e0e7ff; --primary-glow: rgba(224, 231, 255, 0.4);
             --accent: #a5b4fc; 
+            --glass: rgba(10, 15, 22, 0.65);
             --glass-border: rgba(199, 210, 254, 0.2);
-            --text-main: #fdfbf7;
-
-            --particle-color: var(--primary);
-            --glow-color: var(--primary-glow);
+            --glass-highlight: rgba(255, 255, 255, 0.05);
+            --text-main: #fdfbf7; --text-muted: #a09ba5;
+            
+            --bg-zoom: 1; --bg-bright: 0.85; --glow-opac: 0.3; --anim-speed: 10s;
+            --particle-color: var(--primary); --glow-color: var(--primary-glow);
         }
 
-        /* 10 COLOR PALETTES */
+        /* PALETTES */
         .lunar-mode { --primary: #e0e7ff; --accent: #a5b4fc; --primary-glow: rgba(224,231,255,0.4); --glass-border: rgba(199,210,254,0.2); --text-main: #fdfbf7; }
         .noir-mode { --primary: #D4AF37; --accent: #f59e0b; --primary-glow: rgba(212,175,55,0.4); --glass-border: rgba(212,175,55,0.2); --text-main: #F4EBD0; }
         .vellum-mode { --primary: #C2B280; --accent: #d97706; --primary-glow: rgba(194,178,128,0.4); --glass-border: rgba(194,178,128,0.2); --text-main: #fefce8; }
@@ -46,23 +36,14 @@
         .obsidian-mode { --primary: #9ca3af; --accent: #4b5563; --primary-glow: rgba(156,163,175,0.4); --glass-border: rgba(156,163,175,0.2); --text-main: #f3f4f6; }
         .ghost-mode { --primary: #f8fafc; --accent: #cbd5e1; --primary-glow: rgba(248,250,252,0.4); --glass-border: rgba(248,250,252,0.2); --text-main: #ffffff; }
 
-        body, html {
-            margin: 0; padding: 0; background: #000; overflow: hidden; font-family: 'Georgia', serif;
-            height: 100vh; width: 100vw; color: var(--text-main); -webkit-font-smoothing: antialiased; user-select: none;
-        }
+        body, html { margin: 0; padding: 0; background: #020204; overflow: hidden; font-family: 'Georgia', serif; height: 100vh; width: 100vw; color: var(--text-main); -webkit-font-smoothing: antialiased; user-select: none; }
+        input, textarea, select { user-select: auto; font-family: inherit; }
 
         /* --- VISUAL CANVAS --- */
-        #bg-anchor {
-            position: fixed; inset: 0; background: #020204 url('ship.png') no-repeat center center;
-            background-size: cover; z-index: 1; transform: scale(var(--bg-zoom)); filter: brightness(var(--bg-bright));
-            transition: background 1.5s ease, filter 0.3s ease, transform 0.3s ease;
-        }
+        #bg-anchor { position: fixed; inset: 0; background: #020204 no-repeat center center; background-size: cover; z-index: 1; transform: scale(var(--bg-zoom)); filter: brightness(var(--bg-bright)); transition: background 1.5s ease, filter 0.5s ease, transform 0.5s ease; }
+        #glow-layer { position: fixed; inset: 0; background: radial-gradient(circle at 50% 50%, var(--glow-color) 0%, transparent 70%); z-index: 2; opacity: var(--glow-opac); pointer-events: none; transition: 0.5s ease; mix-blend-mode: screen;}
+        #particleCanvas { position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: var(--glow-opac); transition: 0.5s ease; mix-blend-mode: screen; }
 
-        #glow-layer {
-            position: fixed; inset: 0; background: radial-gradient(circle at 50% 50%, var(--glow-color) 0%, transparent 70%);
-            z-index: 2; opacity: var(--glow-opac); pointer-events: none; transition: opacity 0.3s ease, background 1s ease;
-        }
-        
         .glow-pulse { animation: g-pulse var(--anim-speed) infinite alternate ease-in-out; }
         .glow-breathe { animation: g-breathe var(--anim-speed) infinite alternate ease-in-out; }
         .glow-strobe { animation: g-strobe var(--anim-speed) infinite alternate linear; }
@@ -70,8 +51,6 @@
         .glow-wave { animation: g-wave var(--anim-speed) infinite alternate linear; }
         .glow-flicker { animation: g-flicker calc(var(--anim-speed) / 4) infinite alternate ease-in-out; }
         .glow-aurora { background: linear-gradient(45deg, var(--primary-glow), transparent); animation: g-pulse var(--anim-speed) infinite alternate ease-in-out; }
-        .glow-radar { background: conic-gradient(from 0deg, transparent, var(--primary-glow), transparent); animation: g-wave var(--anim-speed) infinite linear; }
-        .glow-static { animation: none; }
         .glow-none { opacity: 0 !important; }
 
         @keyframes g-pulse { 0% { transform: scale(1); opacity: calc(var(--glow-opac) * 0.5); } 100% { transform: scale(1.1); opacity: var(--glow-opac); } }
@@ -81,174 +60,291 @@
         @keyframes g-wave { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes g-flicker { 0%, 100% { opacity: var(--glow-opac); } 33% { opacity: calc(var(--glow-opac) * 0.3); } 66% { opacity: calc(var(--glow-opac) * 0.8); } }
 
-        #particleCanvas { position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: var(--glow-opac); transition: opacity 0.3s ease; }
+        /* ============================================================
+           LANDING PAGE (BOOT GATEKEEPER)
+           ============================================================ */
+        #landing-page {
+            position: fixed; inset: 0; z-index: 9999;
+            background: radial-gradient(circle at 50% 50%, rgba(15, 20, 30, 1) 0%, #020204 100%);
+            overflow-y: auto; overflow-x: hidden;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+        }
+
+        .landing-kore-orb {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 700px; height: 700px; border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 60%);
+            animation: landing-orb-breathe 8s infinite alternate ease-in-out; z-index: 1;
+            pointer-events: none; mix-blend-mode: screen;
+        }
+        @keyframes landing-orb-breathe { 0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.2; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.6; } }
+
+        .landing-container { max-width: 1000px; margin: 0 auto; padding: 80px 20px; position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .hero-title { font-size: clamp(2.5rem, 6vw, 4.5rem); letter-spacing: 14px; text-transform: uppercase; color: var(--primary); margin: 0 0 10px 0; text-shadow: 0 0 30px var(--primary-glow); font-family: 'Times New Roman', serif; }
+        .hero-subtitle { font-size: 1rem; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; font-family: monospace; margin-bottom: 40px; opacity: 0.8; }
+        .hero-description { font-size: 1.15rem; line-height: 1.8; color: var(--text-muted); max-width: 650px; margin-bottom: 50px; font-style: italic; }
+        
+        .cta-btn {
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(15px); border: 1px solid var(--accent); color: var(--text-main);
+            padding: 18px 45px; border-radius: 50px; font-size: 1rem; letter-spacing: 3px; text-transform: uppercase; cursor: pointer;
+            transition: all 0.4s ease; text-decoration: none; font-family: monospace; box-shadow: 0 0 20px rgba(165, 180, 252, 0.15);
+        }
+        .cta-btn:hover { background: var(--primary-glow); color: #000; border-color: var(--primary); box-shadow: 0 0 40px var(--primary-glow); transform: translateY(-3px); }
+
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; width: 100%; margin-top: 80px; }
+        .feature-card { background: var(--glass); backdrop-filter: blur(25px) saturate(120%); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 40px 30px; text-align: left; transition: 0.4s ease; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        .feature-card:hover { border-color: var(--accent); transform: translateY(-5px); background: rgba(20, 25, 35, 0.8); box-shadow: 0 25px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.02); }
+        .feature-icon { font-size: 2.2rem; margin-bottom: 20px; filter: drop-shadow(0 0 10px var(--primary-glow)); }
+        .feature-title { font-size: 1.2rem; color: var(--primary); letter-spacing: 3px; text-transform: uppercase; margin: 0 0 15px 0; font-family: 'Times New Roman', serif; }
+        .feature-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; margin: 0; }
+        .landing-footer { margin-top: 100px; padding-top: 30px; border-top: 1px solid var(--glass-border); font-size: 0.75rem; letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase; opacity: 0.5; font-family: monospace; width: 100%; }
 
         /* --- UI LAYOUT --- */
         #ui-wrapper { position: relative; z-index: 100; height: 100vh; width: 100vw; display: flex; flex-direction: column; align-items: center; transition: opacity 0.8s ease; }
         body.cloaked #ui-wrapper { opacity: 0; pointer-events: none; }
         
-        #top-nav { display: flex; gap: 10px; padding: 20px; width: 100%; justify-content: center; flex-wrap: wrap; }
-        .nav-logo { font-size: 1.5rem; letter-spacing: 8px; color: var(--primary); text-transform: uppercase; text-shadow: 0 0 15px var(--primary-glow); margin-top: auto; margin-bottom: 20px; text-align: center; transition: 0.3s ease; }
+        #top-nav { display: flex; gap: 15px; padding: 25px; width: 100%; justify-content: center; flex-wrap: wrap; align-items: center;}
+        .nav-logo { font-size: 1.8rem; letter-spacing: 12px; color: var(--primary); text-transform: uppercase; text-shadow: 0 0 20px var(--primary-glow); margin-top: auto; margin-bottom: 25px; text-align: center; font-family: 'Times New Roman', serif; transition: 0.3s;}
 
-        /* UNIFIED BUTTON STYLE */
-        .ui-btn {
-            background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border); color: var(--primary);
-            padding: 10px 18px; border-radius: 8px; cursor: pointer;
-            font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
-            transition: all 0.3s ease; font-family: inherit; text-align: center;
+        .artifact-btn { 
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(15px); border: 1px solid var(--glass-border); 
+            color: var(--primary); padding: 12px 25px; border-radius: 50px; cursor: pointer; 
+            font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; transition: 0.4s ease; 
+            font-family: monospace; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .ui-btn.rounded { border-radius: 30px; }
-        .ui-btn:hover, .ui-btn.active { border-color: var(--accent); color: var(--text-main); background: rgba(255,255,255,0.05); box-shadow: 0 0 15px var(--primary-glow); }
+        .artifact-btn:hover { border-color: var(--accent); color: #fff; box-shadow: 0 0 25px var(--primary-glow); transform: translateY(-2px); background: rgba(255,255,255,0.05); }
 
-        /* --- MAKER PANEL --- */
-        #maker-panel {
-            width: 95%; max-width: 600px; margin-bottom: 40px; background: var(--glass); backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border); border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-            display: flex; flex-direction: column; overflow: hidden;
-        }
+        #export-reminder { display: none; background: #be123c; color: #fff; border: 1px solid #ff4d4d; animation: urgent-pulse 2s infinite; font-weight: bold; }
+        @keyframes urgent-pulse { 0% { box-shadow: 0 0 10px #be123c; } 50% { box-shadow: 0 0 30px #ff4d4d; transform: scale(1.05); } 100% { box-shadow: 0 0 10px #be123c; } }
 
-        .tab-bar { display: flex; border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); }
-        .tab-btn {
-            flex: 1; background: transparent; border: none; color: var(--text-muted); padding: 16px 0; font-size: 0.75rem;
-            letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: 0.3s; font-family: inherit; border-bottom: 2px solid transparent;
+        /* --- THE MAKER PANEL --- */
+        #maker-panel { 
+            width: 95%; max-width: 650px; margin-bottom: 40px; 
+            background: var(--glass); backdrop-filter: blur(40px) saturate(150%); 
+            border: 1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight);
+            border-radius: 24px; box-shadow: 0 30px 80px rgba(0,0,0,0.9), inset 0 0 20px rgba(255,255,255,0.02); 
+            display: flex; flex-direction: column; overflow: hidden; 
         }
-        .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(255,255,255,0.02); }
-        .tab-content { display: none; padding: 20px; max-height: 50vh; overflow-y: auto; }
-        .tab-content.active { display: flex; flex-direction: column; gap: 15px; }
+        .tab-bar { display: flex; border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.4); flex-wrap: wrap;}
+        .tab-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); padding: 20px 0; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: 0.3s; font-family: monospace; border-bottom: 2px solid transparent; }
+        .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); background: linear-gradient(to top, rgba(255,255,255,0.05), transparent); font-weight: bold;}
+        .tab-content { display: none; padding: 25px; max-height: 60vh; overflow-y: auto; }
+        .tab-content.active { display: flex; flex-direction: column; gap: 20px; }
         .tab-content::-webkit-scrollbar { width: 4px; }
         .tab-content::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 2px; }
 
-        .btn-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-        @media (max-width: 500px) { .btn-grid { grid-template-columns: repeat(3, 1fr); } }
-        h4.section-title { margin: 0 0 5px 0; font-size: 0.65rem; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; }
-
-        /* --- INPUTS & ZONES --- */
-        .upload-zone {
-            border: 1px dashed var(--glass-border); padding: 15px; text-align: center; border-radius: 10px; cursor: pointer;
-            color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: rgba(0,0,0,0.2);
-        }
+        /* --- CONTROLS & BUTTONS --- */
+        .upload-zone { border: 1px dashed var(--glass-border); padding: 20px; text-align: center; border-radius: 12px; cursor: pointer; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 3px; transition: 0.3s; background: rgba(0,0,0,0.3); display: block; width: 100%; font-family: monospace;}
         .upload-zone:hover { background: rgba(255,255,255,0.05); color: var(--primary); border-color: var(--primary); }
         .upload-zone input { display: none; }
         
-        .core-input {
-            flex: 1; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); padding: 8px; 
-            color: var(--text-main); border-radius: 6px; outline: none; font-family: inherit; font-size: 0.75rem; transition: 0.3s;
-        }
-        .core-input:focus { border-color: var(--accent); }
+        .btn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; }
+        .toy-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: var(--text-main); padding: 12px; border-radius: 10px; cursor: pointer; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05); }
+        .toy-btn:hover, .toy-btn.active { border-color: var(--accent); background: rgba(255,255,255,0.08); color: var(--text-main); box-shadow: 0 5px 15px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1); }
+        
+        h4.section-title { margin: 0 0 5px 0; font-size: 0.75rem; color: var(--primary); letter-spacing: 3px; text-transform: uppercase; opacity: 0.9; font-family: monospace; border-bottom: 1px solid var(--glass-border); padding-bottom: 8px;}
+        .core-input { width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: var(--primary); padding: 12px 15px; border-radius: 10px; outline: none; font-family: monospace; font-size: 0.85rem; transition: 0.3s; }
+        .core-input:focus { border-color: var(--accent); box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 15px var(--primary-glow); }
 
-        /* --- MIXER & SLIDERS --- */
-        .mixer-card { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; gap: 10px; transition: 0.3s; }
-        .mixer-card.playing { border-color: var(--accent); background: rgba(255,255,255,0.05); }
-        .mixer-btn { background: none; border: none; color: var(--text-muted); font-size: 0.8rem; text-align: left; cursor: pointer; font-family: inherit; flex: 1; padding: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: 0.3s; }
-        .mixer-card.playing .mixer-btn { color: var(--accent); text-shadow: 0 0 10px var(--primary-glow); }
-        .mixer-slider { -webkit-appearance: none; width: 80px; height: 3px; background: rgba(255,255,255,0.1); outline: none; border-radius: 2px; }
-        .mixer-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: var(--accent); border-radius: 50%; cursor: pointer; box-shadow: 0 0 8px var(--primary-glow); }
+        /* --- AUDIO MIXER PRO --- */
+        .mixer-card { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; gap: 15px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.02); transition: 0.3s;}
+        .mixer-card.playing { border-color: var(--accent); background: rgba(255,255,255,0.05); box-shadow: 0 5px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1); }
+        .mixer-btn { background: none; border: none; color: var(--text-muted); font-size: 0.9rem; text-align: left; cursor: pointer; font-family: 'Georgia', serif; flex: 1; padding: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .mixer-card.playing .mixer-btn { color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); font-style: italic;}
+        .mixer-slider { -webkit-appearance: none; width: 100px; height: 4px; background: rgba(255,255,255,0.1); outline: none; border-radius: 2px; }
+        .mixer-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--accent); border-radius: 50%; cursor: pointer; box-shadow: 0 0 10px var(--primary-glow); }
+        
+        .ctrl-row { display: flex; align-items: center; justify-content: space-between; gap: 15px; background: rgba(0,0,0,0.4); padding: 12px 18px; border-radius: 12px; border: 1px solid var(--glass-border);}
+        .ctrl-row label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; width: 100px; font-family: monospace; letter-spacing: 1px;}
+        .ctrl-slider { flex: 1; -webkit-appearance: none; height: 4px; background: rgba(255,255,255,0.1); outline: none; border-radius: 2px; accent-color: var(--primary); }
 
-        .ctrl-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-        .ctrl-row label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; width: 80px; }
-        .ctrl-slider { flex: 1; -webkit-appearance: none; height: 3px; background: rgba(255,255,255,0.1); outline: none; border-radius: 2px; accent-color: var(--primary); }
-
-        /* --- MODALS --- */
-        .modal-overlay { position: fixed; inset: 0; z-index: 200; display: none; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px; }
+        /* --- MODALS & DIALOGS --- */
+        .modal-overlay { position: fixed; inset: 0; z-index: 500; display: none; background: rgba(0,0,0,0.85); backdrop-filter: blur(25px); align-items: center; justify-content: center; padding: 20px; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .modal-overlay.active { display: flex; }
+        .cast-box { width: 100%; max-width: 500px; background: var(--glass); border: 1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-radius: 24px; padding: 40px; box-shadow: 0 40px 100px rgba(0,0,0,0.9); text-align: center; }
+        
+        #somnia-dialog { z-index: 10000; }
+        #somnia-dialog .cast-box { padding: 35px; max-width: 400px; text-align: center; align-items: center; }
 
-        .app-bubble {
-            width: 100%; max-width: 900px; max-height: 85vh; background: rgba(6, 6, 8, 0.98); border: 1px solid var(--glass-border);
-            border-radius: 20px; padding: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); display: flex; flex-direction: column; gap: 15px; overflow: hidden;
-        }
-        .archive-vault {
-            width: 100%; height: 55vh; background: rgba(0,0,0,0.8); border: 1px solid var(--primary); border-radius: 12px; padding: 20px; box-sizing: border-box;
-            display: flex; flex-direction: column; gap: 15px; box-shadow: 0 0 40px #000, inset 0 0 30px var(--primary-glow);
-        }
-        .vault-header { border-bottom: 1px solid var(--primary); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-end; }
-        .vault-header h2 { margin: 0; font-size: 1.2rem; letter-spacing: 8px; text-transform: uppercase; color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); }
+        /* --- SOMNIASCHEDS PLANNER --- */
+        .sched-card { background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.03); }
+        .sched-header-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 0.75rem; color: var(--text-muted); font-family: monospace; letter-spacing: 1px;}
+        .sched-header-main { font-size: 1.1rem; letter-spacing: 3px; text-transform: uppercase; color: var(--primary); font-family: 'Times New Roman', serif; }
+        .sched-calendar-nav { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 0.8rem; font-family: monospace;}
+        .sched-calendar-month { text-align: center; flex: 1; letter-spacing: 3px; text-transform: uppercase; color: var(--primary); }
+        .sched-calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 10px; font-size: 0.7rem; font-family: monospace;}
+        .sched-day-label { text-align: center; opacity: 0.5; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid var(--glass-border); padding-bottom: 5px;}
+        .sched-day { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; border-radius: 8px; border: 1px solid rgba(255,255,255,0.03); cursor: pointer; transition: 0.2s; background: rgba(0,0,0,0.2);}
+        .sched-day:hover { border-color: var(--accent); background: rgba(255,255,255,0.05); }
+        .sched-day.today { border-color: var(--accent); box-shadow: inset 0 0 15px rgba(255,255,255,0.1); font-weight: bold; color: var(--primary); }
+        .sched-day.has-event { background: rgba(255,255,255,0.08); border-color: var(--glass-border); }
+        .sched-day.selected { background: var(--primary); color: #000; font-weight: bold; border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
+        .sched-section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); opacity: 0.9; font-family: monospace;}
+        .sched-subtext { font-size: 0.65rem; color: var(--text-muted); font-family: monospace;}
+        
+        .sched-input-row { display: flex; gap: 8px; align-items: center; }
+        .sched-textarea { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text-main); font-family: 'Georgia', serif; font-size: 0.9rem; padding: 12px 15px; outline: none; transition: 0.3s; resize: vertical; min-height: 80px; width: 100%; line-height: 1.5; }
+        .sched-textarea:focus { border-color: var(--accent); box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 10px rgba(165,180,252,0.1); }
+        
+        .sched-list { display: flex; flex-direction: column; gap: 8px; max-height: 200px; overflow-y: auto; padding-right: 5px; }
+        .sched-list::-webkit-scrollbar { width: 2px; }
+        .sched-list::-webkit-scrollbar-thumb { background: var(--primary); }
+        .sched-list-item { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 0.9rem; background: rgba(0,0,0,0.5); border-radius: 10px; padding: 12px 15px; border: 1px solid var(--glass-border); transition: 0.2s;}
+        .sched-list-item:hover { border-color: var(--accent); }
+        .sched-delete-btn { background: none; border: none; color: #fb7185; cursor: pointer; font-size: 0.9rem; opacity: 0.6; transition: 0.3s;}
+        .sched-delete-btn:hover { opacity: 1; transform: scale(1.2); }
 
-        /* --- SCRIBE --- */
-        #search-annals { background: rgba(0,0,0,0.5); border: none; border-bottom: 1px solid var(--primary); color: var(--primary); font-family: monospace; font-size: 0.8rem; padding: 5px; outline: none; width: 180px; text-transform: uppercase; letter-spacing: 2px; }
-        .annals-body { flex: 1; overflow-y: auto; padding-right: 10px; scrollbar-width: none; }
+        .tally-row { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.4); padding: 12px 15px; border-radius: 10px; border: 1px solid var(--glass-border); transition: 0.3s;}
+        .tally-name { background: transparent; border: none; color: var(--primary); font-size: 0.8rem; font-family: monospace; outline: none; width: 120px; text-transform: uppercase; letter-spacing: 2px;}
+        .tally-val { font-size: 1.5rem; font-weight: bold; font-family: monospace; color: var(--text-main); min-width: 40px; text-align: center; }
+
+        .sched-timer-display { font-size: 3.5rem; letter-spacing: 6px; font-family: monospace; color: var(--primary); text-shadow: 0 0 25px var(--primary-glow); text-align: center; margin: 15px 0; transition: 0.3s;}
+        .timer-flash { animation: pulseAlert 1s infinite alternate; color: #fb7185 !important; text-shadow: 0 0 30px #fb7185 !important; }
+
+        /* --- ACADEMY TAB --- */
+        .badge { padding: 4px 8px; border-radius: 6px; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; font-family: monospace; border: 1px solid transparent; cursor: pointer;}
+        .badge.present { background: rgba(52, 211, 153, 0.2); color: #34d399; border-color: #34d399; }
+        .badge.absent { background: rgba(251, 113, 133, 0.2); color: #fb7185; border-color: #fb7185; }
+        .badge.default { background: rgba(0,0,0,0.5); border-color: var(--glass-border); color: var(--text-muted); }
+        .log-row { display: flex; justify-content: space-between; font-size: 0.8rem; padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); font-family: monospace;}
+
+        /* --- SCRIBES & ORACLE MODALS --- */
+        .scribes-bubble { width: 100%; max-width: 800px; height: 85vh; background: rgba(6, 6, 8, 0.95); backdrop-filter: blur(40px) saturate(150%); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 30px; box-shadow: 0 30px 100px rgba(0,0,0,0.9); display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
+        .archive-vault { width: 100%; flex: 1; background: rgba(0,0,0,0.6); border: 1px solid var(--glass-border); border-radius: 16px; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; gap: 15px; box-shadow: inset 0 0 40px rgba(0,0,0,0.8); }
+        .vault-header { border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 15px; }
+        .vault-header h2 { margin: 0; font-size: 1.5rem; letter-spacing: 8px; text-transform: uppercase; color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); font-family: 'Times New Roman', serif;}
+        #search-annals { background: rgba(0,0,0,0.6); border: 1px solid var(--glass-border); color: var(--primary); font-family: monospace; font-size: 0.85rem; padding: 10px 15px; border-radius: 8px; outline: none; width: 220px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;}
+        #search-annals:focus { border-color: var(--accent); box-shadow: 0 0 10px var(--primary-glow); }
+        
+        .annals-body { flex: 1; overflow-y: auto; padding-right: 10px; scrollbar-width: none; display: flex; flex-direction: column; gap: 15px;}
         .annals-body::-webkit-scrollbar { display: none; }
-        .lore-entry { position: relative; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; }
-        .entry-meta { font-size: 0.6rem; color: var(--primary); opacity: 0.6; letter-spacing: 2px; margin-bottom: 4px; }
-        .lore-input { background: rgba(0,0,0,0.6); border: none; border-left: 2px solid var(--primary); color: var(--primary); padding: 12px; outline: none; resize: none; font-family: monospace; font-size: 0.9rem; }
-        
-        /* --- ORACLE --- */
-        .oracle-chat-body { flex: 1; overflow-y: auto; padding-right: 10px; display: flex; flex-direction: column; gap: 10px; scrollbar-width: none; }
-        .oracle-msg { padding: 10px 15px; border-radius: 10px; max-width: 85%; font-family: sans-serif; font-size: 0.85rem; line-height: 1.5; }
-        .oracle-msg.user { background: rgba(255,255,255,0.05); align-self: flex-end; color: var(--text-main); border: 1px solid var(--glass-border); }
-        .oracle-msg.ai { background: var(--primary-glow); align-self: flex-start; color: var(--text-main); border: 1px solid var(--primary); }
+        .lore-entry { position: relative; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .entry-meta { font-size: 0.65rem; color: var(--accent); opacity: 0.8; letter-spacing: 3px; margin-bottom: 10px; font-family: monospace; text-transform: uppercase;}
+        .shred-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); border-radius: 6px; color: var(--text-muted); font-size: 0.8rem; padding: 5px 10px; cursor: pointer; opacity: 0.5; transition: 0.3s; font-family: monospace;}
+        .shred-btn:hover { opacity: 1; color: #fb7185; border-color: #fb7185; background: rgba(251,113,133,0.1);}
+        .entry-text { font-size: 1rem; line-height: 1.7; color: var(--text-main); font-family: 'Georgia', serif; }
+        .entry-img { max-width: 100%; border-radius: 8px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.1); }
 
-        /* --- SCHEDS --- */
-        .sched-card { background: rgba(0,0,0,0.35); border: 1px solid var(--glass-border); border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
-        .sched-header-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 0.7rem; color: var(--text-muted); }
-        .sched-header-main { font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--primary); }
-        .sched-calendar-nav { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 0.75rem; }
-        .sched-calendar-month { text-align: center; flex: 1; letter-spacing: 2px; text-transform: uppercase; color: var(--primary); }
-        .sched-calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 6px; font-size: 0.65rem; }
-        .sched-day-label { text-align: center; opacity: 0.6; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); }
-        .sched-day { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.2s; color: var(--text-main); }
-        .sched-day:hover { border-color: var(--accent); }
-        .sched-day.today { border-color: var(--accent); box-shadow: 0 0 10px rgba(0,0,0,0.8); background: rgba(255,255,255,0.05); }
-        .sched-day.has-event { border-bottom: 2px solid var(--primary); }
-        .sched-day.selected { background: var(--primary-glow); border-color: var(--primary); color: var(--text-main); }
-        .sched-section-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); opacity: 0.9; }
-        .sched-subtext { font-size: 0.65rem; color: var(--text-muted); }
-        .sched-input-row { display: flex; gap: 6px; align-items: center; }
-        .sched-list { display: flex; flex-direction: column; gap: 6px; max-height: 120px; overflow-y: auto; }
-        .sched-list-item { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: 0.7rem; background: rgba(0,0,0,0.5); border-radius: 8px; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.06); }
-        .sched-timer-display { font-size: 1.5rem; letter-spacing: 3px; color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); text-align: center; margin: 10px 0; font-family: monospace; }
-        
-        /* --- ACADEMY --- */
-        .badge { padding: 3px 6px; border-radius: 4px; font-size: 0.6rem; letter-spacing: 1px; text-transform: uppercase; transition: 0.3s; border: 1px solid transparent; }
-        .badge.present { background: var(--primary-glow); color: var(--text-main); border-color: var(--primary); }
-        .badge.absent { background: rgba(0,0,0,0.5); color: var(--text-muted); border-color: var(--glass-border); }
-        .log-row { display: flex; justify-content: space-between; font-size: 0.75rem; padding: 5px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); }
+        .editor-container { display: flex; gap: 10px; background: rgba(0,0,0,0.8); border: 1px solid var(--glass-border); border-radius: 12px; padding: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);}
+        .lore-input { flex: 1; background: transparent; border: none; color: var(--text-main); outline: none; resize: none; font-family: 'Georgia', serif; font-size: 1rem; line-height: 1.6; padding: 5px;}
+        .editor-tools { display: flex; flex-direction: column; gap: 8px; justify-content: flex-end;}
 
-        .kore-footer { font-size: 0.55rem; opacity: 0.4; letter-spacing: 6px; text-transform: uppercase; text-align: center; width: 100%; color: var(--primary); }
+        .oracle-chat-body { flex: 1; overflow-y: auto; padding-right: 10px; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none; }
+        .oracle-msg { padding: 15px 20px; border-radius: 12px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; font-family: 'Georgia', serif; }
+        .oracle-msg.user { background: rgba(255,255,255,0.05); align-self: flex-end; color: var(--text-main); border: 1px solid var(--glass-border); border-bottom-right-radius: 2px;}
+        .oracle-msg.ai { background: rgba(0,0,0,0.6); align-self: flex-start; color: var(--primary); border: 1px solid var(--primary); border-bottom-left-radius: 2px; box-shadow: 0 0 15px rgba(0,0,0,0.5);}
     </style>
 </head>
-<body id="os-body" class="lunar-mode" onclick="restoreUI()">
+<body id="os-body" class="lunar-mode">
+
+    <div id="landing-page">
+        <div class="landing-kore-orb"></div>
+        <div class="landing-container">
+            <h1 class="hero-title">SOMNIASCHEDS</h1>
+            <div class="hero-subtitle">The Sovereign Academy & Digital Sanctuary</div>
+            
+            <p class="hero-description">
+                Reject the bloated, cloud-dependent noise. SomniaScheds is a private, offline-first command center blending a minimalist day planner, somatic journal, and educational roster management within a deeply immersive, ambient environment.
+            </p>
+
+            <button class="cta-btn" onclick="enterSanctuary()">ENTER THE SANCTUARY</button>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3 class="feature-title">The Academy</h3>
+                    <p class="feature-text">Built for private educators and sovereign learning. Manage student rosters, log attendance, and securely record subject grades entirely offline.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Local-First Storage</h3>
+                    <p class="feature-text">Zero cloud reliance. High-fidelity background images, audio stems, and private journals are archived securely in your browser's IndexedDB.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👁️‍🗨️</div>
+                    <h3 class="feature-title">The Oracle Connection</h3>
+                    <p class="feature-text">Store your own API key locally to commune with Gemini. Generate deep lore or curriculum ideas instantly from within the sanctuary.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🖋️</div>
+                    <h3 class="feature-title">SomniaScribes</h3>
+                    <p class="feature-text">An immutable, timestamped digital grimoire. Attach imagery with local compression and export your entire workspace as a single master JSON backup.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🕰️</div>
+                    <h3 class="feature-title">Focus & Flow</h3>
+                    <p class="feature-text">A distraction-free day planner equipped with daily tallies, task management, and a timer that gently breaks your focus with synthesized audio chimes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3 class="feature-title">Atmospheric Engine</h3>
+                    <p class="feature-text">Transform your workspace into a physical mood. Mix custom Web Audio layers, render live particle systems, and cast the visual directly to your displays.</p>
+                </div>
+            </div>
+
+            <div class="landing-footer">
+                © PROJECT KORE LLC // SOVEREIGNTY RESTORED
+            </div>
+        </div>
+    </div>
+
+    <div id="somnia-dialog" class="modal-overlay">
+        <div class="cast-box">
+            <h3 id="dialog-title" style="color: var(--primary); letter-spacing: 4px; margin-top: 0; text-transform: uppercase; font-family: 'Times New Roman', serif;">Notice</h3>
+            <p id="dialog-msg" style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; font-style: italic;"></p>
+            <input type="text" id="dialog-input" class="core-input" style="display:none;">
+            <div style="display:flex; gap:15px; width:100%;">
+                <button id="dialog-cancel" class="toy-btn" style="flex:1; padding: 15px; font-size: 0.8rem;">Nevermind</button>
+                <button id="dialog-confirm" class="toy-btn" style="flex:1; padding: 15px; font-size: 0.8rem; border-color:var(--accent); background: rgba(255,255,255,0.05);">Confirm</button>
+            </div>
+        </div>
+    </div>
 
     <div id="bg-anchor"></div>
     <div id="glow-layer" class="glow-pulse"></div>
     <canvas id="particleCanvas"></canvas>
 
-    <div id="ui-wrapper">
+    <div id="ui-wrapper" style="opacity: 0; pointer-events: none;" onclick="restoreUI()">
         <div id="top-nav" onclick="event.stopPropagation()">
-            <button class="ui-btn rounded" onclick="toggleCloak()">Cloak</button>
-            <button class="ui-btn rounded" onclick="toggleModal('scratchpad-modal')">SCRIBE</button>
-            <button class="ui-btn rounded" onclick="toggleModal('oracle-modal')">ORACLE</button>
-            <button class="ui-btn rounded" onclick="toggleFullscreen()">Projector</button>
-            <button id="shareButton" class="ui-btn rounded">Share</button>
+            <button class="artifact-btn" onclick="toggleCloak()">Focus Mode</button>
+            <button class="artifact-btn" onclick="toggleModal('scratchpad-modal')">Scribes (Journal)</button>
+            <button class="artifact-btn" onclick="toggleModal('oracle-modal')">The Oracle</button>
+            <button class="artifact-btn" onclick="toggleModal('cast-modal')">Projector</button>
+            <button id="export-reminder" class="artifact-btn" onclick="exportFullArchive()">⚠️ Export Backup</button>
         </div>
 
-        <div class="nav-logo">SOMNIASCAPES</div>
+        <div class="nav-logo" onclick="restoreUI()">SOMNIASCHEDS</div>
 
         <main id="maker-panel" onclick="event.stopPropagation()">
             <div class="tab-bar">
-                <button class="tab-btn active" onclick="switchTab('tab-audio', this)">Audio</button>
+                <button class="tab-btn" onclick="switchTab('tab-audio', this)">Audio</button>
                 <button class="tab-btn" onclick="switchTab('tab-canvas', this)">Canvas</button>
                 <button class="tab-btn" onclick="switchTab('tab-atmos', this)">Atmos</button>
-                <button class="tab-btn" onclick="switchTab('tab-academy', this)">Academy</button>
-                <button class="tab-btn" onclick="switchTab('tab-scheds', this)">Scheds</button>
+                <button class="tab-btn active" onclick="switchTab('tab-academy', this)">Academy</button>
+                <button class="tab-btn" onclick="switchTab('tab-scheds', this)">Planner</button>
                 <button class="tab-btn" onclick="switchTab('tab-vault', this)">Vault</button>
             </div>
 
-            <div id="tab-audio" class="tab-content active">
-                <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
-                    <label class="ui-btn" style="flex:1; text-align:center;">
-                        + Custom Audio
+            <div id="tab-audio" class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <label class="toy-btn" style="flex:1; text-align:center; margin-right:15px; padding: 15px;">
+                        + Upload Custom Audio
                         <input type="file" style="display:none;" accept="audio/*" onchange="handleAudioUpload(this)">
                     </label>
-                    <button class="ui-btn" onclick="stopAllAudio()" style="flex:1;">Silence All</button>
+                    <button class="toy-btn" onclick="stopAllAudio()" style="border-color:#fb7185; color:#fb7185; padding: 15px;">Silence All</button>
                 </div>
-                <div id="mixer-container" style="display:flex; flex-direction:column; gap:8px;"></div>
+                <div class="ctrl-row" style="margin-top: 10px;">
+                    <label style="color: var(--primary);">Master Gain</label>
+                    <input type="range" class="ctrl-slider" id="master-gain-slider" min="0" max="2" step="0.1" value="1" oninput="setMasterGain(this.value)">
+                </div>
+                <div id="mixer-container" style="display:flex; flex-direction:column; gap:10px; margin-top: 10px;"></div>
             </div>
 
             <div id="tab-canvas" class="tab-content">
-                <h4 class="section-title">Backgrounds</h4>
-                <div class="btn-grid" id="bg-presets"></div>
-                <h4 class="section-title" style="margin-top:10px;">Custom</h4>
+                <h4 class="section-title">Saved Backgrounds</h4>
+                <div class="btn-grid" id="custom-bgs" style="display: flex; flex-direction: column; gap: 10px;"></div>
+                <h4 class="section-title" style="margin-top:20px;">Upload New</h4>
                 <label class="upload-zone">
                     <span>+ Upload Local Background Image</span>
                     <input type="file" accept="image/*" onchange="executeImageUpload(this)">
@@ -256,166 +352,230 @@
             </div>
 
             <div id="tab-atmos" class="tab-content">
-                <h4 class="section-title">10 Color Arrays</h4>
+                <h4 class="section-title">Color Palettes</h4>
                 <div class="btn-grid" id="color-grid"></div>
-                <h4 class="section-title" style="margin-top:10px;">10 Particles</h4>
+                <h4 class="section-title" style="margin-top:15px;">Particle Types</h4>
                 <div class="btn-grid" id="particle-grid"></div>
-                <h4 class="section-title" style="margin-top:10px;">10 Screen Glows</h4>
+                <h4 class="section-title" style="margin-top:15px;">Screen Glows</h4>
                 <div class="btn-grid" id="glow-grid"></div>
-                <h4 class="section-title" style="margin-top:10px;">Particle Colors</h4>
+                
+                <h4 class="section-title" style="margin-top:25px; color: var(--accent);">Advanced: Colors</h4>
                 <div class="btn-grid" id="particle-color-grid"></div>
-                <h4 class="section-title" style="margin-top:10px;">Glow Colors</h4>
-                <div class="btn-grid" id="glow-color-grid"></div>
+                <div class="btn-grid" id="glow-color-grid" style="margin-top: 10px;"></div>
 
-                <h4 class="section-title" style="margin-top:10px;">Master Sliders</h4>
-                <div class="ctrl-row"><label>Speed</label><input type="range" class="ctrl-slider" min="1" max="20" value="10" oninput="updateVar('--anim-speed', (21-this.value)+'s')"></div>
-                <div class="ctrl-row"><label>Opacity</label><input type="range" class="ctrl-slider" min="0" max="1" step="0.1" value="0.3" oninput="updateVar('--glow-opac', this.value)"></div>
-                <div class="ctrl-row"><label>Brightness</label><input type="range" class="ctrl-slider" min="0.2" max="2" step="0.1" value="0.85" oninput="updateVar('--bg-bright', this.value)"></div>
-                <div class="ctrl-row"><label>Zoom</label><input type="range" class="ctrl-slider" min="1" max="2" step="0.1" value="1" oninput="updateVar('--bg-zoom', this.value)"></div>
-                <div class="ctrl-row"><label>Density</label><input type="range" class="ctrl-slider" min="10" max="200" value="50" step="10" oninput="updateParticleDensity(this.value)"></div>
-                <div class="ctrl-row"><label>Low GPU</label><input type="checkbox" id="lowGpuToggle" onclick="toggleLowGpu()"></div>
+                <h4 class="section-title" style="margin-top:25px; color: var(--accent);">Advanced: Engine</h4>
+                <div class="ctrl-row"><label>Speed</label><input type="range" class="ctrl-slider" id="speed-slider" min="1" max="20" value="10" oninput="updateVar('--anim-speed', (21-this.value)+'s'); flagUnsaved();"></div>
+                <div class="ctrl-row"><label>Opacity</label><input type="range" class="ctrl-slider" id="opac-slider" min="0" max="1" step="0.1" value="0.3" oninput="updateVar('--glow-opac', this.value); flagUnsaved();"></div>
+                <div class="ctrl-row"><label>Brightness</label><input type="range" class="ctrl-slider" id="bright-slider" min="0.2" max="2" step="0.1" value="0.85" oninput="updateVar('--bg-bright', this.value); flagUnsaved();"></div>
+                <div class="ctrl-row"><label>Density</label><input type="range" class="ctrl-slider" id="density-slider" min="10" max="200" value="50" step="10" oninput="updateParticleDensity(this.value); flagUnsaved();"></div>
             </div>
 
-            <div id="tab-academy" class="tab-content">
-                <div style="display: flex; gap: 5px; margin-bottom: 10px;">
-                    <input type="text" id="new-student-name" class="core-input" placeholder="Student name...">
-                    <button class="ui-btn" onclick="addStudent()">Add Student</button>
+            <div id="tab-academy" class="tab-content active">
+                <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px;">
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <input type="text" id="new-student-name" class="core-input" style="margin:0;" placeholder="Add student name...">
+                        <button class="toy-btn" style="padding: 10px 20px;" onclick="addStudent()">Add</button>
+                    </div>
                 </div>
-                <div style="display: flex; gap: 10px;">
-                    <button class="ui-btn" style="flex: 1;" onclick="exportAcademyData()">📤 Export JSON</button>
-                    <button class="ui-btn" style="flex: 1;" onclick="document.getElementById('academy-import-trigger').click()">📥 Import JSON</button>
-                </div>
-                <input type="file" id="academy-import-trigger" style="display:none" accept=".json" onchange="importAcademyData(event)">
-                <div id="academy-container" style="margin-top: 15px;"></div>
+                <div id="academy-container" style="display: flex; flex-direction: column; gap: 15px; margin-top: 5px;"></div>
             </div>
 
             <div id="tab-scheds" class="tab-content">
-                <div class="sched-card">
-                    <div class="sched-header-row">
-                        <div>
-                            <div class="sched-header-main" id="sched-today-label">Today</div>
-                            <div class="sched-subtext" id="sched-today-date"></div>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <div class="sched-card" style="flex: 1.5; min-width: 250px;">
+                        <div class="sched-header-row">
+                            <div>
+                                <div class="sched-header-main" id="sched-today-label">Today</div>
+                                <div class="sched-subtext" id="sched-today-date"></div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div class="sched-subtext" id="sched-time-label" style="font-size: 1.2rem; color: var(--primary);">--:--</div>
+                            </div>
                         </div>
-                        <div style="text-align:right;">
-                            <div class="sched-subtext" id="sched-time-label">--:--</div>
-                            <div class="sched-subtext" id="sched-weather-label">Weather: --</div>
+                        <div class="sched-calendar-nav" style="margin-top: 15px;">
+                            <button class="toy-btn" style="padding: 6px 12px; border-radius: 20px;" onclick="changeSchedsMonth(-1)">◀</button>
+                            <div class="sched-calendar-month" id="sched-month-label"></div>
+                            <button class="toy-btn" style="padding: 6px 12px; border-radius: 20px;" onclick="changeSchedsMonth(1)">▶</button>
+                        </div>
+                        <div class="sched-calendar-grid" id="sched-calendar-grid"></div>
+                    </div>
+                    
+                    <div class="sched-card" style="flex: 1; min-width: 200px; display: flex; justify-content: center; align-items: center;">
+                        <div class="sched-section-title" style="width: 100%; text-align: left;">Focus Timer</div>
+                        <div class="sched-timer-display" id="sched-timer-display">25:00</div>
+                        <div class="sched-timer-controls" style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+                            <button class="toy-btn" onclick="startSchedsTimer()" style="border-color: #34d399; color: #34d399; border-radius:20px;">Start</button>
+                            <button class="toy-btn" onclick="pauseSchedsTimer()" style="border-radius:20px;">Pause</button>
+                            <button class="toy-btn" onclick="resetSchedsTimer()" style="border-radius:20px;">Reset</button>
+                        </div>
+                        <div class="sched-input-row" style="margin-top: 15px; justify-content: center;">
+                            <input id="sched-timer-minutes" class="core-input" type="number" min="1" max="180" value="25" style="width: 70px; text-align: center; margin:0; padding: 8px;" onchange="setSchedsPreset(this.value)">
+                            <span class="sched-subtext">mins</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="sched-card">
-                    <div class="sched-calendar-nav">
-                        <button class="ui-btn" style="padding: 4px 10px;" onclick="changeSchedsMonth(-1)">◀</button>
-                        <div class="sched-calendar-month" id="sched-month-label"></div>
-                        <button class="ui-btn" style="padding: 4px 10px;" onclick="changeSchedsMonth(1)">▶</button>
-                    </div>
-                    <div class="sched-calendar-grid" id="sched-calendar-grid"></div>
+                    <div class="sched-section-title">Daily Tallies</div>
+                    <div id="tallies-container" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;"></div>
+                    <button class="toy-btn" style="align-self: flex-start; margin-top: 10px; border-radius:20px; padding: 8px 15px;" onclick="addTally()">+ Add Tracker</button>
                 </div>
 
                 <div class="sched-card">
                     <div class="sched-section-title">Day Plan</div>
                     <div class="sched-subtext" id="sched-selected-date-label">Select a day to plan.</div>
-                    <div class="sched-input-row" style="margin-top:6px;">
-                        <input id="sched-event-title" class="core-input" type="text" placeholder="Task description">
-                        <input id="sched-event-time" class="core-input" style="max-width: 90px;" type="time">
-                        <button class="ui-btn" onclick="addSchedsEvent()">Add</button>
+                    <div class="sched-input-row" style="margin-top:15px;">
+                        <input id="sched-event-title" class="core-input" style="margin:0;" type="text" placeholder="Task or event...">
+                        <input id="sched-event-time" class="core-input" style="margin:0; max-width:100px;" type="time">
+                        <button class="toy-btn" style="padding: 10px 20px;" onclick="addSchedsEvent()">Add</button>
                     </div>
-                    <div class="sched-list" id="sched-event-list"></div>
+                    <div class="sched-list" id="sched-event-list" style="margin-top: 15px;"></div>
                 </div>
 
                 <div class="sched-card">
-                    <div class="sched-section-title">Notes</div>
-                    <textarea id="sched-note-input" class="core-input sched-textarea" placeholder="Type a note and press Enter..."></textarea>
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 5px;">
-                        <button class="ui-btn" onclick="addSchedsNote()">Save Note</button>
-                        <span class="sched-subtext" id="sched-note-hint"></span>
-                    </div>
-                    <div class="sched-list" id="sched-note-list" style="margin-top: 5px;"></div>
-                </div>
-
-                <div class="sched-card">
-                    <div class="sched-section-title">Timer</div>
-                    <div class="sched-input-row">
-                        <input id="sched-timer-minutes" class="core-input" type="number" min="1" max="180" value="25" style="max-width: 80px;">
-                        <span class="sched-subtext">minutes</span>
-                    </div>
-                    <div class="sched-timer-display" id="sched-timer-display">25:00</div>
-                    <div style="display: flex; gap: 6px; flex-wrap: wrap; justify-content: center;">
-                        <button class="ui-btn" onclick="startSchedsTimer()">Start</button>
-                        <button class="ui-btn" onclick="pauseSchedsTimer()">Pause</button>
-                        <button class="ui-btn" onclick="resetSchedsTimer()">Reset</button>
-                        <button class="ui-btn" onclick="setSchedsPreset(25,5)">25m</button>
-                        <button class="ui-btn" onclick="setSchedsPreset(5,0)">5m</button>
-                    </div>
+                    <div class="sched-section-title">Quick Notes</div>
+                    <textarea id="sched-note-input" class="sched-textarea" placeholder="Type a note and press 'Save'..." style="margin-top: 10px;"></textarea>
+                    <button class="toy-btn" style="align-self: flex-end; margin-top: 10px; padding: 10px 20px; border-radius: 20px;" onclick="addSchedsNote()">Save Note</button>
+                    <div class="sched-list" id="sched-note-list" style="margin-top: 15px;"></div>
                 </div>
             </div>
 
             <div id="tab-vault" class="tab-content">
-                <button class="ui-btn" id="save-btn" style="padding: 15px;" onclick="savePreset()">💾 Save Current Vibe Preset</button>
-                <div style="display: flex; gap: 10px; margin-top: 10px;">
-                    <button class="ui-btn" style="flex: 1;" onclick="exportVaultPresets()">📤 Export Vault JSON</button>
-                    <button class="ui-btn" style="flex: 1;" onclick="document.getElementById('vault-import-trigger').click()">📥 Import Vault JSON</button>
-                </div>
-                <input type="file" id="vault-import-trigger" style="display:none" accept=".json" onchange="importVaultPresets(event)">
-
-                <h4 class="section-title" style="margin-top: 25px;">Oracle Connection</h4>
-                <p style="font-size: 0.65rem; color: var(--text-muted); line-height: 1.4;">Store your Gemini API key locally to enable the Oracle chat module. Never leaves your browser.</p>
-                <div style="display: flex; gap: 5px;">
-                    <input type="password" id="gemini-key-input" class="core-input" placeholder="AIzaSy...">
-                    <button class="ui-btn" id="save-key-btn" onclick="saveApiKey()">Save Key</button>
+                <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 25px; text-align: center; border: 1px dashed var(--glass-border); margin-bottom: 20px;">
+                    <h4 class="section-title" style="border: none; margin-bottom: 10px; font-size:1rem; letter-spacing: 5px;">Total Sanctuary Backup</h4>
+                    <p class="sched-subtext" style="margin-bottom: 20px; font-size:0.8rem; line-height: 1.5;">Export your Academy rosters, Scheds planner, Scribes journal, and environment vibes into a single secure file.</p>
+                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <button class="toy-btn" style="padding: 15px 30px; border-color: var(--primary); font-size: 0.8rem; font-weight: bold;" onclick="exportFullArchive()">📤 Export Secure JSON</button>
+                        <label class="toy-btn" style="padding: 15px 30px; font-size: 0.8rem;">
+                            📥 Import JSON <input type="file" accept=".json" style="display:none;" onchange="importFullArchive(event)">
+                        </label>
+                    </div>
                 </div>
                 
-                <div id="vault-list" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;"></div>
+                <h4 class="section-title" style="margin-top: 10px;">API Keys</h4>
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <input type="password" id="gemini-key-input" class="core-input" style="margin:0;" placeholder="Gemini API Key...">
+                    <button class="toy-btn" id="save-key-btn" style="padding: 10px 20px;" onclick="saveApiKey()">Save</button>
+                </div>
+
+                <h4 class="section-title">Saved Room Vibes</h4>
+                <button class="toy-btn" id="save-btn" style="width: 100%; border-color: var(--accent); padding: 15px; margin-bottom: 15px; border-radius: 12px;" onclick="savePreset()">💾 Save Current Environment Setting</button>
+                <div id="vault-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
             </div>
         </main>
     </div>
 
     <div id="scratchpad-modal" class="modal-overlay" onclick="toggleModal('scratchpad-modal')">
-        <div class="app-bubble" onclick="event.stopPropagation()">
+        <div class="scribes-bubble" onclick="event.stopPropagation()">
             <div class="archive-vault">
                 <div class="vault-header">
                     <div>
                         <h2>SomniaScribes</h2>
-                        <div style="font-size: 0.55rem; opacity: 0.5; letter-spacing: 5px;">SOVEREIGN SOMATIC MEMORY</div>
+                        <div style="font-size: 0.65rem; opacity: 0.7; letter-spacing: 5px; font-family: monospace; color: var(--accent);">PRIVATE SOMATIC JOURNAL</div>
                     </div>
-                    <input type="text" id="search-annals" placeholder="SEARCH..." oninput="renderAnnals()">
+                    <input type="text" id="search-annals" placeholder="SEARCH ARCHIVE..." oninput="renderAnnals()">
                 </div>
                 <div id="annals" class="annals-body"></div>
-                <textarea id="lore-editor" class="lore-input" rows="3" placeholder="BEGIN A NEW ENTRY... [ENTER TO COMMIT]"></textarea>
+                
+                <div class="editor-container">
+                    <textarea id="lore-editor" class="lore-input" rows="3" placeholder="Write a new entry..."></textarea>
+                    <div class="editor-tools">
+                        <label class="toy-btn" style="padding: 10px; font-size: 0.8rem; text-align: center; border-radius: 8px;" title="Attach Image">
+                            📷 <input type="file" id="lore-img" accept="image/*" style="display:none;" onchange="attachJournalImage(this)">
+                        </label>
+                        <button class="toy-btn" style="padding: 10px; font-size: 0.8rem; font-weight: bold; color: var(--primary); border-color: var(--primary); border-radius: 8px;" onclick="commitLore()">SAVE</button>
+                    </div>
+                </div>
+                <div id="img-preview-container" style="display:none; font-size: 0.7rem; color: var(--accent); font-family: monospace;">Image Attached <button onclick="clearJournalImage()" style="background:none;border:none;color:#fb7185;cursor:pointer;">✕</button></div>
             </div>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap; width: 100%;">
-                <button class="ui-btn" style="flex: 1;" onclick="jolt('noir')">Noir</button>
-                <button class="ui-btn" style="flex: 1;" onclick="jolt('lunar')">Lunar</button>
-                <button class="ui-btn" style="flex: 1;" onclick="jolt('vellum')">Vellum</button>
-                <button class="ui-btn" style="flex: 1;" onclick="jolt('amethyst')">Amethyst</button>
-                <button class="ui-btn" style="flex: 1;" onclick="exportVault()">Export JSON</button>
-                <button class="ui-btn" style="flex: 1;" onclick="document.getElementById('import-trigger').click()">Import JSON</button>
-            </div>
-            <div class="kore-footer">© 2026 PROJECT KORE LLC // SOMNIASCRIBES</div>
-            <input type="file" id="import-trigger" style="display:none" accept=".json" onchange="importVault(event)">
         </div>
     </div>
 
     <div id="oracle-modal" class="modal-overlay" onclick="toggleModal('oracle-modal')">
-        <div class="app-bubble" onclick="event.stopPropagation()">
+        <div class="scribes-bubble" onclick="event.stopPropagation()">
             <div class="archive-vault">
                 <div class="vault-header">
                     <div>
                         <h2>The Oracle</h2>
-                        <div style="font-size: 0.55rem; opacity: 0.5; letter-spacing: 5px;">GEMINI API CONNECTION</div>
+                        <div style="font-size: 0.65rem; opacity: 0.7; letter-spacing: 5px; font-family: monospace; color: var(--accent);">PRIVATE AI ASSISTANT</div>
                     </div>
                 </div>
                 <div id="oracle-chat" class="oracle-chat-body">
-                    <div class="oracle-msg ai">Connection established. Waiting for input.</div>
+                    <div class="oracle-msg ai">Oracle connection established. How may I assist you today?</div>
                 </div>
-                <textarea id="oracle-editor" class="lore-input" rows="2" placeholder="ASK THE ORACLE... [ENTER TO SEND]"></textarea>
+                <div class="editor-container">
+                    <textarea id="oracle-editor" class="lore-input" rows="2" placeholder="Ask the Oracle... [Press ENTER to send]"></textarea>
+                </div>
             </div>
-            <div class="kore-footer">POWERED BY GEMINI 1.5 FLASH</div>
+        </div>
+    </div>
+
+    <div id="cast-modal" class="modal-overlay" onclick="toggleModal('cast-modal')">
+        <div class="cast-box" onclick="event.stopPropagation()">
+            <h3 style="color: var(--primary); letter-spacing: 4px; margin-top: 0; margin-bottom: 15px; font-family: 'Times New Roman', serif;">PROJECTOR MODE</h3>
+            <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; font-family: 'Georgia', serif; font-style: italic;">
+                Cast the scene to a TV, or expand it fully on your monitor to hide all browser distractions.
+            </p>
+            <div style="background: rgba(0,0,0,0.4); padding: 20px; border-radius: 16px; border: 1px dashed var(--glass-border); width: 100%; margin-bottom: 25px; text-align: left;">
+                <p style="font-size: 0.75rem; color: var(--primary); margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px; font-family: monospace;">How to Cast:</p>
+                <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; margin: 0; font-family: monospace;">
+                    1. Right-click the background.<br>
+                    2. Select <b>"Cast..."</b><br>
+                    3. Choose your display.<br>
+                    <i>* Make sure "Cast Tab" is selected!</i>
+                </p>
+            </div>
+            <button class="toy-btn" style="width: 100%; padding: 18px; border-color: var(--accent); color: var(--text-main); font-size: 0.8rem; border-radius: 50px;" onclick="toggleFullscreen()">⛶ Just Fill My Screen</button>
         </div>
     </div>
 
     <script>
-        // === 1. GLOBAL UI & NAVIGATION ===
+        // === 0. BOOT SEQUENCE ===
+        function enterSanctuary() {
+            const landing = document.getElementById('landing-page');
+            const ui = document.getElementById('ui-wrapper');
+            initAudioContext(); // Unlocks audio
+            landing.style.transition = 'opacity 1s ease';
+            landing.style.opacity = '0';
+            setTimeout(() => {
+                landing.remove();
+                ui.style.opacity = '1';
+                ui.style.pointerEvents = 'auto';
+            }, 1000);
+        }
+
+        // === 1. GLOBAL UI & ALERTS ===
+        let unsavedChanges = false;
+        function flagUnsaved() { 
+            unsavedChanges = true; 
+            document.getElementById('export-reminder').style.display = 'block'; 
+        }
+
+        window.addEventListener('beforeunload', (e) => {
+            if (unsavedChanges) { e.preventDefault(); e.returnValue = "Don't forget to export your sanctuary backup!"; }
+        });
+
+        const r = document.documentElement;
+        const palettes = {
+            'lunar': { primary: '#e0e7ff', accent: '#a5b4fc', glow: 'rgba(224,231,255,0.4)', border: 'rgba(199,210,254,0.2)', text: '#fdfbf7' },
+            'noir': { primary: '#D4AF37', accent: '#f59e0b', glow: 'rgba(212,175,55,0.4)', border: 'rgba(212,175,55,0.2)', text: '#F4EBD0' },
+            'vellum': { primary: '#C2B280', accent: '#d97706', glow: 'rgba(194,178,128,0.4)', border: 'rgba(194,178,128,0.2)', text: '#fefce8' },
+            'amethyst': { primary: '#d8b4e2', accent: '#2dd4bf', glow: 'rgba(216,180,226,0.4)', border: 'rgba(216,180,226,0.2)', text: '#e9d5ff' },
+            'crimson': { primary: '#fb7185', accent: '#be123c', glow: 'rgba(251,113,133,0.4)', border: 'rgba(251,113,133,0.2)', text: '#fecaca' },
+            'emerald': { primary: '#34d399', accent: '#065f46', glow: 'rgba(52,211,153,0.4)', border: 'rgba(52,211,153,0.2)', text: '#d1fae5' },
+            'solar': { primary: '#fbbf24', accent: '#d97706', glow: 'rgba(251,191,36,0.4)', border: 'rgba(251,191,36,0.2)', text: '#fef3c7' },
+            'void': { primary: '#ec4899', accent: '#8b5cf6', glow: 'rgba(236,72,153,0.4)', border: 'rgba(236,72,153,0.2)', text: '#fbcfe8' },
+            'obsidian': { primary: '#9ca3af', accent: '#4b5563', glow: 'rgba(156,163,175,0.4)', border: 'rgba(156,163,175,0.2)', text: '#f3f4f6' },
+            'ghost': { primary: '#f8fafc', accent: '#cbd5e1', glow: 'rgba(248,250,252,0.4)', border: 'rgba(248,250,252,0.2)', text: '#ffffff' }
+        };
+
+        function applyPalette(key) {
+            if(!palettes[key]) return;
+            const p = palettes[key];
+            r.style.setProperty('--primary', p.primary); r.style.setProperty('--accent', p.accent); r.style.setProperty('--primary-glow', p.glow); r.style.setProperty('--glass-border', p.border); r.style.setProperty('--text-main', p.text);
+            document.documentElement.className = key + '-mode';
+        }
+
         function switchTab(tabId, btn) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
@@ -426,197 +586,278 @@
 
         function toggleCloak() { document.body.classList.toggle('cloaked'); }
         function restoreUI() { document.body.classList.remove('cloaked'); }
-        
-        function toggleModal(modalId) { 
-            const modal = document.getElementById(modalId);
-            modal.classList.toggle('active');
-            if(modalId === 'oracle-modal' && modal.classList.contains('active')) {
-                const chat = document.getElementById('oracle-chat');
-                chat.scrollTop = chat.scrollHeight;
-            }
+        function toggleModal(id) { 
+            const m = document.getElementById(id); m.classList.toggle('active'); 
+            if(id === 'oracle-modal' && m.classList.contains('active')) { const chat = document.getElementById('oracle-chat'); chat.scrollTop = chat.scrollHeight; }
         }
-        
+        function updateVar(name, val) { document.documentElement.style.setProperty(name, val); flagUnsaved(); }
+
         function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(e => console.log(e));
-                document.body.classList.add('cloaked');
-            } else {
-                document.exitFullscreen();
-                document.body.classList.remove('cloaked');
+            if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(e => console.log(e)); } 
+            else { document.exitFullscreen(); }
+            toggleModal('cast-modal');
+        }
+
+        function somniaAlert(title, msg) {
+            return new Promise(resolve => {
+                const modal = document.getElementById('somnia-dialog');
+                document.getElementById('dialog-title').innerText = title; document.getElementById('dialog-msg').innerText = msg;
+                document.getElementById('dialog-input').style.display = 'none'; document.getElementById('dialog-cancel').style.display = 'none';
+                const confirmBtn = document.getElementById('dialog-confirm');
+                confirmBtn.innerText = "OKAY!"; confirmBtn.onclick = () => { modal.classList.remove('active'); resolve(true); };
+                modal.classList.add('active');
+            });
+        }
+
+        function somniaPrompt(title, msg, defaultVal = "") {
+            return new Promise(resolve => {
+                const modal = document.getElementById('somnia-dialog');
+                document.getElementById('dialog-title').innerText = title; document.getElementById('dialog-msg').innerText = msg;
+                const input = document.getElementById('dialog-input'); input.style.display = 'block'; input.value = defaultVal;
+                document.getElementById('dialog-cancel').style.display = 'block'; document.getElementById('dialog-cancel').onclick = () => { modal.classList.remove('active'); resolve(null); };
+                const confirmBtn = document.getElementById('dialog-confirm');
+                confirmBtn.innerText = "SAVE"; confirmBtn.onclick = () => { modal.classList.remove('active'); resolve(input.value); };
+                modal.classList.add('active'); input.focus();
+            });
+        }
+
+        function somniaConfirm(title, msg) {
+            return new Promise(resolve => {
+                const modal = document.getElementById('somnia-dialog');
+                document.getElementById('dialog-title').innerText = title; document.getElementById('dialog-msg').innerText = msg;
+                document.getElementById('dialog-input').style.display = 'none'; document.getElementById('dialog-cancel').style.display = 'block';
+                document.getElementById('dialog-cancel').onclick = () => { modal.classList.remove('active'); resolve(false); };
+                const confirmBtn = document.getElementById('dialog-confirm');
+                confirmBtn.innerText = "YES, TRASH IT"; confirmBtn.style.color = "#fb7185"; confirmBtn.style.borderColor = "#fb7185";
+                confirmBtn.onclick = () => { modal.classList.remove('active'); confirmBtn.style.color = "var(--text-main)"; confirmBtn.style.borderColor = "var(--accent)"; resolve(true); };
+                modal.classList.add('active');
+            });
+        }
+
+        // === 2. INDEXED DB ENGINE (Local Media Storage) ===
+        const dbPromise = new Promise((resolve, reject) => {
+            const req = indexedDB.open('SomniaSchedsDB', 1);
+            req.onupgradeneeded = e => { if (!e.target.result.objectStoreNames.contains('media')) e.target.result.createObjectStore('media'); };
+            req.onsuccess = e => resolve(e.target.result); req.onerror = e => reject(e);
+        });
+        async function saveMedia(key, blob) { const db = await dbPromise; db.transaction('media', 'readwrite').objectStore('media').put(blob, key); flagUnsaved(); }
+        async function getMedia(key) { return new Promise(async resolve => { const db = await dbPromise; const req = db.transaction('media').objectStore('media').get(key); req.onsuccess = () => resolve(req.result); req.onerror = () => resolve(null); }); }
+        async function getAllMediaKeys() { return new Promise(async resolve => { const db = await dbPromise; const req = db.transaction('media').objectStore('media').getAllKeys(); req.onsuccess = () => resolve(req.result); }); }
+        async function deleteMedia(key) { const db = await dbPromise; db.transaction('media', 'readwrite').objectStore('media').delete(key); localStorage.removeItem('somnia_name_' + key); flagUnsaved(); }
+
+        // BACKGROUNDS
+        async function loadCustomBackgrounds() {
+            const grid = document.getElementById('custom-bgs'); grid.innerHTML = '';
+            const keys = await getAllMediaKeys(); const bgKeys = keys.filter(k => k.startsWith('bg_'));
+            for(let key of bgKeys) {
+                const blob = await getMedia(key);
+                if(blob) { addBgButton(URL.createObjectURL(blob), key, localStorage.getItem('somnia_name_' + key) || "🖼️ Image"); }
             }
         }
 
-        document.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement) document.body.classList.remove('cloaked');
-        });
+        function addBgButton(url, key, name) {
+            const grid = document.getElementById('custom-bgs');
+            const wrap = document.createElement('div'); wrap.style.display = 'flex'; wrap.style.gap = '8px'; wrap.style.width = '100%';
+            const btn = document.createElement('button'); btn.className = 'toy-btn'; btn.style.flex = "1"; btn.textContent = name;
+            btn.onclick = () => {
+                grid.querySelectorAll('.toy-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active');
+                document.getElementById('bg-anchor').style.backgroundImage = `url('${url}')`;
+                localStorage.setItem('somnia_active_bg_key', key); saveCurrentState();
+            };
+            const editBtn = document.createElement('button'); editBtn.className = 'toy-btn'; editBtn.innerHTML = '✏️'; editBtn.style.padding = '0 15px';
+            editBtn.onclick = () => renameCustomItem(key, 'bg');
+            const delBtn = document.createElement('button'); delBtn.className = 'toy-btn'; delBtn.innerHTML = '✕'; delBtn.style.color = '#fb7185'; delBtn.style.padding = '0 15px';
+            delBtn.onclick = async () => {
+                if(await somniaConfirm("Delete Background?", "Are you sure you want to delete this custom background?")) {
+                    await deleteMedia(key);
+                    if(localStorage.getItem('somnia_active_bg_key') === key) { document.getElementById('bg-anchor').style.backgroundImage = "none"; localStorage.removeItem('somnia_active_bg_key'); }
+                    loadCustomBackgrounds();
+                }
+            };
+            wrap.appendChild(btn); wrap.appendChild(editBtn); wrap.appendChild(delBtn); grid.prepend(wrap);
+        }
 
-        function updateVar(name, val) { document.documentElement.style.setProperty(name, val); }
+        async function renameCustomItem(key, type) {
+            const currentName = localStorage.getItem('somnia_name_' + key) || "";
+            const newName = await somniaPrompt("RENAME ITEM", "What should we call this?", currentName);
+            if (newName) {
+                localStorage.setItem('somnia_name_' + key, newName); flagUnsaved();
+                if (type === 'audio') { loadCustomAudio(); } else if (type === 'bg') { loadCustomBackgrounds(); }
+            }
+        }
 
         function executeImageUpload(input) {
             if (!input.files || !input.files[0]) return;
-            const file = input.files[0];
+            const file = input.files[0]; const key = 'bg_' + Date.now();
             const reader = new FileReader();
-            
-            reader.onload = e => {
-                const imgData = e.target.result;
-                const bgAnchor = document.getElementById('bg-anchor');
-                bgAnchor.style.background = `url('${imgData}') no-repeat center center`;
-                bgAnchor.style.backgroundSize = 'cover';
-                
-                const grid = document.getElementById('bg-presets');
-                grid.querySelectorAll('.ui-btn').forEach(b => b.classList.remove('active'));
-                
-                const btn = document.createElement('button');
-                btn.className = 'ui-btn active';
-                btn.textContent = "📁 " + file.name.substring(0, 6); 
-                
-                btn.onclick = () => {
-                    grid.querySelectorAll('.ui-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    bgAnchor.style.background = `url('${imgData}') no-repeat center center`;
-                    bgAnchor.style.backgroundSize = 'cover';
+            reader.onload = async (e) => {
+                const img = new Image();
+                img.onload = async () => {
+                    const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
+                    let width = img.width; let height = img.height; const MAX = 1920;
+                    if (width > MAX) { height *= MAX / width; width = MAX; }
+                    canvas.width = width; canvas.height = height; ctx.drawImage(img, 0, 0, width, height);
+                    canvas.toBlob(async (blob) => {
+                        await saveMedia(key, blob);
+                        const finalName = await somniaPrompt("Name Background", "What should we call this background?", "My Vibe") || "🖼️ Custom";
+                        localStorage.setItem('somnia_name_' + key, finalName);
+                        const imgUrl = URL.createObjectURL(blob);
+                        addBgButton(imgUrl, key, finalName);
+                        document.getElementById('bg-anchor').style.backgroundImage = `url('${imgUrl}')`;
+                        localStorage.setItem('somnia_active_bg_key', key); saveCurrentState(); flagUnsaved();
+                    }, 'image/jpeg', 0.85);
                 };
-                grid.prepend(btn); 
+                img.src = e.target.result;
             };
-            reader.readAsDataURL(file);
-            input.value = ""; 
+            reader.readAsDataURL(file); input.value = ""; 
         }
 
-        // === 2. AUDIO MIXER ENGINE ===
-        const activeAudio = {};
+        // === 3. WEB AUDIO API MIXER ===
+        const activeAudio = {}; let audioCtx; let masterGainNode;
         const soundLibrary = [
             { id: "rain", name: "🌧️ Gentle Rain", url: "rain.mp3" }, { id: "thunder", name: "🌩️ Thunderstorm", url: "thunder.mp3" },
             { id: "winterwind", name: "🌬️ Winter Wind", url: "winterwind.mp3" }, { id: "owls", name: "🦉 Midnight Owls", url: "owls.mp3" },
-            { id: "raven", name: "🐦‍⬛ Raven Calls", url: "raven.mp3" }, { id: "frogs", name: "🐸 Swamp Frogs", url: "frogs.mp3" },
-            { id: "crickets", name: "🦗 Night Crickets", url: "crickets.mp3" }, { id: "fire", name: "🔥 Hearth Fire", url: "fire.mp3" },
-            { id: "simmering", name: "🍲 Simmering Pot", url: "simmeringpot.mp3" }, { id: "teacup", name: "☕ Teacup Clinks", url: "teacup.mp3" },
+            { id: "fire", name: "🔥 Hearth Fire", url: "fire.mp3" }, { id: "simmering", name: "🍲 Simmering Pot", url: "simmeringpot.mp3" },
             { id: "clock", name: "🕰️ Ticking Clock", url: "clock.mp3" }, { id: "cat", name: "🐾 Purring Cat", url: "cat.mp3" },
-            { id: "windchimes", name: "🎐 Wind Chimes", url: "windchimes.mp3" }, { id: "musicbox1", name: "🎶 Music Box I", url: "musicbox1.mp3" },
-            { id: "musicbox2", name: "🎶 Music Box II", url: "musicbox2.mp3" }, { id: "musicbox3", name: "🎶 Music Box III", url: "musicbox3.mp3" },
-            { id: "xmas1", name: "🎄 Yule Box I", url: "xmasmusicbox1.mp3" }, { id: "xmas2", name: "🎄 Yule Box II", url: "xmasmusicbox2.mp3" },
-            { id: "xmas3", name: "🎄 Yule Box III", url: "xmasmusicbox3.mp3" }, { id: "darkmusic", name: "🖤 Dark Atmos", url: "darkmusic1.mp3" },
-            { id: "binary", name: "🎵 Binary Box", url: "binarymusicbox.mp3" }
+            { id: "windchimes", name: "🎐 Wind Chimes", url: "windchimes.mp3" }, { id: "darkmusic", name: "🖤 Dark Atmos", url: "darkmusic1.mp3" }
         ];
+        let customAudioLibrary = [];
+
+        function initAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                masterGainNode = audioCtx.createGain();
+                masterGainNode.gain.value = document.getElementById('master-gain-slider') ? document.getElementById('master-gain-slider').value : 1;
+                masterGainNode.connect(audioCtx.destination);
+            }
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+        function setMasterGain(val) { if (masterGainNode) masterGainNode.gain.value = val; flagUnsaved(); }
+
+        async function loadCustomAudio() {
+            customAudioLibrary = [];
+            const keys = await getAllMediaKeys(); const audioKeys = keys.filter(k => k.startsWith('aud_'));
+            for(let key of audioKeys) {
+                const blob = await getMedia(key);
+                if(blob) customAudioLibrary.push({ id: key, name: localStorage.getItem('somnia_name_' + key) || "📁 Audio", url: URL.createObjectURL(blob), isCustom: true });
+            }
+            initMixer();
+        }
 
         function initMixer() {
             const container = document.getElementById('mixer-container');
-            container.innerHTML = soundLibrary.map(track => `
+            const allSounds = [...customAudioLibrary, ...soundLibrary];
+            container.innerHTML = allSounds.map(track => {
+                let editBtn = track.isCustom ? `<button class="toy-btn" style="padding: 5px 10px; margin-right: 5px;" onclick="renameCustomItem('${track.id}', 'audio')">✏️</button>` : '';
+                let delBtn = track.isCustom ? `<button class="toy-btn" style="padding:5px 10px; border:none; color:#fb7185;" onclick="deleteCustomAudio('${track.id}')">✕</button>` : '';
+                return `
                 <div class="mixer-card" id="card-${track.id}">
                     <button class="mixer-btn" onclick="toggleStem('${track.id}', '${track.url}')">${track.name}</button>
+                    ${editBtn}${delBtn}
                     <input type="range" id="vol-${track.id}" class="mixer-slider" min="0" max="1" step="0.05" value="0.5" oninput="adjustVol('${track.id}', this.value)">
                 </div>
-            `).join('');
+            `}).join('');
             Object.keys(activeAudio).forEach(id => { const c = document.getElementById(`card-${id}`); if(c) c.classList.add('playing'); });
+        }
+
+        async function deleteCustomAudio(id) {
+            if(await somniaConfirm("Delete Audio?", "Are you sure you want to delete this custom audio track?")) {
+                if(activeAudio[id]) { activeAudio[id].audio.pause(); delete activeAudio[id]; }
+                await deleteMedia(id); loadCustomAudio();
+            }
         }
 
         function handleAudioUpload(input) {
             if (!input.files || input.files.length === 0) return;
-            const file = input.files[0];
-            soundLibrary.unshift({ id: 'custom-'+Date.now(), name: "📁 " + file.name.substring(0,15), url: URL.createObjectURL(file) });
-            initMixer();
+            const file = input.files[0]; const key = 'aud_' + Date.now();
+            saveMedia(key, file).then(async () => {
+                const finalName = await somniaPrompt("Name Audio", "Name this sound:", "✨ Focus Audio") || "📁 Custom Audio";
+                localStorage.setItem('somnia_name_' + key, finalName); loadCustomAudio(); flagUnsaved();
+            });
             input.value = ""; 
         }
 
         function toggleStem(id, url) {
-            const card = document.getElementById(`card-${id}`);
-            if (activeAudio[id]) {
-                activeAudio[id].pause(); delete activeAudio[id]; if(card) card.classList.remove('playing');
+            initAudioContext(); const card = document.getElementById(`card-${id}`);
+            if (activeAudio[id]) { activeAudio[id].audio.pause(); delete activeAudio[id]; if(card) card.classList.remove('playing');
             } else {
-                const audio = new Audio(url); audio.loop = true; const slider = document.getElementById(`vol-${id}`);
-                audio.volume = slider ? slider.value : 0.5;
-                audio.play().then(() => { activeAudio[id] = audio; if(card) card.classList.add('playing'); }).catch(e => console.log("Unlock audio first."));
+                const audio = new Audio(url); audio.loop = true;
+                const source = audioCtx.createMediaElementSource(audio); const gain = audioCtx.createGain();
+                gain.gain.value = document.getElementById(`vol-${id}`) ? document.getElementById(`vol-${id}`).value : 0.5;
+                source.connect(gain); gain.connect(masterGainNode);
+                audio.play().then(() => { activeAudio[id] = { audio, gain }; if(card) card.classList.add('playing'); }).catch(e => console.log("Unlock audio first."));
             }
         }
-        function adjustVol(id, val) { if (activeAudio[id]) activeAudio[id].volume = val; }
-        function stopAllAudio() { Object.keys(activeAudio).forEach(id => { activeAudio[id].pause(); const c = document.getElementById(`card-${id}`); if(c) c.classList.remove('playing'); delete activeAudio[id]; }); }
+        function adjustVol(id, val) { if (activeAudio[id]) { activeAudio[id].gain.gain.value = val; flagUnsaved(); } }
+        function stopAllAudio() { Object.keys(activeAudio).forEach(id => { activeAudio[id].audio.pause(); const c = document.getElementById(`card-${id}`); if(c) c.classList.remove('playing'); delete activeAudio[id]; }); }
 
-        // === 3. ATMOS & PARTICLES ===
-        const bgPresets = [{ name: 'Void', value: '#000000' }, { name: 'Abyss', value: '#020204' }, { name: 'Slate', value: '#0f172a' }, { name: 'Sepia', value: '#1c1917' }];
+        function playTimerChime() {
+            initAudioContext();
+            try {
+                const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+                osc.type = 'sine'; osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                osc.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 1); // C6
+                gain.gain.setValueAtTime(0, audioCtx.currentTime); gain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.1); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 3);
+                osc.connect(gain); gain.connect(masterGainNode); osc.start(); osc.stop(audioCtx.currentTime + 3);
+            } catch(e) {}
+        }
+
+        // --- 4. ATMOS & PARTICLES ---
         const colors = ['lunar','noir','vellum','amethyst','crimson','emerald','solar','void','obsidian','ghost'];
-        const glows = ['pulse','breathe','strobe','phantom','wave','flicker','aurora','radar','static','none'];
-        const particlesList = ['dust','embers','snow','void','rain','ash','stars','bubbles','matrix','spores'];
-        
-        const particleColors = [
-            { name: 'Lunar', value: '#e0e7ff' }, { name: 'Noir', value: '#D4AF37' }, { name: 'Vellum', value: '#C2B280' }, { name: 'Amethyst', value: '#d8b4e2' },
-            { name: 'Crimson', value: '#fb7185' }, { name: 'Emerald', value: '#34d399' }, { name: 'Solar', value: '#fbbf24' }, { name: 'Void', value: '#ec4899' },
-            { name: 'Obsidian', value: '#9ca3af' }, { name: 'Ghost', value: '#f8fafc' }
-        ];
-
-        const glowColors = [
-            { name: 'Lunar', value: 'rgba(224,231,255,0.4)' }, { name: 'Noir', value: 'rgba(212,175,55,0.4)' }, { name: 'Vellum', value: 'rgba(194,178,128,0.4)' }, { name: 'Amethyst', value: 'rgba(216,180,226,0.4)' },
-            { name: 'Crimson', value: 'rgba(251,113,133,0.4)' }, { name: 'Emerald', value: 'rgba(52,211,153,0.4)' }, { name: 'Solar', value: 'rgba(251,191,36,0.4)' }, { name: 'Void', value: 'rgba(236,72,153,0.4)' },
-            { name: 'Obsidian', value: 'rgba(156,163,175,0.4)' }, { name: 'Ghost', value: 'rgba(248,250,252,0.4)' }
-        ];
+        const glows = ['pulse','breathe','strobe','phantom','wave','flicker','aurora','static','none'];
+        const particlesList = ['dust','embers','snow','void','rain','ash','stars','bubbles','spores'];
+        const particleColors = [ { name: 'Lunar', value: '#e0e7ff' }, { name: 'Noir', value: '#D4AF37' }, { name: 'Vellum', value: '#C2B280' }, { name: 'Amethyst', value: '#d8b4e2' }, { name: 'Crimson', value: '#fb7185' }, { name: 'Emerald', value: '#34d399' }, { name: 'Solar', value: '#fbbf24' }, { name: 'Void', value: '#ec4899' }, { name: 'Obsidian', value: '#9ca3af' }, { name: 'Ghost', value: '#f8fafc' } ];
+        const glowColors = [ { name: 'Lunar', value: 'rgba(224,231,255,0.4)' }, { name: 'Noir', value: 'rgba(212,175,55,0.4)' }, { name: 'Vellum', value: 'rgba(194,178,128,0.4)' }, { name: 'Amethyst', value: 'rgba(216,180,226,0.4)' }, { name: 'Crimson', value: 'rgba(251,113,133,0.4)' }, { name: 'Emerald', value: 'rgba(52,211,153,0.4)' }, { name: 'Solar', value: 'rgba(251,191,36,0.4)' }, { name: 'Void', value: 'rgba(236,72,153,0.4)' }, { name: 'Obsidian', value: 'rgba(156,163,175,0.4)' }, { name: 'Ghost', value: 'rgba(248,250,252,0.4)' } ];
 
         function populateGrid(id, arr, type) {
             const grid = document.getElementById(id);
             arr.forEach((item, index) => {
-                const isObj = typeof item === 'object';
-                const label = isObj ? item.name : item;
-                const val = isObj ? item.value : item;
-                const b = document.createElement('button');
-                b.className = 'ui-btn'; b.textContent = label; 
-                if(index === 0) b.classList.add('active'); 
-
+                const isObj = typeof item === 'object'; const label = isObj ? item.name : item; const val = isObj ? item.value : item;
+                const b = document.createElement('button'); b.className = 'toy-btn'; b.textContent = label; if(index === 0) b.classList.add('active'); 
                 b.onclick = () => {
-                    document.querySelectorAll(`#${id} .ui-btn`).forEach(btn => btn.classList.remove('active'));
-                    b.classList.add('active');
-                    if(type === 'bg') { document.getElementById('bg-anchor').style.background = val; document.getElementById('bg-anchor').style.backgroundImage = 'none'; }
-                    if(type === 'color') document.body.className = `${val}-mode`;
-                    if(type === 'glow') document.getElementById('glow-layer').className = `glow-${val}`;
-                    if(type === 'particle') window.particleType = val;
-                    if(type === 'particleColor') updateVar('--particle-color', val);
-                    if(type === 'glowColor') updateVar('--glow-color', val);
+                    document.querySelectorAll(`#${id} .toy-btn`).forEach(btn => btn.classList.remove('active')); b.classList.add('active');
+                    if(type === 'color') { applyPalette(val); saveCurrentState(); flagUnsaved(); }
+                    if(type === 'glow') { document.getElementById('glow-layer').className = `glow-${val}`; saveCurrentState(); flagUnsaved(); }
+                    if(type === 'particle') { window.particleType = val; saveCurrentState(); flagUnsaved(); }
+                    if(type === 'particleColor') { updateVar('--particle-color', val); saveCurrentState(); flagUnsaved(); }
+                    if(type === 'glowColor') { updateVar('--glow-color', val); saveCurrentState(); flagUnsaved(); }
                 };
                 grid.appendChild(b);
             });
         }
 
-        window.particleType = 'dust';
-        let particleCount = 50; 
+        window.particleType = 'dust'; let particleCount = 50; 
         function buildParticles(w, h) { return Array.from({ length: particleCount }, () => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 2 + 0.5, vx: (Math.random() - 0.5), vy: (Math.random() - 0.5) })); }
-        function updateParticleDensity(val) { particleCount = parseInt(val); }
+        function updateParticleDensity(val) { particleCount = parseInt(val); flagUnsaved(); }
 
         let lowGpu = false;
         function toggleLowGpu() {
-            lowGpu = !lowGpu;
-            const canvas = document.getElementById('particleCanvas');
-            if (lowGpu) {
-                canvas.width = window.innerWidth / 2; canvas.height = window.innerHeight / 2;
-                canvas.style.transform = "scale(2)";
-                updateVar('--glow-opac', '0.15'); updateVar('--anim-speed', '15s');
-            } else {
-                canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-                canvas.style.transform = "scale(1)";
-                updateVar('--glow-opac', '0.3'); updateVar('--anim-speed', '10s');
-            }
+            lowGpu = !lowGpu; const canvas = document.getElementById('particleCanvas');
+            if (lowGpu) { canvas.width = window.innerWidth / 2; canvas.height = window.innerHeight / 2; canvas.style.transform = "scale(2)"; } 
+            else { canvas.width = window.innerWidth; canvas.height = window.innerHeight; canvas.style.transform = "scale(1)"; }
+            flagUnsaved();
         }
 
         function initParticles() {
             const canvas = document.getElementById('particleCanvas'); const ctx = canvas.getContext('2d');
             let w = canvas.width = window.innerWidth; let h = canvas.height = window.innerHeight;
             window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; particles = buildParticles(w, h); });
-            let particles = buildParticles(w, h);
-            const isDinosaur = navigator.hardwareConcurrency < 4 || window.innerWidth < 1024;
-            let lastTime = 0;
+            let particles = buildParticles(w, h); let lastTime = 0;
 
             function loop(timestamp) {
                 requestAnimationFrame(loop);
                 if (!timestamp) timestamp = performance.now();
-                if (timestamp - lastTime < (isDinosaur ? 33 : 16)) return;
+                if (timestamp - lastTime < 16) return;
                 lastTime = timestamp;
 
                 ctx.clearRect(0, 0, w, h);
                 if (particles.length !== particleCount) particles = buildParticles(w, h);
 
                 let color = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim();
-                if (color.includes('var(')) {
-                    const varName = color.match(/var\(([^)]+)\)/)[1].trim();
-                    color = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-                }
-                ctx.fillStyle = color; ctx.shadowBlur = lowGpu ? 2 : (isDinosaur ? 0 : 8); ctx.shadowColor = color;
+                if (color.includes('var(')) { const varName = color.match(/var\(([^)]+)\)/)[1].trim(); color = getComputedStyle(document.documentElement).getPropertyValue(varName).trim(); }
+                ctx.fillStyle = color; ctx.shadowBlur = lowGpu ? 2 : 8; ctx.shadowColor = color;
 
-                particles.forEach((p, i) => {
+                particles.forEach((p) => {
                     let spd = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--anim-speed')) || 10;
                     let mult = 10 / spd;
 
@@ -628,8 +869,7 @@
                     else if (particleType === 'ash') { p.y -= p.vy*mult; p.x += Math.cos(p.y/30)*mult; ctx.fillStyle="#555"; }
                     else if (particleType === 'stars') { p.x += 0.05*mult; p.y += 0.05*mult; if(Math.random()<0.01) p.r = Math.random()*3; }
                     else if (particleType === 'bubbles') { p.y -= 2*mult; p.x += Math.sin(p.y/20)*2*mult; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*2,0,Math.PI*2); ctx.strokeStyle=color; ctx.stroke(); return; }
-                    else if (particleType === 'matrix') { p.y += 4*mult; if(i%2===0) ctx.fillText(String.fromCharCode(0x30A0+Math.random()*96), p.x, p.y); return; }
-                    else if (particleType === 'spores') { p.x += (Math.random()-0.5)*mult; p.y += (Math.random()-0.5)*mult; p.r = Math.abs(Math.sin(Date.now()/1000+i))*3; }
+                    else if (particleType === 'spores') { p.x += (Math.random()-0.5)*mult; p.y += (Math.random()-0.5)*mult; p.r = Math.abs(Math.sin(Date.now()/1000))*3; }
 
                     if (p.x < 0) p.x = w; if (p.x > w) p.x = 0; if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
                     ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
@@ -638,22 +878,17 @@
             requestAnimationFrame(loop);
         }
 
-        // === 4. ACADEMY ENGINE ===
+        // === 5. ACADEMY ENGINE (Homeschool Roster) ===
         let academyData = JSON.parse(localStorage.getItem('somnia_academy')) || { students: [] };
         
-        function saveAcademyData() {
-            localStorage.setItem('somnia_academy', JSON.stringify(academyData));
-            renderAcademy();
-        }
+        function saveAcademyData() { localStorage.setItem('somnia_academy', JSON.stringify(academyData)); renderAcademy(); flagUnsaved(); }
 
         function addStudent() {
             const input = document.getElementById('new-student-name');
             const name = input.value.trim();
             if(!name) return;
-            
             academyData.students.push({ id: 'stu_' + Date.now(), name: name, attendance: {}, grades: [] });
-            input.value = '';
-            saveAcademyData();
+            input.value = ''; saveAcademyData();
         }
 
         function setAttendance(studentId, status) {
@@ -662,83 +897,57 @@
             if(student) { student.attendance[today] = status; saveAcademyData(); }
         }
 
-        function removeStudent(studentId) {
-            if(confirm("Permanently archive this student profile?")) {
-                academyData.students = academyData.students.filter(s => s.id !== studentId);
-                saveAcademyData();
+        async function removeStudent(studentId) {
+            if(await somniaConfirm("Archive Student?", "Permanently remove this student profile?")) {
+                academyData.students = academyData.students.filter(s => s.id !== studentId); saveAcademyData();
             }
         }
 
         function addGrade(studentId) {
-            const subjInput = document.getElementById(`subj-${studentId}`);
-            const scoreInput = document.getElementById(`score-${studentId}`);
+            const subjInput = document.getElementById(`subj-${studentId}`); const scoreInput = document.getElementById(`score-${studentId}`);
             if(!subjInput.value || !scoreInput.value) return;
-
             const student = academyData.students.find(s => s.id === studentId);
             if(student) {
                 student.grades.unshift({ date: new Date().toLocaleDateString(), subject: subjInput.value.trim(), score: scoreInput.value.trim() });
-                subjInput.value = ''; scoreInput.value = '';
-                saveAcademyData();
+                subjInput.value = ''; scoreInput.value = ''; saveAcademyData();
             }
         }
 
-        function exportAcademyData() {
-            const blob = new Blob([JSON.stringify(academyData, null, 2)], { type: "application/json" });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `SOMNIA_ACADEMY_BACKUP_${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
-        }
-
-        function importAcademyData(e) {
-            const reader = new FileReader();
-            reader.onload = (x) => {
-                try {
-                    const imported = JSON.parse(x.target.result);
-                    if(imported && Array.isArray(imported.students)) {
-                        academyData = imported; localStorage.setItem('somnia_academy', JSON.stringify(academyData)); renderAcademy();
-                    } else { alert("Invalid file format."); }
-                } catch (err) { alert("Failed to parse file."); }
-            };
-            if (e.target.files[0]) { reader.readAsText(e.target.files[0]); e.target.value = ''; }
-        }
-
         function renderAcademy() {
-            const container = document.getElementById('academy-container');
-            if(!container) return;
+            const container = document.getElementById('academy-container'); if(!container) return;
             const today = new Date().toISOString().split('T')[0];
 
             if(academyData.students.length === 0) {
-                container.innerHTML = `<div style="text-align:center; font-size:0.7rem; color:var(--text-muted); letter-spacing:2px; margin-top:20px;">NO ACTIVE STUDENT ROSTERS DEFINED</div>`;
+                container.innerHTML = `<div style="text-align:center; font-size:0.75rem; color:var(--text-muted); letter-spacing:2px; margin-top:20px; font-family: monospace;">NO ACTIVE ROSTERS DEFINED</div>`;
                 return;
             }
 
             container.innerHTML = academyData.students.map(student => {
                 const todayStatus = student.attendance[today];
-                const presentClass = todayStatus === 'Present' ? 'badge present' : 'ui-btn';
-                const absentClass = todayStatus === 'Absent' ? 'badge absent' : 'ui-btn';
+                const presentClass = todayStatus === 'Present' ? 'badge present' : 'badge default';
+                const absentClass = todayStatus === 'Absent' ? 'badge absent' : 'badge default';
 
                 const gradesHtml = student.grades.slice(0, 5).map(g => `
                     <div class="log-row">
-                        <span style="color:var(--primary); opacity:0.7">${g.date} | ${g.subject}</span>
+                        <span style="color:var(--text-muted); opacity:0.8">${g.date} | ${g.subject}</span>
                         <span style="color:var(--accent); font-weight:bold;">${g.score}</span>
                     </div>
                 `).join('');
 
                 return `
-                    <div class="sched-card" style="margin-bottom: 15px;">
+                    <div class="sched-card" style="margin-bottom: 10px;">
                         <div class="sched-header-row" style="margin-bottom: 10px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
-                            <span class="sched-header-main">${student.name}</span>
-                            <div style="display:flex; gap:5px; align-items:center;">
-                                <button class="${presentClass}" style="${todayStatus === 'Present' ? 'padding: 4px 8px;' : 'padding: 4px 8px; font-size:0.6rem;'}" onclick="setAttendance('${student.id}', 'Present')">Present</button>
-                                <button class="${absentClass}" style="${todayStatus === 'Absent' ? 'padding: 4px 8px;' : 'padding: 4px 8px; font-size:0.6rem;'}" onclick="setAttendance('${student.id}', 'Absent')">Absent</button>
-                                <button class="ui-btn" style="padding: 4px 8px; font-size:0.6rem;" onclick="removeStudent('${student.id}')">✕</button>
+                            <span class="sched-header-main" style="font-size: 1.1rem; color: var(--text-main);">${student.name}</span>
+                            <div style="display:flex; gap:8px; align-items:center;">
+                                <button class="${presentClass}" onclick="setAttendance('${student.id}', 'Present')">Present</button>
+                                <button class="${absentClass}" onclick="setAttendance('${student.id}', 'Absent')">Absent</button>
+                                <button class="badge default" style="border:none; background:none; opacity:0.5;" onclick="removeStudent('${student.id}')">✕</button>
                             </div>
                         </div>
-                        <div style="display: flex; gap: 5px; margin-bottom: 10px;">
-                            <input type="text" id="subj-${student.id}" class="core-input" placeholder="Subject">
-                            <input type="text" id="score-${student.id}" class="core-input" style="max-width: 80px;" placeholder="Score">
-                            <button class="ui-btn" onclick="addGrade('${student.id}')">Log</button>
+                        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+                            <input type="text" id="subj-${student.id}" class="core-input" style="margin:0; padding:8px;" placeholder="Subject">
+                            <input type="text" id="score-${student.id}" class="core-input" style="margin:0; padding:8px; max-width: 80px;" placeholder="Score">
+                            <button class="toy-btn" style="border-radius: 8px; padding: 8px 15px;" onclick="addGrade('${student.id}')">Log</button>
                         </div>
                         <div>${gradesHtml}</div>
                     </div>
@@ -746,433 +955,313 @@
             }).join('');
         }
 
-        // === 5. SCHEDS CALENDAR & TIMER ===
-        const SCHEDS_EVENTS_KEY = 'somnia_scheds_events';
-        const SCHEDS_NOTES_KEY = 'somnia_scheds_notes';
-
-        let schedsEvents = []; let schedsNotes = []; let schedsCurrentMonth = new Date(); let schedsSelectedDate = null;
+        // === 6. SOMNIASCHEDS (Planner/Calendar/Timer) ===
+        const SCHEDS_EVENTS_KEY = 'somnia_scheds_events'; const SCHEDS_NOTES_KEY = 'somnia_scheds_notes';
+        let schedsEvents = JSON.parse(localStorage.getItem(SCHEDS_EVENTS_KEY) || '[]'); let schedsNotes = JSON.parse(localStorage.getItem(SCHEDS_NOTES_KEY) || '[]');
+        let schedsCurrentMonth = new Date(); let schedsSelectedDate = null;
         let schedsTimerSeconds = 25 * 60; let schedsTimerInterval = null;
 
-        function loadSchedsData() {
-            try {
-                const e = JSON.parse(localStorage.getItem(SCHEDS_EVENTS_KEY) || '[]');
-                const n = JSON.parse(localStorage.getItem(SCHEDS_NOTES_KEY) || '[]');
-                schedsEvents = Array.isArray(e) ? e : []; schedsNotes = Array.isArray(n) ? n : [];
-            } catch { schedsEvents = []; schedsNotes = []; }
-        }
+        function saveSchedsData() { localStorage.setItem(SCHEDS_EVENTS_KEY, JSON.stringify(schedsEvents)); localStorage.setItem(SCHEDS_NOTES_KEY, JSON.stringify(schedsNotes)); flagUnsaved(); }
+        function formatDateKey(date) { return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`; }
 
-        function saveSchedsData() {
-            localStorage.setItem(SCHEDS_EVENTS_KEY, JSON.stringify(schedsEvents));
-            localStorage.setItem(SCHEDS_NOTES_KEY, JSON.stringify(schedsNotes));
-        }
-
-        function formatDateKey(date) {
-            const y = date.getFullYear(); const m = String(date.getMonth() + 1).padStart(2, '0'); const d = String(date.getDate()).padStart(2, '0');
-            return `${y}-${m}-${d}`;
-        }
-
-        function renderSchedsHeader() {
-            const today = new Date();
-            const todayLabel = document.getElementById('sched-today-label'); const todayDate = document.getElementById('sched-today-date');
-            if (todayLabel) todayLabel.textContent = 'Today';
-            if (todayDate) todayDate.textContent = today.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
-        }
-
-        function renderSchedsTime() {
-            const el = document.getElementById('sched-time-label');
-            if (!el) return;
-            const now = new Date();
-            el.textContent = now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
-        }
-
-        async function initSchedsWeather() {
-            const label = document.getElementById('sched-weather-label');
-            if (!label) return;
-            if (!navigator.geolocation) { label.textContent = 'Weather: unavailable'; return; }
-            try {
-                navigator.geolocation.getCurrentPosition(async (pos) => {
-                    const lat = pos.coords.latitude; const lon = pos.coords.longitude;
-                    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
-                    const res = await fetch(url); const data = await res.json();
-                    if (data && data.current_weather) { label.textContent = `Weather: ${Math.round(data.current_weather.temperature)}°`; } 
-                    else { label.textContent = 'Weather: --'; }
-                }, () => { label.textContent = 'Weather: location blocked'; });
-            } catch { label.textContent = 'Weather: error'; }
-        }
+        function renderSchedsHeader() { document.getElementById('sched-today-date').textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' }); }
+        function renderSchedsTime() { const el = document.getElementById('sched-time-label'); if(el) el.textContent = new Date().toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' }); }
 
         function renderSchedsCalendar() {
             const monthLabel = document.getElementById('sched-month-label'); const grid = document.getElementById('sched-calendar-grid');
-            if (!monthLabel || !grid) return;
-
+            if(!monthLabel || !grid) return;
             const viewMonth = schedsCurrentMonth.getMonth(); const viewYear = schedsCurrentMonth.getFullYear();
             monthLabel.textContent = schedsCurrentMonth.toLocaleString(undefined, { month: 'long', year: 'numeric' });
             grid.innerHTML = '';
-
-            const dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-            dayNames.forEach(d => {
-                const label = document.createElement('div'); label.className = 'sched-day-label'; label.textContent = d; grid.appendChild(label);
-            });
-
+            ['S', 'M', 'T', 'W', 'T', 'F', 'S'].forEach(d => { const label = document.createElement('div'); label.className = 'sched-day-label'; label.textContent = d; grid.appendChild(label); });
             const firstDay = new Date(viewYear, viewMonth, 1).getDay(); const lastDate = new Date(viewYear, viewMonth + 1, 0).getDate();
             for (let i = 0; i < firstDay; i++) grid.appendChild(document.createElement('div'));
-
-            const today = new Date(); const todayKey = formatDateKey(today);
+            const todayKey = formatDateKey(new Date());
 
             for (let d = 1; d <= lastDate; d++) {
                 const cell = document.createElement('div'); cell.className = 'sched-day'; cell.textContent = d;
-                const dateObj = new Date(viewYear, viewMonth, d); const key = formatDateKey(dateObj);
-
+                const key = formatDateKey(new Date(viewYear, viewMonth, d));
                 if (key === todayKey) cell.classList.add('today');
                 if (schedsEvents.some(ev => ev.date === key)) cell.classList.add('has-event');
                 if (schedsSelectedDate === key) cell.classList.add('selected');
-
                 cell.onclick = () => { schedsSelectedDate = key; renderSchedsCalendar(); renderSchedsDay(); };
                 grid.appendChild(cell);
             }
         }
 
-        function changeSchedsMonth(delta) {
-            const m = schedsCurrentMonth.getMonth(); schedsCurrentMonth.setMonth(m + delta); renderSchedsCalendar();
-        }
+        function changeSchedsMonth(delta) { schedsCurrentMonth.setMonth(schedsCurrentMonth.getMonth() + delta); renderSchedsCalendar(); }
 
         function renderSchedsDay() {
-            const label = document.getElementById('sched-selected-date-label'); const list = document.getElementById('sched-event-list');
-            const noteList = document.getElementById('sched-note-list'); const noteHint = document.getElementById('sched-note-hint');
-
-            if (!schedsSelectedDate) {
-                if (label) label.textContent = 'Select a day to plan.';
-                if (list) list.innerHTML = ''; if (noteList) noteList.innerHTML = ''; if (noteHint) noteHint.textContent = '';
-                return;
-            }
-
-            const dateObj = new Date(schedsSelectedDate);
-            const localDateObj = new Date(dateObj.getTime() + dateObj.getTimezoneOffset() * 60000); 
-
-            if (label) label.textContent = localDateObj.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
-
-            const eventsForDay = schedsEvents.filter(ev => ev.date === schedsSelectedDate);
+            const label = document.getElementById('sched-selected-date-label'); const list = document.getElementById('sched-event-list'); const noteList = document.getElementById('sched-note-list');
+            if (!schedsSelectedDate) { if(label) label.textContent = 'Select a day to plan.'; if(list) list.innerHTML = ''; if(noteList) noteList.innerHTML = ''; return; }
+            const localDateObj = new Date(schedsSelectedDate + 'T12:00:00'); 
+            if(label) label.textContent = localDateObj.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+            const eventsForDay = schedsEvents.filter(ev => ev.date === schedsSelectedDate).sort((a,b) => a.time.localeCompare(b.time));
             if (list) {
-                if (eventsForDay.length === 0) list.innerHTML = '<div class="sched-subtext">No events scheduled.</div>';
-                else list.innerHTML = eventsForDay.map(ev => `
-                    <div class="sched-list-item"><span>${ev.time ? ev.time + ' — ' : ''}${ev.title}</span><button class="ui-btn" style="padding: 2px 6px; font-size: 0.5rem;" onclick="deleteSchedsEvent('${ev.id}')">✕</button></div>
-                `).join('');
+                if (eventsForDay.length === 0) list.innerHTML = '<div class="sched-subtext">No tasks scheduled.</div>';
+                else list.innerHTML = eventsForDay.map(ev => `<div class="sched-list-item"><span>${ev.time ? ev.time + ' — ' : ''}${ev.title}</span><button class="sched-delete-btn" onclick="deleteSchedsEvent('${ev.id}')">✕</button></div>`).join('');
             }
-
             const notesForDay = schedsNotes.filter(n => n.date === schedsSelectedDate);
             if (noteList) {
                 if (notesForDay.length === 0) noteList.innerHTML = '<div class="sched-subtext">No notes yet.</div>';
-                else noteList.innerHTML = notesForDay.map(n => `
-                    <div class="sched-list-item">
-                        <span>${n.text}</span>
-                        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:2px;">
-                            <span class="sched-note-meta" style="font-size:0.55rem; color:var(--text-muted);">${new Date(n.createdAt).toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'})}</span>
-                            <button class="ui-btn" style="padding: 2px 6px; font-size: 0.5rem;" onclick="deleteSchedsNote('${n.id}')">✕</button>
-                        </div>
-                    </div>
-                `).join('');
+                else noteList.innerHTML = notesForDay.map(n => `<div class="sched-list-item"><span>${n.text}</span><button class="sched-delete-btn" onclick="deleteSchedsNote('${n.id}')">✕</button></div>`).join('');
             }
-
-            if (noteHint) noteHint.textContent = `Notes stored for ${localDateObj.toLocaleDateString()}`;
         }
 
         function addSchedsEvent() {
             if (!schedsSelectedDate) return;
             const titleInput = document.getElementById('sched-event-title'); const timeInput = document.getElementById('sched-event-time');
-            if (!titleInput || !titleInput.value.trim()) return;
-            schedsEvents.push({ id: 'ev-' + Date.now(), date: schedsSelectedDate, title: titleInput.value.trim(), time: timeInput && timeInput.value ? timeInput.value : '' });
-            saveSchedsData(); titleInput.value = ''; if (timeInput) timeInput.value = '';
-            renderSchedsCalendar(); renderSchedsDay();
+            if (!titleInput.value.trim()) return;
+            schedsEvents.push({ id: 'ev-' + Date.now(), date: schedsSelectedDate, title: titleInput.value.trim(), time: timeInput.value });
+            saveSchedsData(); titleInput.value = ''; timeInput.value = ''; renderSchedsCalendar(); renderSchedsDay();
         }
 
-        function deleteSchedsEvent(id) {
-            schedsEvents = schedsEvents.filter(ev => ev.id !== id); saveSchedsData(); renderSchedsCalendar(); renderSchedsDay();
-        }
+        function deleteSchedsEvent(id) { schedsEvents = schedsEvents.filter(ev => ev.id !== id); saveSchedsData(); renderSchedsCalendar(); renderSchedsDay(); }
 
         function addSchedsNote() {
             if (!schedsSelectedDate) return;
             const input = document.getElementById('sched-note-input');
-            if (!input || !input.value.trim()) return;
-            schedsNotes.unshift({ id: 'note-' + Date.now(), date: schedsSelectedDate, text: input.value.trim(), createdAt: new Date().toISOString() });
+            if (!input.value.trim()) return;
+            schedsNotes.unshift({ id: 'note-' + Date.now(), date: schedsSelectedDate, text: input.value.trim() });
             saveSchedsData(); input.value = ''; renderSchedsDay();
         }
 
-        function deleteSchedsNote(id) {
-            schedsNotes = schedsNotes.filter(n => n.id !== id); saveSchedsData(); renderSchedsDay();
-        }
+        function deleteSchedsNote(id) { schedsNotes = schedsNotes.filter(n => n.id !== id); saveSchedsData(); renderSchedsDay(); }
 
+        // TIMER
         function updateSchedsTimerDisplay() {
-            const display = document.getElementById('sched-timer-display'); if (!display) return;
+            const display = document.getElementById('sched-timer-display'); if(!display) return;
             const m = Math.floor(schedsTimerSeconds / 60); const s = schedsTimerSeconds % 60;
             display.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            if (schedsTimerSeconds === 0) { display.classList.add('timer-flash'); } else { display.classList.remove('timer-flash'); }
         }
 
         function startSchedsTimer() {
-            const minutesInput = document.getElementById('sched-timer-minutes');
-            if (minutesInput && !schedsTimerInterval) {
-                const mins = parseInt(minutesInput.value, 10);
-                if (!isNaN(mins) && mins > 0) schedsTimerSeconds = mins * 60;
-            }
             if (schedsTimerInterval) return;
             schedsTimerInterval = setInterval(() => {
-                schedsTimerSeconds = Math.max(0, schedsTimerSeconds - 1); updateSchedsTimerDisplay();
-                if (schedsTimerSeconds <= 0) { clearInterval(schedsTimerInterval); schedsTimerInterval = null; }
+                if (schedsTimerSeconds > 0) {
+                    schedsTimerSeconds--; updateSchedsTimerDisplay();
+                    if(schedsTimerSeconds === 0) playTimerChime();
+                } else { clearInterval(schedsTimerInterval); schedsTimerInterval = null; }
             }, 1000);
         }
+        function pauseSchedsTimer() { if (schedsTimerInterval) { clearInterval(schedsTimerInterval); schedsTimerInterval = null; } }
+        function resetSchedsTimer() { pauseSchedsTimer(); setSchedsPreset(document.getElementById('sched-timer-minutes').value); }
+        function setSchedsPreset(mins) { pauseSchedsTimer(); schedsTimerSeconds = (parseInt(mins) || 25) * 60; updateSchedsTimerDisplay(); }
 
-        function pauseSchedsTimer() {
-            if (schedsTimerInterval) { clearInterval(schedsTimerInterval); schedsTimerInterval = null; }
-        }
-
-        function resetSchedsTimer() {
-            pauseSchedsTimer(); const minutesInput = document.getElementById('sched-timer-minutes');
-            const mins = minutesInput ? parseInt(minutesInput.value, 10) : 25;
-            schedsTimerSeconds = (isNaN(mins) || mins <= 0 ? 25 : mins) * 60; updateSchedsTimerDisplay();
-        }
-
-        function setSchedsPreset(workMinutes, breakMinutes) {
-            const minutesInput = document.getElementById('sched-timer-minutes');
-            if (minutesInput) minutesInput.value = workMinutes;
-            pauseSchedsTimer(); schedsTimerSeconds = workMinutes * 60; updateSchedsTimerDisplay();
-        }
-
-        function initScheds() {
-            loadSchedsData(); renderSchedsHeader(); renderSchedsCalendar(); updateSchedsTimerDisplay();
-            setInterval(renderSchedsTime, 1000); initSchedsWeather();
-            const noteInput = document.getElementById('sched-note-input');
-            if (noteInput) {
-                noteInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); addSchedsNote(); } });
-            }
-        }
-
-        // === 6. VAULT & ORACLE ENGINE ===
-        let savedVault = JSON.parse(localStorage.getItem('somniaVault')) || [];
-
-        function savePreset() {
-            const btn = document.getElementById('save-btn');
-            btn.innerText = "✓ SAVED TO VAULT";
-            setTimeout(() => { btn.innerText = "💾 Save Current Vibe Preset"; }, 2000);
-
-            const state = {
-                name: "Vibe Protocol " + (savedVault.length + 1),
-                bodyClass: document.body.className,
-                glowClass: document.getElementById('glow-layer').className,
-                particleType: window.particleType,
-                particleCount: particleCount,
-                bgImage: document.getElementById('bg-anchor').style.backgroundImage,
-                bgColor: document.getElementById('bg-anchor').style.background,
-                vars: {
-                    speed: getComputedStyle(document.documentElement).getPropertyValue('--anim-speed').trim(),
-                    opac: getComputedStyle(document.documentElement).getPropertyValue('--glow-opac').trim(),
-                    bright: getComputedStyle(document.documentElement).getPropertyValue('--bg-bright').trim(),
-                    zoom: getComputedStyle(document.documentElement).getPropertyValue('--bg-zoom').trim(),
-                    pColor: getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim(),
-                    gColor: getComputedStyle(document.documentElement).getPropertyValue('--glow-color').trim()
-                },
-                audio: Object.keys(activeAudio).map(id => ({ id: id, vol: document.getElementById(`vol-${id}`).value }))
-            };
-
-            savedVault.push(state);
-            try { localStorage.setItem('somniaVault', JSON.stringify(savedVault)); } 
-            catch(e) { alert("Vault Warning: Preset is too large to save."); savedVault.pop(); }
-            renderVault();
-        }
-
-        function renderVault() {
-            let container = document.getElementById('vault-list');
-            if (!container) return;
-            container.innerHTML = savedVault.map((preset, index) => `
-                <div class="mixer-card">
-                    <button class="mixer-btn" style="color: var(--primary);" onclick="loadPreset(${index})">▶ ${preset.name}</button>
-                    <button class="ui-btn" style="padding: 5px 10px; font-size: 0.6rem;" onclick="deletePreset(${index})">✕</button>
+        // DAILY TALLIES
+        let tallies = JSON.parse(localStorage.getItem('somnia_tallies')) || [ {name: "Pomodoros", val: 0}, {name: "Water", val: 0} ];
+        function renderTallies() {
+            document.getElementById('tallies-container').innerHTML = tallies.map((t, i) => `
+                <div class="tally-row">
+                    <input type="text" class="tally-name" value="${t.name}" onchange="tallies[${i}].name=this.value; saveTallies();">
+                    <div class="tally-ctrls">
+                        <button class="score-btn" onclick="tallies[${i}].val--; saveTallies(); renderTallies();">-</button>
+                        <div class="tally-val">${t.val}</div>
+                        <button class="score-btn" onclick="tallies[${i}].val++; saveTallies(); renderTallies();">+</button>
+                    </div>
+                    <button class="sched-delete-btn" onclick="tallies.splice(${i},1); saveTallies(); renderTallies();">✕</button>
                 </div>
             `).join('');
         }
+        function saveTallies() { localStorage.setItem('somnia_tallies', JSON.stringify(tallies)); flagUnsaved(); }
+        function addTally() { tallies.push({name: "Tracker", val: 0}); saveTallies(); renderTallies(); }
 
-        function deletePreset(index) {
-            savedVault.splice(index, 1); localStorage.setItem('somniaVault', JSON.stringify(savedVault)); renderVault();
+        // === 7. SCRIBES JOURNAL (Base64 Image Compression) ===
+        let archive = JSON.parse(localStorage.getItem('kore_archive')) || [];
+        let pendingJournalImage = null;
+
+        function renderAnnals() {
+            const query = (document.getElementById('search-annals')?.value || "").toLowerCase();
+            const container = document.getElementById('annals'); if(!container) return;
+            container.innerHTML = archive.filter(e => e.text.toLowerCase().includes(query)).map((entry, index) => {
+                const imgTag = entry.image ? `<img src="${entry.image}" class="entry-img">` : '';
+                return `
+                <div class="lore-entry">
+                    <div class="entry-meta">${entry.timestamp}</div>
+                    <button class="shred-btn" onclick="shredEntry(${index})">✕</button>
+                    <div class="entry-text"><span style="color:var(--primary); opacity:0.6; margin-right:10px;">></span> ${entry.text}</div>
+                    ${imgTag}
+                </div>
+            `}).join('');
+            container.scrollTop = container.scrollHeight;
         }
 
-        function loadPreset(index) {
-            const state = savedVault[index];
-            if (!state) return;
-
-            document.body.className = state.bodyClass; document.getElementById('glow-layer').className = state.glowClass;
-            window.particleType = state.particleType; particleCount = state.particleCount;
-            
-            if (state.bgImage && state.bgImage !== 'none') {
-                document.getElementById('bg-anchor').style.background = `${state.bgImage} no-repeat center center`;
-                document.getElementById('bg-anchor').style.backgroundSize = 'cover';
-            } else if (state.bgColor) {
-                document.getElementById('bg-anchor').style.background = state.bgColor;
-            }
-
-            updateVar('--anim-speed', state.vars.speed); updateVar('--glow-opac', state.vars.opac);
-            updateVar('--bg-bright', state.vars.bright); updateVar('--bg-zoom', state.vars.zoom);
-            updateVar('--particle-color', state.vars.pColor); updateVar('--glow-color', state.vars.gColor);
-
-            stopAllAudio(); 
-            state.audio.forEach(track => {
-                const sound = soundLibrary.find(s => s.id === track.id);
-                if (sound) {
-                    const slider = document.getElementById(`vol-${track.id}`);
-                    if (slider) slider.value = track.vol; 
-                    toggleStem(track.id, sound.url); 
-                }
-            });
-        }
-        
-        function exportVaultPresets() {
-            const blob = new Blob([JSON.stringify(savedVault, null, 2)], { type: "application/json" });
-            const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-            a.download = `SOMNIA_VAULT_PRESETS_${new Date().toISOString().split('T')[0]}.json`; a.click();
-        }
-
-        function importVaultPresets(e) {
+        function attachJournalImage(input) {
+            if (!input.files || !input.files[0]) return;
             const reader = new FileReader();
-            reader.onload = (x) => {
-                try {
-                    const imported = JSON.parse(x.target.result);
-                    if(Array.isArray(imported)) { savedVault = imported; localStorage.setItem('somniaVault', JSON.stringify(savedVault)); renderVault(); } 
-                    else { alert("Invalid schema detected."); }
-                } catch (err) { alert("Parsing engine failed."); }
+            reader.onload = async (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
+                    let width = img.width; let height = img.height; const MAX = 600; 
+                    if (width > MAX) { height *= MAX / width; width = MAX; }
+                    canvas.width = width; canvas.height = height; ctx.drawImage(img, 0, 0, width, height);
+                    pendingJournalImage = canvas.toDataURL('image/jpeg', 0.6); 
+                    document.getElementById('img-preview-container').style.display = 'block';
+                };
+                img.src = e.target.result;
             };
-            if (e.target.files[0]) { reader.readAsText(e.target.files[0]); e.target.value = ''; }
+            reader.readAsDataURL(input.files[0]); input.value = ""; 
         }
 
+        function clearJournalImage() { pendingJournalImage = null; document.getElementById('img-preview-container').style.display = 'none'; }
+
+        function commitLore() {
+            const input = document.getElementById('lore-editor');
+            if (!input.value.trim() && !pendingJournalImage) return;
+            const now = new Date(); const timestamp = now.toLocaleDateString() + " // " + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            archive.push({ text: input.value, timestamp: timestamp, image: pendingJournalImage }); 
+            localStorage.setItem('kore_archive', JSON.stringify(archive));
+            input.value = ""; clearJournalImage(); renderAnnals(); flagUnsaved();
+        }
+
+        async function shredEntry(index) { 
+            if(await somniaConfirm("Delete Entry?", "Are you sure you want to shred this journal entry forever?")) {
+                archive.splice(index, 1); localStorage.setItem('kore_archive', JSON.stringify(archive)); renderAnnals(); flagUnsaved();
+            }
+        }
+
+        // === 8. ORACLE (Gemini API) ===
         function saveApiKey() {
-            const input = document.getElementById('gemini-key-input');
-            const btn = document.getElementById('save-key-btn');
+            const input = document.getElementById('gemini-key-input'); const btn = document.getElementById('save-key-btn');
             if(input.value.trim() !== '') {
-                localStorage.setItem('gemini_api_key', input.value.trim());
-                btn.innerText = "Saved!";
-                input.value = "";
-                setTimeout(() => { btn.innerText = "Save Key"; }, 2000);
+                localStorage.setItem('gemini_api_key', input.value.trim()); btn.innerText = "Saved!"; input.value = "";
+                setTimeout(() => { btn.innerText = "Save"; }, 2000);
             }
         }
 
         async function summonOracle() {
-            const input = document.getElementById('oracle-editor');
-            const chat = document.getElementById('oracle-chat');
-            const prompt = input.value.trim();
-            if(!prompt) return;
+            const input = document.getElementById('oracle-editor'); const chat = document.getElementById('oracle-chat');
+            const prompt = input.value.trim(); if(!prompt) return;
 
             const apiKey = localStorage.getItem('gemini_api_key');
-            if(!apiKey) {
-                chat.innerHTML += `<div class="oracle-msg ai">ERROR: No API Key found. Please save your Gemini key in the Vault tab.</div>`;
-                input.value = ''; return;
-            }
+            if(!apiKey) { chat.innerHTML += `<div class="oracle-msg ai">ERROR: No API Key found. Please save your Gemini key in the Vault tab.</div>`; input.value = ''; return; }
 
-            chat.innerHTML += `<div class="oracle-msg user">${prompt}</div>`;
-            input.value = ''; chat.scrollTop = chat.scrollHeight;
-
+            chat.innerHTML += `<div class="oracle-msg user">${prompt}</div>`; input.value = ''; chat.scrollTop = chat.scrollHeight;
             const loadingId = 'loading-' + Date.now();
-            chat.innerHTML += `<div id="${loadingId}" class="oracle-msg ai" style="opacity: 0.5;">Connecting...</div>`;
-            chat.scrollTop = chat.scrollHeight;
+            chat.innerHTML += `<div id="${loadingId}" class="oracle-msg ai" style="opacity: 0.5;">Connecting to Oracle...</div>`; chat.scrollTop = chat.scrollHeight;
 
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
                 });
-                
-                const data = await response.json();
-                document.getElementById(loadingId).remove();
-
+                const data = await response.json(); document.getElementById(loadingId).remove();
                 if(data.error) { chat.innerHTML += `<div class="oracle-msg ai">API Error: ${data.error.message}</div>`; } 
-                else {
-                    const reply = data.candidates[0].content.parts[0].text;
-                    const formattedReply = reply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
-                    chat.innerHTML += `<div class="oracle-msg ai">${formattedReply}</div>`;
-                }
-            } catch(e) {
-                document.getElementById(loadingId).remove();
-                chat.innerHTML += `<div class="oracle-msg ai">Network Error. Check console.</div>`;
-                console.error(e);
-            }
+                else { const reply = data.candidates[0].content.parts[0].text; const formattedReply = reply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>'); chat.innerHTML += `<div class="oracle-msg ai">${formattedReply}</div>`; }
+            } catch(e) { document.getElementById(loadingId).remove(); chat.innerHTML += `<div class="oracle-msg ai">Network Error. Check console.</div>`; }
             chat.scrollTop = chat.scrollHeight;
         }
 
-        // === 7. SOMNIASCRIBES JOURNAL ===
-        let archive = JSON.parse(localStorage.getItem('kore_archive')) || [];
+        // === 9. VAULT (STATE SAVING & MASTER BACKUP) ===
+        let savedVault = JSON.parse(localStorage.getItem('somniaVault')) || [];
+        function saveCurrentState() {
+            const state = {
+                bodyClass: document.documentElement.className.replace('cloaked', '').trim(),
+                glowClass: document.getElementById('glow-layer').className, particleType: window.particleType, particleCount: window.particleCount,
+                vars: { speed: getComputedStyle(document.documentElement).getPropertyValue('--anim-speed').trim(), opac: getComputedStyle(document.documentElement).getPropertyValue('--glow-opac').trim(), bright: getComputedStyle(document.documentElement).getPropertyValue('--bg-bright').trim(), zoom: getComputedStyle(document.documentElement).getPropertyValue('--bg-zoom').trim(), pColor: getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim(), gColor: getComputedStyle(document.documentElement).getPropertyValue('--glow-color').trim() }
+            };
+            localStorage.setItem('somnia_active_state', JSON.stringify(state));
+        }
 
-        function renderAnnals() {
-            const query = (document.getElementById('search-annals')?.value || "").toLowerCase();
-            const container = document.getElementById('annals');
-            if (!container) return;
-            container.innerHTML = "";
-
-            archive.forEach((entry, index) => {
-                if (entry.text.toLowerCase().includes(query)) {
-                    const node = document.createElement('div'); node.className = 'lore-entry';
-                    node.innerHTML = `
-                        <div class="entry-meta">${entry.timestamp}</div>
-                        <button class="shred-btn" onclick="shredEntry(${index})">✕</button>
-                        <div><span style="color:var(--primary); opacity:0.6; margin-right:10px;">></span> ${entry.text}</div>
-                    `;
-                    container.appendChild(node);
+        async function restoreActiveState() {
+            try {
+                const stateStr = localStorage.getItem('somnia_active_state'); const activeBgKey = localStorage.getItem('somnia_active_bg_key');
+                if (activeBgKey) { const blob = await getMedia(activeBgKey); if(blob) { document.getElementById('bg-anchor').style.backgroundImage = `url('${URL.createObjectURL(blob)}')`; } }
+                if (stateStr) {
+                    const state = JSON.parse(stateStr); const match = state.bodyClass.match(/(\w+)-mode/); if(match) applyPalette(match[1]);
+                    document.getElementById('glow-layer').className = state.glowClass || 'glow-pulse'; window.particleType = state.particleType || 'dust'; window.particleCount = state.particleCount || 50;
+                    if (state.vars) {
+                        updateVar('--anim-speed', state.vars.speed); updateVar('--glow-opac', state.vars.opac); updateVar('--bg-bright', state.vars.bright); updateVar('--bg-zoom', state.vars.zoom); updateVar('--particle-color', state.vars.pColor); updateVar('--glow-color', state.vars.gColor);
+                        if(document.getElementById('speed-slider')) document.getElementById('speed-slider').value = 21 - parseInt(state.vars.speed);
+                        if(document.getElementById('opac-slider')) document.getElementById('opac-slider').value = state.vars.opac;
+                        if(document.getElementById('bright-slider')) document.getElementById('bright-slider').value = state.vars.bright;
+                        if(document.getElementById('density-slider')) document.getElementById('density-slider').value = state.particleCount;
+                    }
                 }
-            });
-            container.scrollTop = container.scrollHeight;
+            } catch (e) { console.log("State restore error", e); }
         }
 
-        function commitLore() {
-            const input = document.getElementById('lore-editor');
-            if (!input || input.value.trim() === "") return;
-            const now = new Date();
-            const timestamp = now.toLocaleDateString() + " // " + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            archive.push({ text: input.value, timestamp });
-            localStorage.setItem('kore_archive', JSON.stringify(archive));
-            input.value = ""; renderAnnals();
+        async function savePreset() {
+            let presetName = await somniaPrompt("VAULT THIS VIBE", "Name your gorgeous aesthetic setup:", "Cozy Setting " + (savedVault.length + 1));
+            if (!presetName) return; 
+            const state = {
+                name: presetName, bodyClass: document.documentElement.className.replace('cloaked', '').trim(),
+                glowClass: document.getElementById('glow-layer').className, particleType: window.particleType, particleCount: window.particleCount,
+                bgKey: localStorage.getItem('somnia_active_bg_key'), 
+                vars: { speed: getComputedStyle(document.documentElement).getPropertyValue('--anim-speed').trim(), opac: getComputedStyle(document.documentElement).getPropertyValue('--glow-opac').trim(), bright: getComputedStyle(document.documentElement).getPropertyValue('--bg-bright').trim(), zoom: getComputedStyle(document.documentElement).getPropertyValue('--bg-zoom').trim(), pColor: getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim(), gColor: getComputedStyle(document.documentElement).getPropertyValue('--glow-color').trim() },
+                audio: Object.keys(activeAudio).map(id => ({ id: id, vol: activeAudio[id].gain ? activeAudio[id].gain.gain.value : 0.5 }))
+            };
+            savedVault.push(state); localStorage.setItem('somniaVault', JSON.stringify(savedVault)); renderVault();
+            somniaAlert("SAVED!", "Vibe successfully saved to the Vault."); flagUnsaved();
         }
 
-        function shredEntry(index) { archive.splice(index, 1); localStorage.setItem('kore_archive', JSON.stringify(archive)); renderAnnals(); }
-        function jolt(palette) { document.body.className = palette + '-mode'; }
-        function exportVault() {
-            const blob = new Blob([JSON.stringify(archive, null, 2)], { type: "application/json" });
-            const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-            a.download = "SOMNIASCRIBES.json"; a.click();
+        function renderVault() {
+            const list = document.getElementById('vault-list'); if(!list) return;
+            list.innerHTML = savedVault.map((preset, index) => `
+                <div class="mixer-card" style="flex-direction:row; align-items:center;">
+                    <button class="mixer-btn" style="color: var(--primary);" onclick="loadPreset(${index})">▶ ${preset.name}</button>
+                    <button class="toy-btn" style="padding: 6px 12px; font-size: 0.6rem; border-color: #fb7185; color: #fb7185; background: rgba(251,113,133,0.05);" onclick="promptDeletePreset(${index})">✕</button>
+                </div>
+            `).join('');
         }
 
-        function importVault(e) {
+        async function promptDeletePreset(index) {
+            if(await somniaConfirm("Delete Vibe?", "Are you sure you want to delete this saved preset?")) { 
+                savedVault.splice(index, 1); localStorage.setItem('somniaVault', JSON.stringify(savedVault)); renderVault(); flagUnsaved();
+            }
+        }
+
+        async function loadPreset(index) {
+            const state = savedVault[index]; if (!state) return;
+            const match = state.bodyClass.match(/(\w+)-mode/); if(match) applyPalette(match[1]);
+            document.getElementById('glow-layer').className = state.glowClass; window.particleType = state.particleType; window.particleCount = state.particleCount;
+            if (state.bgKey) { const blob = await getMedia(state.bgKey); if(blob) { document.getElementById('bg-anchor').style.backgroundImage = `url('${URL.createObjectURL(blob)}')`; localStorage.setItem('somnia_active_bg_key', state.bgKey); } } else { document.getElementById('bg-anchor').style.backgroundImage = "none"; localStorage.removeItem('somnia_active_bg_key'); }
+            updateVar('--anim-speed', state.vars.speed); updateVar('--glow-opac', state.vars.opac); updateVar('--bg-bright', state.vars.bright); updateVar('--bg-zoom', state.vars.zoom); updateVar('--particle-color', state.vars.pColor); updateVar('--glow-color', state.vars.gColor);
+            if(document.getElementById('speed-slider')) document.getElementById('speed-slider').value = 21 - parseInt(state.vars.speed);
+            if(document.getElementById('opac-slider')) document.getElementById('opac-slider').value = state.vars.opac;
+            if(document.getElementById('bright-slider')) document.getElementById('bright-slider').value = state.vars.bright;
+            if(document.getElementById('density-slider')) document.getElementById('density-slider').value = state.particleCount;
+            stopAllAudio(); 
+            if(state.audio) { state.audio.forEach(track => { const sound = soundLibrary.find(s => s.id === track.id) || customAudioLibrary.find(s => s.id === track.id); if (sound) { const volSlider = document.getElementById(`vol-${track.id}`); if (volSlider) volSlider.value = track.vol; toggleStem(track.id, sound.url); } }); }
+            saveCurrentState();
+        }
+
+        function exportFullArchive() {
+            const backup = { archive: archive, schedsEvents: schedsEvents, schedsNotes: schedsNotes, academy: academyData, vault: savedVault };
+            const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `SOMNIASANCTUARY_BACKUP_${new Date().toISOString().split('T')[0]}.json`; a.click();
+            unsavedChanges = false; document.getElementById('export-reminder').style.display = 'none';
+        }
+
+        function importFullArchive(e) {
             const reader = new FileReader();
             reader.onload = (x) => {
-                try { archive = JSON.parse(x.target.result); localStorage.setItem('kore_archive', JSON.stringify(archive)); renderAnnals(); } 
-                catch (err) { alert("Import failed."); }
+                try {
+                    const data = JSON.parse(x.target.result);
+                    if(data.archive) { archive = data.archive; localStorage.setItem('kore_archive', JSON.stringify(archive)); }
+                    if(data.schedsEvents) { schedsEvents = data.schedsEvents; schedsNotes = data.schedsNotes; saveSchedsData(); }
+                    if(data.academy) { academyData = data.academy; saveAcademyData(); }
+                    if(data.vault) { savedVault = data.vault; localStorage.setItem('somniaVault', JSON.stringify(savedVault)); renderVault(); }
+                    renderAnnals(); renderSchedsDay(); renderSchedsCalendar(); renderAcademy();
+                    somniaAlert("SUCCESS", "Sanctuary Backup Restored.");
+                } catch (err) { somniaAlert("ERROR", "Invalid Backup File."); }
             };
             if (e.target.files[0]) { reader.readAsText(e.target.files[0]); e.target.value = ''; }
         }
 
-        // === BOOT SEQUENCE ===
-        document.addEventListener('DOMContentLoaded', () => {
-            initMixer();
-            populateGrid('bg-presets', bgPresets, 'bg'); populateGrid('color-grid', colors, 'color');
-            populateGrid('particle-grid', particlesList, 'particle'); populateGrid('glow-grid', glows, 'glow');
-            populateGrid('particle-color-grid', particleColors, 'particleColor'); populateGrid('glow-color-grid', glowColors, 'glowColor');
+        function shareSomnia() { somniaAlert("Share Link", "Copy this link to share the vibe:\n\nhttps://somniascapes.com"); }
 
-            initParticles();
-            renderVault(); 
-            initScheds();
-            renderAcademy();
-
-            const editor = document.getElementById('lore-editor');
-            if (editor) { editor.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); commitLore(); } }); }
-            
-            const oracleInput = document.getElementById('oracle-editor');
-            if(oracleInput) { oracleInput.addEventListener('keydown', function(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); summonOracle(); } }); }
-
-            renderAnnals();
+        // === BOOT ===
+        document.addEventListener('DOMContentLoaded', async () => {
+            populateGrid('color-grid', Object.keys(palettes), 'color'); populateGrid('particle-grid', particlesList, 'particle'); populateGrid('glow-grid', glows, 'glow'); populateGrid('particle-color-grid', particleColors, 'particleColor'); populateGrid('glow-color-grid', glowColors, 'glowColor');
+            await loadCustomBackgrounds(); await loadCustomAudio(); await restoreActiveState();
+            initParticles(); renderSchedsHeader(); renderSchedsCalendar(); updateSchedsTimerDisplay(); renderVault(); renderAcademy();
+            setInterval(renderSchedsTime, 1000); renderSchedsTime();
+            document.getElementById('lore-editor').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); commitLore(); } });
+            const oracleInput = document.getElementById('oracle-editor'); if(oracleInput) { oracleInput.addEventListener('keydown', function(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); summonOracle(); } }); }
+            renderAnnals(); schedsSelectedDate = formatDateKey(new Date()); renderSchedsCalendar(); renderSchedsDay();
         });
-
-        document.getElementById("shareButton").addEventListener("click", shareSomnia);
-        async function shareSomnia() {
-            const canvas = document.querySelector("canvas");
-            if (!canvas) return;
-            const dataUrl = canvas.toDataURL("image/png");
-            const blob = await (await fetch(dataUrl)).blob();
-            const file = new File([blob], "somniascape.png", { type: "image/png" });
-            try { await navigator.share({ title: "My SomniaScape", text: "Made with SomniaScapes ✨", files: [file] }); } 
-            catch (err) { console.log("Share canceled or unsupported"); }
-        }
     </script>
 </body>
 </html>
