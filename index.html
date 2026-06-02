@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="SOMNIASYLLABUS // A private, offline-first educational sanctuary and digital workshop.">
+    <meta name="theme-color" content="#020204">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>SOMNIASYLLABUS // DIGITAL SANCTUARY</title>
     <style>
         /* ============================================================
@@ -74,18 +78,15 @@
         
         .cta-btn { background: rgba(0,0,0,0.5); backdrop-filter: blur(15px); border: 1px solid var(--accent); color: var(--text-main); padding: 18px 45px; border-radius: 50px; font-size: 1rem; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.4s ease; text-decoration: none; font-family: monospace; box-shadow: 0 0 20px rgba(165, 180, 252, 0.15); }
         .cta-btn:hover { background: var(--primary-glow); color: #000; border-color: var(--primary); box-shadow: 0 0 40px var(--primary-glow); transform: translateY(-3px); }
-
-        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; width: 100%; margin-top: 80px; }
-        .feature-card { background: var(--glass); backdrop-filter: blur(25px) saturate(120%); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 40px 30px; text-align: left; transition: 0.4s ease; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-        .feature-card:hover { border-color: var(--accent); transform: translateY(-5px); background: rgba(20, 25, 35, 0.8); box-shadow: 0 25px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.02); }
-        .feature-icon { font-size: 2.2rem; margin-bottom: 20px; filter: drop-shadow(0 0 10px var(--primary-glow)); }
-        .feature-title { font-size: 1.2rem; color: var(--primary); letter-spacing: 3px; text-transform: uppercase; margin: 0 0 15px 0; font-family: 'Times New Roman', serif; }
-        .feature-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; margin: 0; }
         .landing-footer { margin-top: 100px; padding-top: 30px; border-top: 1px solid var(--glass-border); font-size: 0.75rem; letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase; opacity: 0.5; font-family: monospace; width: 100%; }
 
         /* --- UI LAYOUT --- */
+        #cloak-overlay { position: fixed; inset: 0; z-index: 99999; display: none; cursor: pointer; background: transparent; }
+        body.cloaked #cloak-overlay { display: block; }
+        
         #ui-wrapper { position: relative; z-index: 100; height: 100vh; width: 100vw; display: flex; flex-direction: column; align-items: center; transition: opacity 0.8s ease; }
-        body.cloaked #ui-wrapper { opacity: 0; pointer-events: none; }
+        /* FORCING UI HIDE DURING FOCUS MODE */
+        body.cloaked #ui-wrapper { opacity: 0 !important; pointer-events: none !important; }
         
         #top-nav { display: flex; gap: 15px; padding: 25px; width: 100%; justify-content: center; flex-wrap: wrap; align-items: center;}
         .nav-logo { font-size: 1.8rem; letter-spacing: 12px; color: var(--primary); text-transform: uppercase; text-shadow: 0 0 20px var(--primary-glow); margin-top: auto; margin-bottom: 25px; text-align: center; font-family: 'Times New Roman', serif; transition: 0.3s;}
@@ -209,8 +210,7 @@
         .badge.default { background: rgba(0,0,0,0.5); border-color: var(--glass-border); color: var(--text-muted); }
         .log-row { display: flex; justify-content: space-between; font-size: 0.8rem; padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); font-family: monospace;}
 
-        /* --- JOURNAL & AI ASSISTANT MODALS --- */
-        .scribes-bubble { width: 100%; max-width: 800px; height: 85vh; background: rgba(6, 6, 8, 0.95); backdrop-filter: blur(40px) saturate(150%); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 30px; box-shadow: 0 30px 100px rgba(0,0,0,0.9); display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
+        /* --- JOURNAL TAB --- */
         .archive-vault { width: 100%; flex: 1; background: rgba(0,0,0,0.6); border: 1px solid var(--glass-border); border-radius: 16px; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; gap: 15px; box-shadow: inset 0 0 40px rgba(0,0,0,0.8); }
         .vault-header { border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 15px; }
         .vault-header h2 { margin: 0; font-size: 1.5rem; letter-spacing: 8px; text-transform: uppercase; color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); font-family: 'Times New Roman', serif;}
@@ -230,46 +230,59 @@
         .lore-input { flex: 1; background: transparent; border: none; color: var(--text-main); outline: none; resize: none; font-family: 'Georgia', serif; font-size: 1rem; line-height: 1.6; padding: 5px;}
         .editor-tools { display: flex; flex-direction: column; gap: 8px; justify-content: flex-end;}
 
+        /* --- AI ASSISTANT MODAL --- */
+        .scribes-bubble { width: 100%; max-width: 800px; height: 85vh; background: rgba(6, 6, 8, 0.95); backdrop-filter: blur(40px) saturate(150%); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 30px; box-shadow: 0 30px 100px rgba(0,0,0,0.9); display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
         .oracle-chat-body { flex: 1; overflow-y: auto; padding-right: 10px; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none; }
         .oracle-msg { padding: 15px 20px; border-radius: 12px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; font-family: 'Georgia', serif; }
         .oracle-msg.user { background: rgba(255,255,255,0.05); align-self: flex-end; color: var(--text-main); border: 1px solid var(--glass-border); border-bottom-right-radius: 2px;}
         .oracle-msg.ai { background: rgba(0,0,0,0.6); align-self: flex-start; color: var(--primary); border: 1px solid var(--primary); border-bottom-left-radius: 2px; box-shadow: 0 0 15px rgba(0,0,0,0.5);}
 
+        /* VIBE MODAL (TRANSLUCENT SIDE PANEL) */
+        #vibe-modal { background: rgba(0,0,0,0.1) !important; backdrop-filter: none !important; justify-content: flex-end !important; padding: 20px !important; align-items: center;}
+        #vibe-modal .scribes-bubble { width: 450px; max-width: 95%; height: calc(100vh - 40px); background: rgba(10, 12, 18, 0.85); box-shadow: -10px 0 50px rgba(0,0,0,0.8); border-radius: 16px; margin: 0; padding: 25px;}
+        .vibe-nav { display: flex; gap: 10px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; margin-bottom: 20px; overflow-x: auto; scrollbar-width: none; flex-wrap: wrap;}
+        .vibe-nav::-webkit-scrollbar { display: none; }
+        .vibe-tab-btn { background: transparent; border: 1px solid var(--glass-border); color: var(--text-muted); padding: 8px 15px; border-radius: 20px; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: 0.3s; font-family: monospace; white-space: nowrap; }
+        .vibe-tab-btn.active { color: var(--primary); border-color: var(--accent); background: rgba(255,255,255,0.05); box-shadow: 0 0 15px var(--primary-glow); }
+        .vibe-section { display: none; flex-direction: column; gap: 15px; max-height: calc(100vh - 220px); overflow-y: auto; overflow-x: hidden; padding-right: 10px; }
+        .vibe-section.active { display: flex; }
+        .vibe-section::-webkit-scrollbar { width: 4px; }
+        .vibe-section::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 2px; }
+
         /* --- OFFICIAL TRANSCRIPT (PRINT STYLES) --- */
         #transcript-layer { display: none; }
 
         @media print {
-            /* Hide the entire Vibe Machine */
-            #ui-wrapper, #bg-anchor, #glow-layer, #particleCanvas, #landing-page, .modal-overlay { 
+            /* Hide UI chrome */
+            #ui-wrapper, #cloak-overlay, #bg-anchor, #glow-layer, #particleCanvas, #landing-page, .modal-overlay { 
                 display: none !important; 
             }
             
-            /* Force white background and black text for the printer */
+            /* Corporate-grade typography sheet optimized for monochrome printers */
             body, html { 
                 background: #ffffff !important; 
                 color: #000000 !important; 
                 height: auto; 
                 overflow: visible; 
+                font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif !important;
             }
 
-            /* Show and format the transcript */
             #transcript-layer { 
                 display: block !important; 
                 width: 100%; 
                 max-width: 8.5in; 
                 margin: 0 auto; 
-                font-family: 'Times New Roman', serif; 
                 padding: 0.5in;
             }
 
-            .print-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px; }
-            .print-academy-name { font-size: 24pt; font-weight: bold; letter-spacing: 4px; text-transform: uppercase; }
-            .print-doc-title { font-size: 14pt; letter-spacing: 2px; margin-top: 5px; font-style: italic; }
-            .print-student-info { display: flex; justify-content: space-between; margin-bottom: 30px; font-size: 12pt; line-height: 1.5; }
+            .print-header { text-align: center; border-bottom: 3px double #000; padding-bottom: 20px; margin-bottom: 30px; }
+            .print-academy-name { font-size: 26pt; font-weight: bold; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 5px;}
+            .print-doc-title { font-size: 14pt; letter-spacing: 2px; margin-top: 5px; font-style: italic; color: #333 !important;}
+            .print-student-info { display: flex; justify-content: space-between; margin-bottom: 30px; font-size: 11pt; line-height: 1.8; }
             .print-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
-            .print-table th { border-bottom: 1px solid #000; text-align: left; padding: 8px 0; font-size: 11pt; }
-            .print-table td { padding: 8px 0; border-bottom: 1px dashed #ccc; font-size: 11pt; }
-            .print-signature { margin-top: 60px; width: 300px; border-top: 1px solid #000; padding-top: 5px; text-align: center; }
+            .print-table th { border-bottom: 2px solid #000; text-align: left; padding: 10px 0; font-size: 10pt; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;}
+            .print-table td { padding: 12px 0; border-bottom: 1px solid #ccc; font-size: 11pt; }
+            .print-signature { margin-top: 80px; width: 300px; border-top: 1px solid #000; padding-top: 10px; text-align: center; font-size: 11pt;}
             .print-subject-block { page-break-inside: avoid; }
         }
 
@@ -346,8 +359,10 @@
     <div id="glow-layer" class="glow-pulse"></div>
     <canvas id="particleCanvas"></canvas>
 
-    <div id="ui-wrapper" style="opacity: 0; pointer-events: none;" onclick="restoreUI()">
-        <div id="top-nav" onclick="event.stopPropagation()">
+    <div id="cloak-overlay" onclick="restoreUI()"></div>
+
+    <div id="ui-wrapper" style="opacity: 0; pointer-events: none;">
+        <div id="top-nav">
             <div id="attendance-module" class="hearth-container">
                 <button id="hearth-btn" class="hearth-btn" onclick="lightHearth()">🔥</button>
                 <div style="display: flex; flex-direction: column;">
@@ -359,83 +374,26 @@
                 <button class="toy-btn" style="font-size: 0.6rem; padding: 3px 8px; border: none; background: transparent; color: #fb7185;" onclick="undoHearth()">-</button>
             </div>
 
+            <button class="artifact-btn" onclick="toggleModal('vibe-modal')">Vibe Editor</button>
             <button class="artifact-btn" onclick="toggleCloak()">Focus Mode</button>
-            <button class="artifact-btn" onclick="toggleModal('scratchpad-modal')">Journal</button>
             <button class="artifact-btn" onclick="toggleModal('oracle-modal')">AI Assistant</button>
+            <button class="artifact-btn" onclick="takeDailySnapshot()">📸 Snapshot</button>
             <button class="artifact-btn" onclick="toggleModal('cast-modal')">Projector</button>
-            <button id="export-reminder" class="artifact-btn" onclick="exportFullArchive()">⚠️ Export Backup</button>
+            <button class="artifact-btn" onclick="shareSomnia()">Share SomniaScapes</button>
+            <button id="export-reminder" class="artifact-btn" onclick="exportCoreData()">⚠️ Export Backup</button>
         </div>
 
-        <div class="nav-logo" onclick="restoreUI()">SOMNIASYLLABUS</div>
+        <div class="nav-logo">SOMNIASYLLABUS</div>
 
-        <main id="maker-panel" onclick="event.stopPropagation()">
+        <main id="maker-panel">
             <div class="tab-bar">
-                <button class="tab-btn" onclick="switchTab('tab-audio', this)">Audio</button>
-                <button class="tab-btn" onclick="switchTab('tab-canvas', this)">Canvas</button>
-                <button class="tab-btn" onclick="switchTab('tab-atmos', this)">Atmosphere</button>
-                <button class="tab-btn" onclick="switchTab('tab-pathways', this)">Lessons</button>
                 <button class="tab-btn active" onclick="switchTab('tab-academy', this)">Academy</button>
-                <button class="tab-btn" onclick="switchTab('tab-scheds', this)">Planner</button>
+                <button class="tab-btn" onclick="switchTab('tab-lessons', this)">Lessons</button>
+                <button class="tab-btn" onclick="switchTab('tab-planner', this)">Planner</button>
+                <button class="tab-btn" onclick="switchTab('tab-journal', this)">Journal</button>
                 <button class="tab-btn" onclick="switchTab('tab-vault', this)">Vault</button>
                 <button class="tab-btn" onclick="switchTab('tab-protips', this)">Pro Tips</button>
-            </div>
-
-            <div id="tab-audio" class="tab-content">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <label class="toy-btn" style="flex:1; text-align:center; margin-right:15px; padding: 15px;">
-                        + Upload Custom Audio
-                        <input type="file" style="display:none;" accept="audio/*" onchange="handleAudioUpload(this)">
-                    </label>
-                    <button class="toy-btn" onclick="stopAllAudio()" style="border-color:#fb7185; color:#fb7185; padding: 15px;">Silence All</button>
-                </div>
-                <div class="ctrl-row" style="margin-top: 10px;">
-                    <label style="color: var(--primary);">Master Gain</label>
-                    <input type="range" class="ctrl-slider" id="master-gain-slider" min="0" max="2" step="0.1" value="1" oninput="setMasterGain(this.value)">
-                </div>
-                <div id="mixer-container" style="display:flex; flex-direction:column; gap:10px; margin-top: 10px;"></div>
-            </div>
-
-            <div id="tab-canvas" class="tab-content">
-                <h4 class="section-title">Saved Backgrounds</h4>
-                <div class="btn-grid" id="custom-bgs" style="display: flex; flex-direction: column; gap: 10px;"></div>
-                <h4 class="section-title" style="margin-top:20px;">Upload New</h4>
-                <label class="upload-zone">
-                    <span>+ Upload Local Background Image</span>
-                    <input type="file" accept="image/*" onchange="executeImageUpload(this)">
-                </label>
-            </div>
-
-            <div id="tab-atmos" class="tab-content">
-                <h4 class="section-title">Color Palettes</h4>
-                <div class="btn-grid" id="color-grid"></div>
-                <h4 class="section-title" style="margin-top:15px;">Particle Types</h4>
-                <div class="btn-grid" id="particle-grid"></div>
-                <h4 class="section-title" style="margin-top:15px;">Screen Glows</h4>
-                <div class="btn-grid" id="glow-grid"></div>
-                
-                <h4 class="section-title" style="margin-top:25px; color: var(--accent);">Advanced: Colors</h4>
-                <div class="btn-grid" id="particle-color-grid"></div>
-                <div class="btn-grid" id="glow-color-grid" style="margin-top: 10px;"></div>
-
-                <h4 class="section-title" style="margin-top:25px; color: var(--accent);">Advanced: Engine</h4>
-                <div class="ctrl-row"><label>Speed</label><input type="range" class="ctrl-slider" id="speed-slider" min="1" max="20" value="10" oninput="updateVar('--anim-speed', (21-this.value)+'s');"></div>
-                <div class="ctrl-row"><label>Opacity</label><input type="range" class="ctrl-slider" id="opac-slider" min="0" max="1" step="0.1" value="0.3" oninput="updateVar('--glow-opac', this.value);"></div>
-                <div class="ctrl-row"><label>Brightness</label><input type="range" class="ctrl-slider" id="bright-slider" min="0.2" max="2" step="0.1" value="0.85" oninput="updateVar('--bg-bright', this.value);"></div>
-                <div class="ctrl-row"><label>Density</label><input type="range" class="ctrl-slider" id="density-slider" min="10" max="200" value="50" step="10" oninput="updateParticleDensity(this.value);"></div>
-            </div>
-
-            <div id="tab-pathways" class="tab-content">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                    <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0; font-family: 'Times New Roman', serif;">THE LESSONS</h3>
-                </div>
-                <p style="font-size: 0.8rem; color: var(--text-muted); font-family: monospace; margin-top:0; margin-bottom: 20px;">No dates. No deadlines. Just do the next thing.</p>
-                
-                <div id="pathways-container" style="display: flex; flex-direction: column; gap: 10px;"></div>
-
-                <div style="display: flex; gap: 10px; margin-top: 15px;">
-                    <input type="text" id="new-pathway-input" class="core-input" style="margin:0;" placeholder="New Subject (e.g. Math Vol 1)">
-                    <button class="toy-btn" style="border-color: var(--accent);" onclick="createNewPathway()">+ Add Lesson</button>
-                </div>
+                <button class="tab-btn" onclick="switchTab('tab-about', this)">About</button>
             </div>
 
             <div id="tab-academy" class="tab-content active">
@@ -448,7 +406,19 @@
                 <div id="academy-container" style="display: flex; flex-direction: column; gap: 15px; margin-top: 5px;"></div>
             </div>
 
-            <div id="tab-scheds" class="tab-content">
+            <div id="tab-lessons" class="tab-content">
+                <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0 0 5px 0; font-family: 'Times New Roman', serif;">THE LESSONS</h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted); font-family: monospace; margin-top:0; margin-bottom: 20px;">No dates. No deadlines. Just do the next thing.</p>
+                
+                <div id="pathways-container" style="display: flex; flex-direction: column; gap: 10px;"></div>
+
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <input type="text" id="new-pathway-input" class="core-input" style="margin:0;" placeholder="New Subject (e.g. Math Vol 1)">
+                    <button class="toy-btn" style="border-color: var(--accent);" onclick="createNewPathway()">+ Add Lesson</button>
+                </div>
+            </div>
+
+            <div id="tab-planner" class="tab-content">
                 <div style="display: flex; gap: 15px; flex-wrap: wrap;">
                     <div class="sched-card" style="flex: 1.5; min-width: 250px;">
                         <div class="sched-header-row">
@@ -490,7 +460,7 @@
                 </div>
 
                 <div class="sched-card">
-                    <div class="sched-section-title">Day Plan (Calendar Tasks)</div>
+                    <div class="sched-section-title">Calendar Tasks</div>
                     <div class="sched-subtext" id="sched-selected-date-label">Select a day to plan.</div>
                     <div class="sched-input-row" style="margin-top:15px;">
                         <input id="sched-event-title" class="core-input" style="margin:0;" type="text" placeholder="Task or event...">
@@ -508,8 +478,32 @@
                 </div>
             </div>
 
+            <div id="tab-journal" class="tab-content">
+                <div class="archive-vault" style="height: 60vh;">
+                    <div class="vault-header">
+                        <div>
+                            <h2>SomniaJournal</h2>
+                            <div style="font-size: 0.65rem; opacity: 0.7; letter-spacing: 5px; font-family: monospace; color: var(--accent);">PRIVATE SOMATIC JOURNAL</div>
+                        </div>
+                        <input type="text" id="search-annals" placeholder="SEARCH ARCHIVE..." oninput="renderAnnals()">
+                    </div>
+                    <div id="annals" class="annals-body"></div>
+                    <div class="editor-container">
+                        <textarea id="lore-editor" class="lore-input" rows="3" placeholder="Write a new entry..."></textarea>
+                        <div class="editor-tools">
+                            <label class="toy-btn" style="padding: 10px; font-size: 0.8rem; text-align: center; border-radius: 8px;" title="Attach Image">
+                                📷 <input type="file" id="lore-img" accept="image/*" style="display:none;" onchange="attachJournalImage(this)">
+                            </label>
+                            <button class="toy-btn" style="padding: 10px; font-size: 0.8rem; font-weight: bold; color: var(--primary); border-color: var(--primary); border-radius: 8px;" onclick="commitLore()">SAVE</button>
+                        </div>
+                    </div>
+                    <div id="img-preview-container" style="display:none; font-size: 0.7rem; color: var(--accent); font-family: monospace; margin-top: 5px;">
+                        Image Ready to Attach <button onclick="clearJournalImage()" style="background:none;border:none;color:#fb7185;cursor:pointer; font-weight: bold;">✕</button>
+                    </div>
+                </div>
+            </div>
+
             <div id="tab-vault" class="tab-content">
-                
                 <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border: 1px solid var(--glass-border); margin-bottom: 20px;">
                     <h4 class="section-title" style="border:none; margin-bottom: 5px;">State Compliance Rules</h4>
                     <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0; margin-bottom: 15px;">Select your state's burden level. We will hide whatever you don't legally need.</p>
@@ -520,29 +514,7 @@
                     </select>
                 </div>
 
-                <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border: 1px solid #fbbf24; margin-bottom: 20px; text-align: center;">
-                    <h4 class="section-title" style="border:none; color: #fbbf24; margin-bottom: 5px;">Disaster Prevention Vault</h4>
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top:0; margin-bottom: 15px;">Export your Academy rosters, Planner, Journal, and environment vibes into a single secure file.</p>
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-                        <button class="toy-btn" style="flex: 1; border-color: #fbbf24; color: #fbbf24; padding: 15px;" onclick="exportFullArchive()">📤 Download Backup (.somnia)</button>
-                        <label class="toy-btn" style="flex: 1; text-align: center; border-color: var(--glass-border); color: var(--text-main); padding: 15px;">
-                            📥 Restore Backup
-                            <input type="file" style="display: none;" accept=".somnia, .json" onchange="importFullArchive(event)">
-                        </label>
-                    </div>
-                </div>
-
                 <button class="toy-btn" style="width: 100%; border-color: var(--primary); padding: 15px; margin-bottom: 20px; border-radius: 12px; font-weight:bold;" onclick="generatePDF()">🖨️ Generate PDF Codex / Transcript</button>
-
-                <h4 class="section-title" style="margin-top: 10px;">API Keys</h4>
-                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                    <input type="password" id="gemini-key-input" class="core-input" style="margin:0;" placeholder="Gemini API Key...">
-                    <button class="toy-btn" id="save-key-btn" style="padding: 10px 20px;" onclick="saveApiKey()">Save</button>
-                </div>
-
-                <h4 class="section-title">Saved Room Vibes</h4>
-                <button class="toy-btn" id="save-btn" style="width: 100%; border-color: var(--accent); padding: 15px; margin-bottom: 15px; border-radius: 12px;" onclick="savePreset()">💾 Save Current Environment Setting</button>
-                <div id="vault-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
             </div>
 
             <div id="tab-protips" class="tab-content">
@@ -551,48 +523,154 @@
                 <ul style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
                     <li><strong>Academy:</strong> Add students to your roster. Track their daily attendance and log individual subject grades here.</li>
                     <li><strong>Lessons:</strong> Break down subjects into actionable tasks. Check them off as you progress, and log final grades.</li>
-                    <li><strong>Calendar:</strong> Plan your day, set the focus timer, leave quick notes, and keep track of daily habits.</li>
+                    <li><strong>Planner:</strong> Plan your day, set the focus timer, leave quick notes, and keep track of daily habits.</li>
                     <li><strong>Journal:</strong> Record thoughts and attach images. Everything is stored locally on your device.</li>
-                    <li><strong>AI Assistant:</strong> Connect your Gemini API key in the Vault to ask questions right inside the app.</li>
-                    <li><strong>Atmosphere:</strong> Customize the background, colors, and sounds. Save your perfect setup to the Vault.</li>
+                    <li><strong>Vibe Editor:</strong> Customize the background, colors, and sounds. Save your perfect setup to the Vault inside the editor.</li>
                 </ul>
 
-                <h4 class="section-title" style="margin-top: 15px; color: var(--primary);">💡 Pro Tip: Backup Organization</h4>
+                <h4 class="section-title" style="margin-top: 15px; color: var(--primary);">📸 Pro Tip: The Daily Snapshot</h4>
                 <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-                    To ensure nothing is lost, create a dedicated <strong>"SomniaSyllabus Backups" folder in Google Drive</strong> (or your preferred cloud storage). 
-                    Every time you download a <code>.somnia</code> backup from the Vault, place it directly into this folder. It keeps your records safe and organized across devices (no one buys USBs anymore).
+                    When you are finished for the day, click the <strong>📸 Snapshot</strong> button in the top navigation. The engine will instantly compile your current attendance, all student statuses, and your lesson progress, log it as a time-stamped text entry directly into your Private Journal, and automatically download your backup core data file.
                 </p>
 
-                <h4 class="section-title" style="margin-top: 15px; color: var(--primary);">💡 Pro Tip: Customizing the Vibe</h4>
+                <h4 class="section-title" style="margin-top: 15px; color: var(--primary);">🤖 Pro Tip: Activating the AI Assistant</h4>
                 <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-                    Want to build the ultimate study room? We highly recommend <strong>Pixabay.com</strong> for downloading free, high-quality ambient noise and soundscapes. For your visual backgrounds, try prompting <strong>Gemini</strong> to generate exactly the aesthetic you want!
+                    1. Go to <strong>aistudio.google.com</strong> and sign in with your Google account.<br>
+                    2. Click <strong>"Get API Key"</strong> and create a new key.<br>
+                    3. Copy the key, open the <strong>AI Assistant</strong> from the top navigation in SomniaSyllabus, paste it into the "Gemini API Key" field, and click <strong>Save Key</strong>.
+                </p>
+
+                <h4 class="section-title" style="margin-top: 15px; color: var(--primary);">📺 Pro Tip: Big Screen Experience</h4>
+                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+                    For maximum immersion, open this environment directly in your TV's web browser, or cast it from your device for an incredible wide-screen workshop experience.
+                </p>
+
+                <h4 class="section-title" style="margin-top: 15px; color: var(--primary);">📂 Pro Tip: Backup Organization</h4>
+                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+                    We recommend downloading the source code zip/HTML file and keeping it in the same <strong>Google Drive folder</strong> as your daily snapshot updates, just in case servers ever go down. This ensures you can access and restore your classroom no matter what happens!
+                </p>
+
+                <h4 class="section-title" style="margin-top: 15px; color: var(--primary);">✨ Pro Tip: Customizing the Vibe</h4>
+                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+                    Want to build the ultimate study room? We highly recommend <strong>Pixabay.com</strong> for downloading free, high-quality ambient noise and soundscapes. For your visual backgrounds, try prompting <strong>Gemini</strong> to generate exactly the aesthetic you want, or upload photos of your own space!
+                </p>
+
+                <h4 class="section-title" style="margin-top: 15px; color: var(--primary);">🌙 Pro Tip: Expand the Sanctuary</h4>
+                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+                    Visit <strong><a href="https://somniascapes.com" target="_blank" style="color: var(--accent);">somniascapes.com</a></strong> for more products, tools, and digital atmospheres we think you'll absolutely love.
+                </p>
+            </div>
+
+         <div id="tab-about" class="tab-content">
+                <h4 class="section-title">SOMNIASYLLABUS // DIGITAL SANCTUARY</h4>
+                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+                    <strong>Version:</strong> 1.0.0 (Academy Edition)<br><br>
+                    Homeschooling neurodivergent children takes everything you have. The last thing you need is software that drains your wallet and your executive function.<br><br>
+                    I am an ND parent teaching ND kids. I was tired of finding the perfect educational tools only to hit exorbitant monthly paywalls. Quality education and peace of mind are not luxury subscription services.<br><br>
+                    SomniaSyllabus is my answer to the modern internet:
+                </p>
+                <ul style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.8; margin-top: 0;">
+                    <li><strong>No Subscriptions:</strong> Education shouldn't be held hostage by recurring fees. Buy it once, own it forever.</li>
+                    <li><strong>ND-Friendly Design:</strong> A calm, somatic environment that reduces sensory overload and decision fatigue.</li>
+                    <li><strong>Effortless Record-Keeping:</strong> Generate state-compliant transcripts and daily snapshots with one click, without fighting a clunky interface.</li>
+                    <li><strong>Total Privacy:</strong> Everything lives locally on your machine. No cloud, no data harvesting.</li>
+                </ul>
+                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+                    This is a digital sanctuary built by an ND family, for ND families. Welcome to your private workshop.
                 </p>
             </div>
 
         </main>
     </div>
 
-    <div id="scratchpad-modal" class="modal-overlay" onclick="toggleModal('scratchpad-modal')">
+    <div id="vibe-modal" class="modal-overlay" onclick="toggleModal('vibe-modal')">
         <div class="scribes-bubble" onclick="event.stopPropagation()">
-            <div class="archive-vault">
-                <div class="vault-header">
-                    <div>
-                        <h2>SomniaJournal</h2>
-                        <div style="font-size: 0.65rem; opacity: 0.7; letter-spacing: 5px; font-family: monospace; color: var(--accent);">PRIVATE SOMATIC JOURNAL</div>
+            <div class="archive-vault" style="height: 100%; border: none; padding: 0;">
+                <div class="vault-header" style="justify-content: center; padding-bottom: 10px;">
+                    <div style="text-align:center;">
+                        <h2 style="font-size: 1.2rem;">Vibe Editor</h2>
+                        <div style="font-size: 0.6rem; opacity: 0.7; letter-spacing: 5px; font-family: monospace; color: var(--accent);">ENVIRONMENT & SETTINGS</div>
                     </div>
-                    <input type="text" id="search-annals" placeholder="SEARCH ARCHIVE..." oninput="renderAnnals()">
                 </div>
-                <div id="annals" class="annals-body"></div>
-                <div class="editor-container">
-                    <textarea id="lore-editor" class="lore-input" rows="3" placeholder="Write a new entry..."></textarea>
-                    <div class="editor-tools">
-                        <label class="toy-btn" style="padding: 10px; font-size: 0.8rem; text-align: center; border-radius: 8px;" title="Attach Image">
-                            📷 <input type="file" id="lore-img" accept="image/*" style="display:none;" onchange="attachJournalImage(this)">
+
+                <div class="vibe-nav">
+                    <button class="vibe-tab-btn active" onclick="switchVibeTab('vibe-canvas', this)">Canvas</button>
+                    <button class="vibe-tab-btn" onclick="switchVibeTab('vibe-audio', this)">Audio</button>
+                    <button class="vibe-tab-btn" onclick="switchVibeTab('vibe-atmos', this)">Atmosphere</button>
+                    <button class="vibe-tab-btn" onclick="switchVibeTab('vibe-presets', this)">Presets</button>
+                    <button class="vibe-tab-btn" onclick="switchVibeTab('vibe-settings', this)">Settings</button>
+                </div>
+
+                <div class="annals-body" style="padding-right: 5px;">
+                    <div id="vibe-canvas" class="vibe-section active">
+                        <h4 class="section-title">Saved Backgrounds</h4>
+                        <div class="btn-grid" id="custom-bgs" style="display: flex; flex-direction: column; gap: 10px;"></div>
+                        <h4 class="section-title" style="margin-top:20px;">Upload New</h4>
+                        <label class="upload-zone">
+                            <span>+ Upload Local Background Image</span>
+                            <input type="file" accept="image/*" onchange="executeImageUpload(this)">
                         </label>
-                        <button class="toy-btn" style="padding: 10px; font-size: 0.8rem; font-weight: bold; color: var(--primary); border-color: var(--primary); border-radius: 8px;" onclick="commitLore()">SAVE</button>
+                    </div>
+
+                    <div id="vibe-audio" class="vibe-section">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <label class="toy-btn" style="flex:1; text-align:center; margin-right:15px; padding: 15px;">
+                                + Custom Audio
+                                <input type="file" style="display:none;" accept="audio/*" onchange="handleAudioUpload(this)">
+                            </label>
+                            <button class="toy-btn" onclick="stopAllAudio()" style="border-color:#fb7185; color:#fb7185; padding: 15px;">Silence All</button>
+                        </div>
+                        <div class="ctrl-row" style="margin-top: 10px;">
+                            <label style="color: var(--primary);">Master Gain</label>
+                            <input type="range" class="ctrl-slider" id="master-gain-slider" min="0" max="2" step="0.1" value="1" oninput="setMasterGain(this.value)">
+                        </div>
+                        <div id="mixer-container" style="display:flex; flex-direction:column; gap:10px; margin-top: 10px;"></div>
+                    </div>
+
+                    <div id="vibe-atmos" class="vibe-section">
+                        <h4 class="section-title">Color Palettes</h4>
+                        <div class="btn-grid" id="color-grid"></div>
+                        <h4 class="section-title" style="margin-top:15px;">Particle Types</h4>
+                        <div class="btn-grid" id="particle-grid"></div>
+                        <h4 class="section-title" style="margin-top:15px;">Screen Glows</h4>
+                        <div class="btn-grid" id="glow-grid"></div>
+                        
+                        <h4 class="section-title" style="margin-top:25px; color: var(--accent);">Advanced: Particle Colors</h4>
+                        <div class="btn-grid" id="particle-color-grid"></div>
+                        
+                        <h4 class="section-title" style="margin-top:15px; color: var(--accent);">Advanced: Glow Colors</h4>
+                        <div class="btn-grid" id="glow-color-grid"></div>
+
+                        <h4 class="section-title" style="margin-top:25px; color: var(--accent);">Advanced: Engine</h4>
+                        <div class="ctrl-row"><label>Speed</label><input type="range" class="ctrl-slider" id="speed-slider" min="1" max="20" value="10" oninput="updateVar('--anim-speed', (21-this.value)+'s');"></div>
+                        <div class="ctrl-row"><label>Opacity</label><input type="range" class="ctrl-slider" id="opac-slider" min="0" max="1" step="0.1" value="0.3" oninput="updateVar('--glow-opac', this.value);"></div>
+                        <div class="ctrl-row"><label>Brightness</label><input type="range" class="ctrl-slider" id="bright-slider" min="0.2" max="2" step="0.1" value="0.85" oninput="updateVar('--bg-bright', this.value);"></div>
+                        <div class="ctrl-row"><label>Density</label><input type="range" class="ctrl-slider" id="density-slider" min="10" max="200" value="50" step="10" oninput="updateParticleDensity(this.value);"></div>
+                    </div>
+
+                    <div id="vibe-presets" class="vibe-section">
+                        <button class="toy-btn" id="save-btn" style="width: 100%; border-color: var(--accent); padding: 15px; margin-bottom: 15px; border-radius: 12px;" onclick="savePreset()">💾 Save Current Environment Setting</button>
+                        <div id="vault-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
+                    </div>
+
+                    <div id="vibe-settings" class="vibe-section">
+                        <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border: 1px solid var(--glass-border); text-align: center;">
+                            <h4 class="section-title" style="border:none; margin-bottom: 5px;">Data Management</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top:0; margin-bottom: 15px;">Import or Export your clean core data file.</p>
+                            
+                            <div style="display: flex; gap: 10px; justify-content: center;">
+                                <label class="toy-btn" style="flex: 1; text-align: center; border-color: var(--glass-border); color: var(--text-main); padding: 15px;">
+                                    📥 Import Data
+                                    <input type="file" style="display: none;" accept=".somnia, .json" onchange="importFullArchive(event)">
+                                </label>
+                                <button class="toy-btn" style="flex: 1; border-color: var(--glass-border); color: var(--text-main); padding: 15px;" onclick="exportCoreData()">
+                                    📤 Export Data
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div id="img-preview-container" style="display:none; font-size: 0.7rem; color: var(--accent); font-family: monospace;">Image Attached <button onclick="clearJournalImage()" style="background:none;border:none;color:#fb7185;cursor:pointer;">✕</button></div>
+
             </div>
         </div>
     </div>
@@ -602,12 +680,23 @@
             <div class="archive-vault">
                 <div class="vault-header">
                     <div>
-                        <h2>AI Assistant</h2>
+                        <h2>Teacher's Assistant</h2>
                         <div style="font-size: 0.65rem; opacity: 0.7; letter-spacing: 5px; font-family: monospace; color: var(--accent);">PRIVATE AI ASSISTANT</div>
                     </div>
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: flex-end;">
+                        <input type="password" id="gemini-key-input" class="core-input" style="margin:0; padding: 6px 12px; width: 180px; font-size: 0.75rem;" placeholder="Gemini API Key...">
+                        <button class="toy-btn" id="save-key-btn" style="padding: 6px 12px; font-size: 0.7rem;" onclick="saveApiKey()">Save Key</button>
+                    </div>
                 </div>
+                
+                <div style="display:flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px;">
+                    <button class="artifact-btn" style="font-size: 0.65rem; padding: 8px 15px;" onclick="injectPrompt('Act as a master teacher. Generate a 5-step lesson plan for: ')">Draft Lesson Plan</button>
+                    <button class="artifact-btn" style="font-size: 0.65rem; padding: 8px 15px;" onclick="injectPrompt('Explain this concept simply for a 10 year old: ')">Explain For Kid</button>
+                    <button class="artifact-btn" style="font-size: 0.65rem; padding: 8px 15px;" onclick="injectPrompt('Give me 3 creative, offline project ideas for: ')">Project Ideas</button>
+                </div>
+
                 <div id="oracle-chat" class="oracle-chat-body">
-                    <div class="oracle-msg ai">Connection established. How may I assist you today?</div>
+                    <div class="oracle-msg ai">Connection established. How may I assist you with your curriculum today?</div>
                 </div>
                 <div class="editor-container">
                     <textarea id="oracle-editor" class="lore-input" rows="2" placeholder="Ask your assistant... [Press ENTER to send]"></textarea>
@@ -632,6 +721,9 @@
                 </p>
             </div>
             <button class="toy-btn" style="width: 100%; padding: 18px; border-color: var(--accent); color: var(--text-main); font-size: 0.8rem; border-radius: 50px;" onclick="toggleFullscreen()">⛶ Just Fill My Screen</button>
+            <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; margin-top: 20px; font-family: monospace;">
+                * Pro Tip: Hit "Just Fill My Screen", and then hit "Focus Mode" in the top navigation to cleanly melt away the entire UI for deep work.
+            </p>
         </div>
     </div>
 
@@ -677,15 +769,24 @@
 
         function applyPalette(key) {
             if(!palettes[key]) return;
-            const p = palettes[key];
-            r.style.setProperty('--primary', p.primary); r.style.setProperty('--accent', p.accent); r.style.setProperty('--primary-glow', p.glow); r.style.setProperty('--glass-border', p.border); r.style.setProperty('--text-main', p.text);
-            document.documentElement.className = key + '-mode';
+            const modes = ['lunar-mode', 'noir-mode', 'vellum-mode', 'amethyst-mode', 'crimson-mode', 'emerald-mode', 'solar-mode', 'void-mode', 'obsidian-mode', 'ghost-mode'];
+            document.body.classList.remove(...modes);
+            document.body.classList.add(key + '-mode');
+            flagUnsaved();
         }
 
         function switchTab(tabId, btn) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('#maker-panel > .tab-bar > .tab-btn').forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('#maker-panel > .tab-content').forEach(c => c.classList.remove('active'));
+            const tab = document.getElementById(tabId);
+            if (tab) tab.classList.add('active');
+        }
+
+        function switchVibeTab(tabId, btn) {
+            document.querySelectorAll('.vibe-tab-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            document.querySelectorAll('.vibe-section').forEach(c => c.classList.remove('active'));
             const tab = document.getElementById(tabId);
             if (tab) tab.classList.add('active');
         }
@@ -702,6 +803,18 @@
             if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(e => console.log(e)); } 
             else { document.exitFullscreen(); }
             toggleModal('cast-modal');
+        }
+
+        function shareSomnia() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'SomniaScapes',
+                    url: 'https://somniascapes.com'
+                }).catch(console.error);
+            } else {
+                navigator.clipboard.writeText('https://somniascapes.com');
+                somniaAlert("Link Copied!", "The SomniaScapes URL has been copied to your clipboard.");
+            }
         }
 
         function somniaAlert(title, msg) {
@@ -767,7 +880,7 @@
             btn.onclick = () => {
                 grid.querySelectorAll('.toy-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active');
                 document.getElementById('bg-anchor').style.backgroundImage = `url('${url}')`;
-                localStorage.setItem('somnia_active_bg_key', key); saveCurrentState();
+                localStorage.setItem('somnia_active_bg_key', key); saveCurrentState(); flagUnsaved();
             };
             const editBtn = document.createElement('button'); editBtn.className = 'toy-btn'; editBtn.innerHTML = '✏️'; editBtn.style.padding = '0 15px';
             editBtn.onclick = () => renameCustomItem(key, 'bg');
@@ -914,11 +1027,12 @@
         }
 
         // --- 4. ATMOS & PARTICLES ---
-        const colors = ['lunar','noir','vellum','amethyst','crimson','emerald','solar','void','obsidian','ghost'];
         const glows = ['pulse','breathe','strobe','phantom','wave','flicker','aurora','static','none'];
         const particlesList = ['dust','embers','snow','void','rain','ash','stars','bubbles','spores'];
         const particleColors = [ { name: 'Lunar', value: '#e0e7ff' }, { name: 'Noir', value: '#D4AF37' }, { name: 'Vellum', value: '#C2B280' }, { name: 'Amethyst', value: '#d8b4e2' }, { name: 'Crimson', value: '#fb7185' }, { name: 'Emerald', value: '#34d399' }, { name: 'Solar', value: '#fbbf24' }, { name: 'Void', value: '#ec4899' }, { name: 'Obsidian', value: '#9ca3af' }, { name: 'Ghost', value: '#f8fafc' } ];
         const glowColors = [ { name: 'Lunar', value: 'rgba(224,231,255,0.4)' }, { name: 'Noir', value: 'rgba(212,175,55,0.4)' }, { name: 'Vellum', value: 'rgba(194,178,128,0.4)' }, { name: 'Amethyst', value: 'rgba(216,180,226,0.4)' }, { name: 'Crimson', value: 'rgba(251,113,133,0.4)' }, { name: 'Emerald', value: 'rgba(52,211,153,0.4)' }, { name: 'Solar', value: 'rgba(251,191,36,0.4)' }, { name: 'Void', value: 'rgba(236,72,153,0.4)' }, { name: 'Obsidian', value: 'rgba(156,163,175,0.4)' }, { name: 'Ghost', value: 'rgba(248,250,252,0.4)' } ];
+        
+        const paletteArray = Object.keys(palettes).map(k => ({ name: k.charAt(0).toUpperCase() + k.slice(1), value: k }));
 
         function populateGrid(id, arr, type) {
             const grid = document.getElementById(id);
@@ -927,7 +1041,7 @@
                 const b = document.createElement('button'); b.className = 'toy-btn'; b.textContent = label; if(index === 0) b.classList.add('active'); 
                 b.onclick = () => {
                     document.querySelectorAll(`#${id} .toy-btn`).forEach(btn => btn.classList.remove('active')); b.classList.add('active');
-                    if(type === 'color') { applyPalette(val); saveCurrentState(); flagUnsaved(); }
+                    if(type === 'color') { applyPalette(val); saveCurrentState(); }
                     if(type === 'glow') { document.getElementById('glow-layer').className = `glow-${val}`; saveCurrentState(); flagUnsaved(); }
                     if(type === 'particle') { window.particleType = val; saveCurrentState(); flagUnsaved(); }
                     if(type === 'particleColor') { updateVar('--particle-color', val); saveCurrentState(); flagUnsaved(); }
@@ -990,7 +1104,8 @@
             const input = document.getElementById('new-student-name');
             const name = input.value.trim();
             if(!name) return;
-            academyData.students.push({ id: 'stu_' + Date.now(), name: name, attendance: {}, grades: [] });
+            const safeId = 'stu_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+            academyData.students.push({ id: safeId, name: name, attendance: {}, grades: [] });
             input.value = ''; saveAcademyData();
         }
 
@@ -1007,8 +1122,10 @@
         }
 
         function addGrade(studentId) {
-            const subjInput = document.getElementById(`subj-${studentId}`); const scoreInput = document.getElementById(`score-${studentId}`);
-            if(!subjInput.value || !scoreInput.value) return;
+            const subjInput = document.getElementById(`subj_${studentId}`); 
+            const scoreInput = document.getElementById(`score_${studentId}`);
+            if(!subjInput || !scoreInput || !subjInput.value || !scoreInput.value) return;
+            
             const student = academyData.students.find(s => s.id === studentId);
             if(student) {
                 student.grades.unshift({ date: new Date().toLocaleDateString(), subject: subjInput.value.trim(), score: scoreInput.value.trim() });
@@ -1048,8 +1165,8 @@
                             </div>
                         </div>
                         <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-                            <input type="text" id="subj-${student.id}" class="core-input" style="margin:0; padding:8px;" placeholder="Subject">
-                            <input type="text" id="score-${student.id}" class="core-input" style="margin:0; padding:8px; max-width: 80px;" placeholder="Score">
+                            <input type="text" id="subj_${student.id}" class="core-input" style="margin:0; padding:8px;" placeholder="Subject">
+                            <input type="text" id="score_${student.id}" class="core-input" style="margin:0; padding:8px; max-width: 80px;" placeholder="Score">
                             <button class="toy-btn" style="border-radius: 8px; padding: 8px 15px;" onclick="addGrade('${student.id}')">Log</button>
                         </div>
                         <div>${gradesHtml}</div>
@@ -1301,10 +1418,10 @@
             document.getElementById('tallies-container').innerHTML = tallies.map((t, i) => `
                 <div class="tally-row">
                     <input type="text" class="tally-name" value="${t.name}" onchange="tallies[${i}].name=this.value; saveTallies();">
-                    <div class="tally-ctrls">
-                        <button class="score-btn" onclick="tallies[${i}].val--; saveTallies(); renderTallies();">-</button>
+                    <div class="tally-ctrls" style="display:flex; align-items:center; gap:8px;">
+                        <button class="score-btn toy-btn" style="padding: 5px 12px; border-radius: 6px;" onclick="tallies[${i}].val--; saveTallies(); renderTallies();">-</button>
                         <div class="tally-val">${t.val}</div>
-                        <button class="score-btn" onclick="tallies[${i}].val++; saveTallies(); renderTallies();">+</button>
+                        <button class="score-btn toy-btn" style="padding: 5px 12px; border-radius: 6px;" onclick="tallies[${i}].val++; saveTallies(); renderTallies();">+</button>
                     </div>
                     <button class="sched-delete-btn" onclick="tallies.splice(${i},1); saveTallies(); renderTallies();">✕</button>
                 </div>
@@ -1312,6 +1429,87 @@
         }
         function saveTallies() { localStorage.setItem('somnia_tallies', JSON.stringify(tallies)); flagUnsaved(); }
         function addTally() { tallies.push({name: "Tracker", val: 0}); saveTallies(); renderTallies(); }
+
+        // === CORE EXPORT ENGINE (REPLACES FULL BACKUP EXPORT) ===
+        function exportCoreData(isSnapshot = false) {
+            const coreKeys = [
+                'somnia_academy', 
+                'somnia_pathways', 
+                'somnia_scheds_events', 
+                'somnia_scheds_notes', 
+                'somnia_tallies', 
+                'kore_archive', 
+                'somnia_attendance_days', 
+                'somnia_state_rule'
+            ];
+            
+            let coreData = {};
+            coreKeys.forEach(k => {
+                if(localStorage.getItem(k)) {
+                    // Try parsing to keep structure intact if valid JSON, otherwise store as string
+                    try {
+                        coreData[k] = JSON.parse(localStorage.getItem(k));
+                    } catch (e) {
+                        coreData[k] = localStorage.getItem(k);
+                    }
+                }
+            });
+            
+            const blob = new Blob([JSON.stringify(coreData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const prefix = isSnapshot ? 'Somnia_Snapshot_' : 'Somnia_Core_Backup_';
+            a.download = `${prefix}${new Date().toISOString().split('T')[0]}.somnia`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            unsavedChanges = false;
+            document.getElementById('export-reminder').style.display = 'none';
+            if(!isSnapshot) {
+                somniaAlert("CORE BACKUP SECURED", "Your essential data file has been securely downloaded.");
+            }
+        }
+
+        // === DAILY SNAPSHOT ENGINE ===
+        function takeDailySnapshot() {
+            const today = new Date().toISOString().split('T')[0];
+            let report = `DAILY SNAPSHOT: ${new Date().toLocaleDateString()}\n\n`;
+            
+            report += `[ ATTENDANCE ]\nTotal Active Term Days Logged: ${attendanceDays}\n\n`;
+            
+            report += `[ ACADEMY ROSTER ]\n`;
+            if (academyData.students.length === 0) {
+                report += `No students registered.\n`;
+            } else {
+                academyData.students.forEach(s => {
+                    const status = s.attendance[today] || 'Unmarked';
+                    report += `- ${s.name} | Status: ${status}\n`;
+                });
+            }
+            report += `\n`;
+
+            report += `[ LESSONS PROGRESSION ]\n`;
+            if (pathways.length === 0) {
+                report += `No active lessons.\n`;
+            } else {
+                pathways.forEach(p => {
+                    const comp = p.items.filter(i=>i.completed).length;
+                    const tot = p.items.length;
+                    report += `- ${p.title}: ${comp}/${tot} Tasks Completed. (Grade: ${p.grade || 'N/A'})\n`;
+                });
+            }
+
+            // Save to Journal
+            archive.push({ text: report, timestamp: new Date().toLocaleDateString() + " // " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), image: null });
+            localStorage.setItem('kore_archive', JSON.stringify(archive));
+            renderAnnals();
+            flagUnsaved();
+
+            somniaAlert("SNAPSHOT CAPTURED", "Today's progress has been permanently archived in your Private Journal, and your daily core data backup will now download.");
+            exportCoreData(true);
+        }
 
         // === 9. JOURNAL ===
         let archive = JSON.parse(localStorage.getItem('kore_archive')) || [];
@@ -1326,7 +1524,7 @@
                 <div class="lore-entry">
                     <div class="entry-meta">${entry.timestamp}</div>
                     <button class="shred-btn" onclick="shredEntry(${index})">✕</button>
-                    <div class="entry-text"><span style="color:var(--primary); opacity:0.6; margin-right:10px;">></span> ${entry.text}</div>
+                    <div class="entry-text"><span style="color:var(--primary); opacity:0.6; margin-right:10px;">></span> ${entry.text.replace(/\n/g, '<br>')}</div>
                     ${imgTag}
                 </div>
             `}).join('');
@@ -1372,20 +1570,26 @@
         function saveApiKey() {
             const input = document.getElementById('gemini-key-input'); const btn = document.getElementById('save-key-btn');
             if(input.value.trim() !== '') {
-                localStorage.setItem('gemini_api_key', input.value.trim()); btn.innerText = "Saved!"; input.value = ""; flagUnsaved();
-                setTimeout(() => { btn.innerText = "Save"; }, 2000);
+                localStorage.setItem('gemini_api_key', input.value.trim()); btn.innerText = "Saved!"; flagUnsaved();
+                setTimeout(() => { btn.innerText = "Save Key"; }, 2000);
             }
+        }
+
+        function injectPrompt(text) {
+            const input = document.getElementById('oracle-editor');
+            input.value = text;
+            input.focus();
         }
 
         async function summonOracle() {
             const input = document.getElementById('oracle-editor'); const chat = document.getElementById('oracle-chat');
             const prompt = input.value.trim(); if(!prompt) return;
             const apiKey = localStorage.getItem('gemini_api_key');
-            if(!apiKey) { chat.innerHTML += `<div class="oracle-msg ai">ERROR: No API Key found. Please save your Gemini key in the Vault tab.</div>`; input.value = ''; return; }
+            if(!apiKey) { chat.innerHTML += `<div class="oracle-msg ai">ERROR: No API Key found. Please save your Gemini key in the header above.</div>`; input.value = ''; return; }
 
             chat.innerHTML += `<div class="oracle-msg user">${prompt}</div>`; input.value = ''; chat.scrollTop = chat.scrollHeight;
             const loadingId = 'loading-' + Date.now();
-            chat.innerHTML += `<div id="${loadingId}" class="oracle-msg ai" style="opacity: 0.5;">Connecting to AI...</div>`; chat.scrollTop = chat.scrollHeight;
+            chat.innerHTML += `<div id="${loadingId}" class="oracle-msg ai" style="opacity: 0.5;">Connecting to AI Teacher's Assistant...</div>`; chat.scrollTop = chat.scrollHeight;
 
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
@@ -1400,9 +1604,10 @@
 
         // === 11. VAULT & PDF CODEX ===
         let savedVault = JSON.parse(localStorage.getItem('somniaVault')) || [];
+        
         function saveCurrentState() {
             const state = {
-                bodyClass: document.documentElement.className.replace('cloaked', '').trim(),
+                bodyClass: document.body.className.replace('cloaked', '').trim(),
                 glowClass: document.getElementById('glow-layer').className, particleType: window.particleType, particleCount: window.particleCount,
                 vars: { speed: getComputedStyle(document.documentElement).getPropertyValue('--anim-speed').trim(), opac: getComputedStyle(document.documentElement).getPropertyValue('--glow-opac').trim(), bright: getComputedStyle(document.documentElement).getPropertyValue('--bg-bright').trim(), zoom: getComputedStyle(document.documentElement).getPropertyValue('--bg-zoom').trim(), pColor: getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim(), gColor: getComputedStyle(document.documentElement).getPropertyValue('--glow-color').trim() }
             };
@@ -1431,7 +1636,7 @@
             let presetName = await somniaPrompt("VAULT THIS VIBE", "Name your gorgeous aesthetic setup:", "Cozy Setting " + (savedVault.length + 1));
             if (!presetName) return; 
             const state = {
-                name: presetName, bodyClass: document.documentElement.className.replace('cloaked', '').trim(),
+                name: presetName, bodyClass: document.body.className.replace('cloaked', '').trim(),
                 glowClass: document.getElementById('glow-layer').className, particleType: window.particleType, particleCount: window.particleCount,
                 bgKey: localStorage.getItem('somnia_active_bg_key'), 
                 vars: { speed: getComputedStyle(document.documentElement).getPropertyValue('--anim-speed').trim(), opac: getComputedStyle(document.documentElement).getPropertyValue('--glow-opac').trim(), bright: getComputedStyle(document.documentElement).getPropertyValue('--bg-bright').trim(), zoom: getComputedStyle(document.documentElement).getPropertyValue('--bg-zoom').trim(), pColor: getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim(), gColor: getComputedStyle(document.documentElement).getPropertyValue('--glow-color').trim() },
@@ -1472,23 +1677,6 @@
             saveCurrentState();
         }
 
-        // FULL BACKUP LOGIC (.somnia)
-        function exportFullArchive() {
-            const vaultData = JSON.stringify(localStorage);
-            const blob = new Blob([vaultData], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `SomniaSyllabus_Backup_${new Date().toISOString().split('T')[0]}.somnia`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            
-            unsavedChanges = false;
-            document.getElementById('export-reminder').style.display = 'none';
-            somniaAlert("VAULT SECURED", "Your full backup file has downloaded. Put it somewhere safe!");
-        }
-
         function importFullArchive(event) {
             const input = event.target;
             if (!input.files || input.files.length === 0) return;
@@ -1499,26 +1687,25 @@
                 try {
                     const restoredData = JSON.parse(e.target.result);
                     
-                    // Direct localstorage dump fallback vs formatted json
-                    if (restoredData.archive || restoredData.academy) {
-                        // The user imported a formatted JSON payload (from alternative export format)
-                        if(restoredData.archive) { archive = restoredData.archive; localStorage.setItem('kore_archive', JSON.stringify(archive)); }
-                        if(restoredData.schedsEvents) { schedsEvents = restoredData.schedsEvents; schedsNotes = restoredData.schedsNotes; saveSchedsData(); }
-                        if(restoredData.academy) { academyData = restoredData.academy; saveAcademyData(); }
-                        if(restoredData.vault) { savedVault = restoredData.vault; localStorage.setItem('somniaVault', JSON.stringify(savedVault)); renderVault(); }
-                    } else {
-                        // Pure localstorage dump import
-                        for (let key in restoredData) {
-                            localStorage.setItem(key, restoredData[key]);
+                    for (let key in restoredData) {
+                        let value = restoredData[key];
+                        if(typeof value === 'object') {
+                             localStorage.setItem(key, JSON.stringify(value));
+                        } else {
+                             localStorage.setItem(key, String(value));
                         }
                     }
-                    
+
+                    academyData = JSON.parse(localStorage.getItem('somnia_academy')) || { students: [] };
+                    if(!Array.isArray(academyData.students)) academyData.students = [];
+                    saveAcademyData();
+
                     unsavedChanges = false;
-                    somniaAlert("VAULT RESTORED", "Welcome back. The page will now reload to apply your data.").then(() => {
+                    somniaAlert("DATA RESTORED", "Welcome back. The page will now reload to apply your data.").then(() => {
                         location.reload(); 
                     });
                 } catch (error) {
-                    somniaAlert("ERROR", "That file doesn't look like a valid Somnia backup.");
+                    somniaAlert("ERROR", "That file doesn't look like a valid Somnia core backup.");
                 }
             };
             reader.readAsText(file);
@@ -1600,12 +1787,23 @@
             updateComplianceUI();
             updateHearthDisplay();
             
-            populateGrid('color-grid', Object.keys(palettes), 'color'); populateGrid('particle-grid', particlesList, 'particle'); populateGrid('glow-grid', glows, 'glow'); populateGrid('particle-color-grid', particleColors, 'particleColor'); populateGrid('glow-color-grid', glowColors, 'glowColor');
+            populateGrid('color-grid', paletteArray, 'color'); 
+            populateGrid('particle-grid', particlesList, 'particle'); 
+            populateGrid('glow-grid', glows, 'glow'); 
+            populateGrid('particle-color-grid', particleColors, 'particleColor'); 
+            populateGrid('glow-color-grid', glowColors, 'glowColor');
+            
             await loadCustomBackgrounds(); await loadCustomAudio(); await restoreActiveState();
             
             initParticles(); renderSchedsHeader(); renderSchedsCalendar(); updateSchedsTimerDisplay(); renderVault(); 
             renderPathways(); renderAcademy(); renderTallies();
             
+            // Re-hydrate UI if key is present
+            const keyInput = document.getElementById('gemini-key-input');
+            if(localStorage.getItem('gemini_api_key') && keyInput) {
+                keyInput.value = localStorage.getItem('gemini_api_key');
+            }
+
             setInterval(renderSchedsTime, 1000); renderSchedsTime();
             document.getElementById('lore-editor').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); commitLore(); } });
             const oracleInput = document.getElementById('oracle-editor'); if(oracleInput) { oracleInput.addEventListener('keydown', function(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); summonOracle(); } }); }
