@@ -8,6 +8,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>SOMNIASYLLABUS // DIGITAL SANCTUARY</title>
+    
+    <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22SomniaSyllabus%22%2C%22short_name%22%3A%22Syllabus%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23020204%22%2C%22theme_color%22%3A%22%23020204%22%7D">
+
     <style>
         /* ============================================================
            SOMNIASYLLABUS — THE DIGITAL SANCTUARY (ACADEMY EDITION)
@@ -28,7 +31,7 @@
             --particle-color: var(--primary); --glow-color: var(--primary-glow);
         }
 
-        /* PALETTES */
+        /* 20 PALETTES */
         .lunar-mode { --primary: #e0e7ff; --accent: #a5b4fc; --primary-glow: rgba(224,231,255,0.4); --glass-border: rgba(199,210,254,0.2); --text-main: #fdfbf7; }
         .noir-mode { --primary: #D4AF37; --accent: #f59e0b; --primary-glow: rgba(212,175,55,0.4); --glass-border: rgba(212,175,55,0.2); --text-main: #F4EBD0; }
         .vellum-mode { --primary: #C2B280; --accent: #d97706; --primary-glow: rgba(194,178,128,0.4); --glass-border: rgba(194,178,128,0.2); --text-main: #fefce8; }
@@ -39,15 +42,28 @@
         .void-mode { --primary: #ec4899; --accent: #8b5cf6; --primary-glow: rgba(236,72,153,0.4); --glass-border: rgba(236,72,153,0.2); --text-main: #fbcfe8; }
         .obsidian-mode { --primary: #9ca3af; --accent: #4b5563; --primary-glow: rgba(156,163,175,0.4); --glass-border: rgba(156,163,175,0.2); --text-main: #f3f4f6; }
         .ghost-mode { --primary: #f8fafc; --accent: #cbd5e1; --primary-glow: rgba(248,250,252,0.4); --glass-border: rgba(248,250,252,0.2); --text-main: #ffffff; }
+        
+        /* 10 NEW AESTHETIC MODES */
+        .gothic-mode { --primary: #881337; --accent: #4c0519; --primary-glow: rgba(136,19,55,0.4); --glass-border: rgba(136,19,55,0.2); --text-main: #e5e5e5; }
+        .academia-mode { --primary: #78350f; --accent: #b45309; --primary-glow: rgba(120,53,15,0.4); --glass-border: rgba(120,53,15,0.2); --text-main: #fef3c7; }
+        .y2k-mode { --primary: #22d3ee; --accent: #e879f9; --primary-glow: rgba(34,211,238,0.4); --glass-border: rgba(232,121,249,0.2); --text-main: #cffafe; }
+        .vintage-mode { --primary: #57534e; --accent: #7f1d1d; --primary-glow: rgba(87,83,78,0.4); --glass-border: rgba(87,83,78,0.2); --text-main: #d6d3d1; }
+        .cyber-mode { --primary: #84cc16; --accent: #166534; --primary-glow: rgba(132,204,22,0.4); --glass-border: rgba(132,204,22,0.2); --text-main: #ecfccb; }
+        .twilight-mode { --primary: #312e81; --accent: #4c1d95; --primary-glow: rgba(49,46,129,0.4); --glass-border: rgba(49,46,129,0.2); --text-main: #e0e7ff; }
+        .autumn-mode { --primary: #ea580c; --accent: #9a3412; --primary-glow: rgba(234,88,12,0.4); --glass-border: rgba(234,88,12,0.2); --text-main: #ffedd5; }
+        .abyss-mode { --primary: #0891b2; --accent: #0f766e; --primary-glow: rgba(8,145,178,0.4); --glass-border: rgba(8,145,178,0.2); --text-main: #cffafe; }
+        .sepia-mode { --primary: #b45309; --accent: #78350f; --primary-glow: rgba(180,83,9,0.4); --glass-border: rgba(180,83,9,0.2); --text-main: #fef3c7; }
+        .frost-mode { --primary: #bae6fd; --accent: #38bdf8; --primary-glow: rgba(186,230,253,0.4); --glass-border: rgba(186,230,253,0.2); --text-main: #f0f9ff; }
 
         body, html { margin: 0; padding: 0; background: #020204; overflow: hidden; font-family: 'Georgia', serif; height: 100vh; width: 100vw; color: var(--text-main); -webkit-font-smoothing: antialiased; user-select: none; }
         input, textarea, select { user-select: auto; font-family: inherit; }
 
         /* --- VISUAL CANVAS --- */
-        #bg-anchor { position: fixed; inset: 0; background: #020204 no-repeat center center; background-size: cover; z-index: 1; transform: scale(var(--bg-zoom)); filter: brightness(var(--bg-bright)); transition: background 1.5s ease, filter 0.5s ease, transform 0.5s ease; }
-        #glow-layer { position: fixed; inset: 0; background: radial-gradient(circle at 50% 50%, var(--glow-color) 0%, transparent 70%); z-index: 2; opacity: var(--glow-opac); pointer-events: none; transition: 0.5s ease; mix-blend-mode: screen;}
-        #particleCanvas { position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: var(--glow-opac); transition: 0.5s ease; mix-blend-mode: screen; }
+        #bg-anchor { position: fixed; inset: 0; background: url('SomniaSyllabus.png') no-repeat center center; background-color: #020204; background-size: cover; z-index: 1; transform: scale(var(--bg-zoom)); filter: brightness(var(--bg-bright)); transition: background 1.5s ease, filter 0.5s ease, transform 0.5s ease; will-change: transform, filter; }
+        #glow-layer { position: fixed; inset: 0; background: radial-gradient(circle at 50% 50%, var(--glow-color) 0%, transparent 70%); z-index: 2; opacity: var(--glow-opac); pointer-events: none; transition: 0.5s ease; mix-blend-mode: screen; will-change: opacity, transform; }
+        #particleCanvas { position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: var(--glow-opac); transition: 0.5s ease; mix-blend-mode: screen; will-change: opacity; }
 
+        /* 20 GLOW ANIMATIONS */
         .glow-pulse { animation: g-pulse var(--anim-speed) infinite alternate ease-in-out; }
         .glow-breathe { animation: g-breathe var(--anim-speed) infinite alternate ease-in-out; }
         .glow-strobe { animation: g-strobe var(--anim-speed) infinite alternate linear; }
@@ -56,6 +72,17 @@
         .glow-flicker { animation: g-flicker calc(var(--anim-speed) / 4) infinite alternate ease-in-out; }
         .glow-aurora { background: linear-gradient(45deg, var(--primary-glow), transparent); animation: g-pulse var(--anim-speed) infinite alternate ease-in-out; }
         .glow-none { opacity: 0 !important; }
+        
+        .glow-heartbeat { animation: g-heartbeat calc(var(--anim-speed) / 3) infinite alternate cubic-bezier(0.4, 0, 0.6, 1); }
+        .glow-shimmer { animation: g-shimmer calc(var(--anim-speed) / 2) infinite alternate linear; background: linear-gradient(135deg, transparent, var(--glow-color), transparent); }
+        .glow-glitch { animation: g-glitch calc(var(--anim-speed) / 5) infinite linear; }
+        .glow-scanner { background: linear-gradient(to bottom, transparent, var(--glow-color), transparent); animation: g-scanner var(--anim-speed) infinite linear; }
+        .glow-nebula { background: radial-gradient(ellipse at center, var(--glow-color) 0%, transparent 80%); animation: g-nebula var(--anim-speed) infinite alternate ease-in-out; }
+        .glow-vortex { background: conic-gradient(from 180deg, var(--glow-color), transparent); animation: g-wave calc(var(--anim-speed) * 1.5) infinite linear reverse; }
+        .glow-ripple { animation: g-ripple var(--anim-speed) infinite ease-out; }
+        .glow-halo { background: radial-gradient(circle, transparent 40%, var(--glow-color) 60%, transparent 80%); animation: g-pulse var(--anim-speed) infinite alternate ease-in-out; }
+        .glow-eclipse { background: radial-gradient(circle, #000 30%, var(--glow-color) 70%, transparent 100%); animation: g-breathe var(--anim-speed) infinite alternate ease-in-out; }
+        .glow-inferno { background: radial-gradient(circle at bottom, var(--glow-color) 0%, transparent 70%); animation: g-flicker calc(var(--anim-speed) / 3) infinite alternate ease-in-out; }
 
         @keyframes g-pulse { 0% { transform: scale(1); opacity: calc(var(--glow-opac) * 0.5); } 100% { transform: scale(1.1); opacity: var(--glow-opac); } }
         @keyframes g-breathe { 0%, 100% { filter: brightness(0.8); } 50% { filter: brightness(1.2); } }
@@ -63,6 +90,12 @@
         @keyframes g-phantom { 0% { transform: translateY(-5%); opacity: 0; } 50% { opacity: var(--glow-opac); } 100% { transform: translateY(5%); opacity: 0; } }
         @keyframes g-wave { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes g-flicker { 0%, 100% { opacity: var(--glow-opac); } 33% { opacity: calc(var(--glow-opac) * 0.3); } 66% { opacity: calc(var(--glow-opac) * 0.8); } }
+        @keyframes g-heartbeat { 0%, 100% { transform: scale(1); opacity: calc(var(--glow-opac) * 0.6); } 10%, 30% { transform: scale(1.05); opacity: var(--glow-opac); } 20% { transform: scale(1); opacity: calc(var(--glow-opac) * 0.8); } }
+        @keyframes g-shimmer { 0% { transform: translateX(-50%); } 100% { transform: translateX(50%); } }
+        @keyframes g-glitch { 0%, 100% { transform: translate(0, 0); opacity: var(--glow-opac); } 10% { transform: translate(-5px, 5px); opacity: calc(var(--glow-opac) * 0.5); } 20% { transform: translate(5px, -5px); opacity: var(--glow-opac); } }
+        @keyframes g-scanner { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+        @keyframes g-nebula { 0% { filter: hue-rotate(0deg); transform: scale(1); } 100% { filter: hue-rotate(45deg); transform: scale(1.2); } }
+        @keyframes g-ripple { 0% { transform: scale(0.5); opacity: var(--glow-opac); } 100% { transform: scale(2); opacity: 0; } }
 
         /* ============================================================
            LANDING PAGE (BOOT GATEKEEPER)
@@ -116,7 +149,7 @@
             display: flex; flex-direction: column; overflow: hidden; 
         }
         .tab-bar { display: flex; border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.4); flex-wrap: wrap;}
-        .tab-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); padding: 20px 0; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: 0.3s; font-family: monospace; border-bottom: 2px solid transparent; }
+        .tab-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); padding: 15px 5px; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: 0.3s; font-family: monospace; border-bottom: 2px solid transparent; }
         .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); background: linear-gradient(to top, rgba(255,255,255,0.05), transparent); font-weight: bold;}
         .tab-content { display: none; padding: 25px; max-height: 60vh; overflow-y: auto; }
         .tab-content.active { display: flex; flex-direction: column; gap: 20px; }
@@ -152,7 +185,7 @@
         .modal-overlay { position: fixed; inset: 0; z-index: 500; display: none; background: rgba(0,0,0,0.85); backdrop-filter: blur(25px); align-items: center; justify-content: center; padding: 20px; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .modal-overlay.active { display: flex; }
-        .cast-box { width: 100%; max-width: 500px; background: var(--glass); border: 1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-radius: 24px; padding: 40px; box-shadow: 0 40px 100px rgba(0,0,0,0.9); text-align: center; }
+        .cast-box { width: 100%; max-width: 500px; background: var(--glass); border: 1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-radius: 24px; padding: 40px; box-shadow: 0 40px 100px rgba(0,0,0,0.9); text-align: center; max-height: 90vh; overflow-y: auto;}
         
         #somnia-dialog { z-index: 10000; }
         #somnia-dialog .cast-box { padding: 35px; max-width: 400px; text-align: center; align-items: center; }
@@ -230,6 +263,21 @@
         .lore-input { flex: 1; background: transparent; border: none; color: var(--text-main); outline: none; resize: none; font-family: 'Georgia', serif; font-size: 1rem; line-height: 1.6; padding: 5px;}
         .editor-tools { display: flex; flex-direction: column; gap: 8px; justify-content: flex-end;}
 
+        /* --- PLAYBOOK TAB (NEW) --- */
+        .playbook-btn { background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); padding: 15px; border-radius: 15px; font-family: monospace; color: var(--primary); cursor: pointer; transition: 0.3s; text-align: left; margin-bottom: 10px; position: relative; }
+        .playbook-btn:hover { border-color: var(--primary); background: rgba(255,255,255,0.08); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .playbook-title { font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; color: var(--text-main); }
+        .playbook-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+        .playbook-cat { font-size: 0.6rem; color: var(--accent); letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase; }
+
+        .team-card { display: flex; align-items: center; justify-content: space-between; width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 16px; padding: 15px 20px; margin-bottom: 12px; gap: 15px; transition: 0.3s; }
+        .team-card:hover { border-color: var(--accent); background: rgba(255,255,255,0.06); }
+        .team-name-input { background: transparent; border: none; color: var(--primary); font-size: 1.1rem; font-family: 'Times New Roman', serif; letter-spacing: 2px; outline: none; flex: 1; text-transform: uppercase; }
+        .team-score { font-size: 2rem; font-weight: bold; color: var(--text-main); font-family: monospace; min-width: 50px; text-align: center; }
+        .score-ctrls { display: flex; gap: 8px; }
+        .score-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: var(--text-muted); width: 35px; height: 35px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; font-family: monospace; }
+        .score-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(255,255,255,0.1); transform: scale(1.1); }
+
         /* --- AI ASSISTANT MODAL --- */
         .scribes-bubble { width: 100%; max-width: 800px; height: 85vh; background: rgba(6, 6, 8, 0.95); backdrop-filter: blur(40px) saturate(150%); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 30px; box-shadow: 0 30px 100px rgba(0,0,0,0.9); display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
         .oracle-chat-body { flex: 1; overflow-y: auto; padding-right: 10px; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none; }
@@ -253,12 +301,9 @@
         #transcript-layer { display: none; }
 
         @media print {
-            /* Hide UI chrome */
             #ui-wrapper, #cloak-overlay, #bg-anchor, #glow-layer, #particleCanvas, #landing-page, .modal-overlay { 
                 display: none !important; 
             }
-            
-            /* Corporate-grade typography sheet optimized for monochrome printers */
             body, html { 
                 background: #ffffff !important; 
                 color: #000000 !important; 
@@ -266,7 +311,6 @@
                 overflow: visible; 
                 font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif !important;
             }
-
             #transcript-layer { 
                 display: block !important; 
                 width: 100%; 
@@ -274,7 +318,6 @@
                 margin: 0 auto; 
                 padding: 0.5in;
             }
-
             .print-header { text-align: center; border-bottom: 3px double #000; padding-bottom: 20px; margin-bottom: 30px; }
             .print-academy-name { font-size: 26pt; font-weight: bold; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 5px;}
             .print-doc-title { font-size: 14pt; letter-spacing: 2px; margin-top: 5px; font-style: italic; color: #333 !important;}
@@ -285,10 +328,15 @@
             .print-signature { margin-top: 80px; width: 300px; border-top: 1px solid #000; padding-top: 10px; text-align: center; font-size: 11pt;}
             .print-subject-block { page-break-inside: avoid; }
         }
+        
+        @media (max-width: 768px) {
+            .landing-kore-orb { width: 400px; height: 400px; }
+            #maker-panel { max-height: 80vh; }
+        }
 
     </style>
 </head>
-<body id="os-body" class="lunar-mode">
+<body id="os-body" class="gothic-mode">
 
     <div id="transcript-layer">
         <div class="print-header">
@@ -320,7 +368,7 @@
         </table>
         
         <div id="print-academy-roster" style="margin-top: 40px;">
-            </div>
+        </div>
 
         <p style="font-size: 10pt; line-height: 1.5; margin-top: 40px;">
             <em>This document serves as the official academic record and portfolio summary, compiled by the primary educator in accordance with private educational standards.</em>
@@ -379,7 +427,7 @@
             <button class="artifact-btn" onclick="toggleModal('oracle-modal')">AI Assistant</button>
             <button class="artifact-btn" onclick="takeDailySnapshot()">📸 Snapshot</button>
             <button class="artifact-btn" onclick="toggleModal('cast-modal')">Projector</button>
-            <button class="artifact-btn" onclick="shareSomnia()">Share SomniaScapes</button>
+            <button class="artifact-btn" onclick="shareSomnia()" style="border-color: #34d399; color: #d1fae5; background: rgba(52,211,153,0.1);">DROP</button>
             <button id="export-reminder" class="artifact-btn" onclick="exportCoreData()">⚠️ Export Backup</button>
         </div>
 
@@ -390,10 +438,10 @@
                 <button class="tab-btn active" onclick="switchTab('tab-academy', this)">Academy</button>
                 <button class="tab-btn" onclick="switchTab('tab-lessons', this)">Lessons</button>
                 <button class="tab-btn" onclick="switchTab('tab-planner', this)">Planner</button>
+                <button class="tab-btn" onclick="switchTab('tab-playbook', this)">Playbook</button>
                 <button class="tab-btn" onclick="switchTab('tab-journal', this)">Journal</button>
                 <button class="tab-btn" onclick="switchTab('tab-vault', this)">Vault</button>
                 <button class="tab-btn" onclick="switchTab('tab-protips', this)">Pro Tips</button>
-                <button class="tab-btn" onclick="switchTab('tab-about', this)">About</button>
             </div>
 
             <div id="tab-academy" class="tab-content active">
@@ -478,6 +526,49 @@
                 </div>
             </div>
 
+            <div id="tab-playbook" class="tab-content">
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    
+                    <div class="sched-card" style="align-items: center;">
+                        <div class="sched-section-title" style="width: 100%; text-align: left;">Game Timer</div>
+                        <div id="playbook-timer" class="sched-timer-display" style="font-size: 4rem;">05:00</div>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <button class="toy-btn" onclick="adjustPlaybookTimer(-60)">-1 Min</button>
+                            <button class="toy-btn" onclick="startPlaybookTimer()" style="color: #34d399; border-color: rgba(52,211,153,0.4); background: rgba(52,211,153,0.1);">▶ Play</button>
+                            <button class="toy-btn" onclick="pausePlaybookTimer()" style="color: var(--accent); border-color: var(--glass-border);">⏸ Pause</button>
+                            <button class="toy-btn" onclick="resetPlaybookTimer()" style="color: #fbbf24; border-color: rgba(251,191,36,0.4);">↺ Reset</button>
+                            <button class="toy-btn" onclick="adjustPlaybookTimer(60)">+1 Min</button>
+                        </div>
+                    </div>
+
+                    <div class="sched-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div class="sched-section-title">Scoreboard</div>
+                            <div style="display:flex; gap:10px;">
+                                <button class="toy-btn" style="padding: 5px 10px; font-size: 0.65rem; border-color: var(--accent);" onclick="addTeam()">+ Add Team</button>
+                                <button class="toy-btn" style="padding: 5px 10px; font-size: 0.65rem; border-color: #fb7185; color: #fb7185; background: rgba(251,113,133,0.05);" onclick="resetScores()">Reset Scores</button>
+                            </div>
+                        </div>
+                        <div id="teams-container" style="display: flex; flex-direction: column; max-height: 300px; overflow-y: auto; padding-right: 5px;" class="annals-body"></div>
+                    </div>
+
+                    <div class="sched-card">
+                        <div class="sched-section-title">Games & Heists</div>
+                        <select id="playbook-filter" class="core-input" style="margin-bottom: 15px;" onchange="renderPlaybook()">
+                            <option value="All">Show All Games (80+)</option>
+                            <option value="Early Explorers">Early Explorers (Ages 4-7)</option>
+                            <option value="Junior Adventurers">Junior Adventurers (Ages 8-11)</option>
+                            <option value="Senior Strategists">Senior Strategists (Ages 12+)</option>
+                            <option value="Family Night">Family Night (All Ages)</option>
+                            <option value="Custom">My Custom Games</option>
+                        </select>
+                        <div id="playbook-list" style="overflow-y: auto; max-height: 400px; padding-right: 5px;" class="annals-body"></div>
+                        <button class="toy-btn" style="margin-top: 15px; border-color: var(--accent);" onclick="promptAddCustomGame()">+ Add Custom Game</button>
+                    </div>
+
+                </div>
+            </div>
+
             <div id="tab-journal" class="tab-content">
                 <div class="archive-vault" style="height: 60vh;">
                     <div class="vault-header">
@@ -524,6 +615,7 @@
                     <li><strong>Academy:</strong> Add students to your roster. Track their daily attendance and log individual subject grades here.</li>
                     <li><strong>Lessons:</strong> Break down subjects into actionable tasks. Check them off as you progress, and log final grades.</li>
                     <li><strong>Planner:</strong> Plan your day, set the focus timer, leave quick notes, and keep track of daily habits.</li>
+                    <li><strong>Playbook:</strong> Gamify executive function with 80+ offline games, a scoreboard, and a high-stakes timer.</li>
                     <li><strong>Journal:</strong> Record thoughts and attach images. Everything is stored locally on your device.</li>
                     <li><strong>Vibe Editor:</strong> Customize the background, colors, and sounds. Save your perfect setup to the Vault inside the editor.</li>
                 </ul>
@@ -539,47 +631,12 @@
                     2. Click <strong>"Get API Key"</strong> and create a new key.<br>
                     3. Copy the key, open the <strong>AI Assistant</strong> from the top navigation in SomniaSyllabus, paste it into the "Gemini API Key" field, and click <strong>Save Key</strong>.
                 </p>
-
-                <h4 class="section-title" style="margin-top: 15px; color: var(--primary);">📺 Pro Tip: Big Screen Experience</h4>
+                
+                <h4 class="section-title" style="margin-top: 15px; color: var(--primary);">PWA Support</h4>
                 <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-                    For maximum immersion, cast it from your device for an incredible wide-screen workshop experience.
-                </p>
-
-                <h4 class="section-title" style="margin-top: 15px; color: var(--primary);">📂 Pro Tip: Backup Organization</h4>
-                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-                    We recommend downloading the source code zip/HTML file and keeping it in the same <strong>Google Drive folder</strong> as your daily snapshot updates, just in case servers ever go down. This ensures you can access and restore your classroom no matter what happens!
-                </p>
-
-                <h4 class="section-title" style="margin-top: 15px; color: var(--primary);">✨ Pro Tip: Customizing the Vibe</h4>
-                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-                    Want to build the ultimate study room? We highly recommend <strong>Pixabay.com</strong> for downloading free, high-quality ambient noise and soundscapes. For your visual backgrounds, try prompting <strong>Gemini</strong> to generate exactly the aesthetic you want, or upload photos of your own space!
-                </p>
-
-                <h4 class="section-title" style="margin-top: 15px; color: var(--primary);">🌙 Pro Tip: Expand the Sanctuary</h4>
-                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-                    Visit <strong><a href="https://somniascapes.com" target="_blank" style="color: var(--accent);">somniascapes.com</a></strong> for more products, tools, and digital atmospheres we think you'll absolutely love.
+                    This app is PWA enabled. Install it to your device's home screen for completely offline, local-first computing!
                 </p>
             </div>
-
-         <div id="tab-about" class="tab-content">
-                <h4 class="section-title">SOMNIASYLLABUS // DIGITAL SANCTUARY</h4>
-                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-                    <strong>Version:</strong> 1.0.0 (Academy Edition)<br><br>
-                    Homeschooling neurodivergent children takes everything you have. The last thing you need is software that drains your wallet and your executive function.<br><br>
-                    I am an ND parent teaching ND kids. I was tired of finding the perfect educational tools only to hit exorbitant monthly paywalls. Quality education and peace of mind are not luxury subscription services.<br><br>
-                    SomniaSyllabus is my answer to the modern internet:
-                </p>
-                <ul style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.8; margin-top: 0;">
-                    <li><strong>No Subscriptions:</strong> Education shouldn't be held hostage by recurring fees. Buy it once, own it forever.</li>
-                    <li><strong>ND-Friendly Design:</strong> A calm, somatic environment that reduces sensory overload and decision fatigue.</li>
-                    <li><strong>Effortless Record-Keeping:</strong> Generate state-compliant transcripts and daily snapshots with one click, without fighting a clunky interface.</li>
-                    <li><strong>Total Privacy:</strong> Everything lives locally on your machine. No cloud, no data harvesting.</li>
-                </ul>
-                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-                    This is a digital sanctuary built by an ND family, for ND families. Welcome to your private workshop.
-                </p>
-            </div>
-
         </main>
     </div>
 
@@ -646,6 +703,7 @@
                         <div class="ctrl-row"><label>Opacity</label><input type="range" class="ctrl-slider" id="opac-slider" min="0" max="1" step="0.1" value="0.3" oninput="updateVar('--glow-opac', this.value);"></div>
                         <div class="ctrl-row"><label>Brightness</label><input type="range" class="ctrl-slider" id="bright-slider" min="0.2" max="2" step="0.1" value="0.85" oninput="updateVar('--bg-bright', this.value);"></div>
                         <div class="ctrl-row"><label>Density</label><input type="range" class="ctrl-slider" id="density-slider" min="10" max="200" value="50" step="10" oninput="updateParticleDensity(this.value);"></div>
+                        <div class="ctrl-row" style="margin-top: 5px;"><label>Low GPU</label><input type="checkbox" id="lowGpuToggle" style="accent-color: var(--primary); transform: scale(1.2);" onclick="toggleLowGpu()"></div>
                     </div>
 
                     <div id="vibe-presets" class="vibe-section">
@@ -728,6 +786,19 @@
     </div>
 
     <script>
+        // === PWA REGISTRATION (Inline Service Worker) ===
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swCode = `
+                    const CACHE_NAME = 'somnia-syllabus-v1';
+                    self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(['/']))));
+                    self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(res => res || fetch(e.request))));
+                `;
+                const blob = new Blob([swCode], {type: 'application/javascript'});
+                navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(console.error);
+            });
+        }
+
         // === 0. BOOT SEQUENCE ===
         function enterSanctuary() {
             const landing = document.getElementById('landing-page');
@@ -764,12 +835,22 @@
             'solar': { primary: '#fbbf24', accent: '#d97706', glow: 'rgba(251,191,36,0.4)', border: 'rgba(251,191,36,0.2)', text: '#fef3c7' },
             'void': { primary: '#ec4899', accent: '#8b5cf6', glow: 'rgba(236,72,153,0.4)', border: 'rgba(236,72,153,0.2)', text: '#fbcfe8' },
             'obsidian': { primary: '#9ca3af', accent: '#4b5563', glow: 'rgba(156,163,175,0.4)', border: 'rgba(156,163,175,0.2)', text: '#f3f4f6' },
-            'ghost': { primary: '#f8fafc', accent: '#cbd5e1', glow: 'rgba(248,250,252,0.4)', border: 'rgba(248,250,252,0.2)', text: '#ffffff' }
+            'ghost': { primary: '#f8fafc', accent: '#cbd5e1', glow: 'rgba(248,250,252,0.4)', border: 'rgba(248,250,252,0.2)', text: '#ffffff' },
+            'gothic': { primary: '#881337', accent: '#4c0519', glow: 'rgba(136,19,55,0.4)', border: 'rgba(136,19,55,0.2)', text: '#e5e5e5' },
+            'academia': { primary: '#78350f', accent: '#b45309', glow: 'rgba(120,53,15,0.4)', border: 'rgba(120,53,15,0.2)', text: '#fef3c7' },
+            'y2k': { primary: '#22d3ee', accent: '#e879f9', glow: 'rgba(34,211,238,0.4)', border: 'rgba(232,121,249,0.2)', text: '#cffafe' },
+            'vintage': { primary: '#57534e', accent: '#7f1d1d', glow: 'rgba(87,83,78,0.4)', border: 'rgba(87,83,78,0.2)', text: '#d6d3d1' },
+            'cyber': { primary: '#84cc16', accent: '#166534', glow: 'rgba(132,204,22,0.4)', border: 'rgba(132,204,22,0.2)', text: '#ecfccb' },
+            'twilight': { primary: '#312e81', accent: '#4c1d95', glow: 'rgba(49,46,129,0.4)', border: 'rgba(49,46,129,0.2)', text: '#e0e7ff' },
+            'autumn': { primary: '#ea580c', accent: '#9a3412', glow: 'rgba(234,88,12,0.4)', border: 'rgba(234,88,12,0.2)', text: '#ffedd5' },
+            'abyss': { primary: '#0891b2', accent: '#0f766e', glow: 'rgba(8,145,178,0.4)', border: 'rgba(8,145,178,0.2)', text: '#cffafe' },
+            'sepia': { primary: '#b45309', accent: '#78350f', glow: 'rgba(180,83,9,0.4)', border: 'rgba(180,83,9,0.2)', text: '#fef3c7' },
+            'frost': { primary: '#bae6fd', accent: '#38bdf8', glow: 'rgba(186,230,253,0.4)', border: 'rgba(186,230,253,0.2)', text: '#f0f9ff' }
         };
 
         function applyPalette(key) {
             if(!palettes[key]) return;
-            const modes = ['lunar-mode', 'noir-mode', 'vellum-mode', 'amethyst-mode', 'crimson-mode', 'emerald-mode', 'solar-mode', 'void-mode', 'obsidian-mode', 'ghost-mode'];
+            const modes = Object.keys(palettes).map(k => k + '-mode');
             document.body.classList.remove(...modes);
             document.body.classList.add(key + '-mode');
             flagUnsaved();
@@ -799,6 +880,14 @@
         }
         function updateVar(name, val) { document.documentElement.style.setProperty(name, val); flagUnsaved(); }
 
+        let lowGpu = false;
+        function toggleLowGpu() {
+            lowGpu = !lowGpu; const canvas = document.getElementById('particleCanvas');
+            if (lowGpu) { canvas.width = window.innerWidth / 2; canvas.height = window.innerHeight / 2; canvas.style.transform = "scale(2)"; } 
+            else { canvas.width = window.innerWidth; canvas.height = window.innerHeight; canvas.style.transform = "scale(1)"; }
+            flagUnsaved();
+        }
+
         function toggleFullscreen() {
             if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(e => console.log(e)); } 
             else { document.exitFullscreen(); }
@@ -806,14 +895,16 @@
         }
 
         function shareSomnia() {
+            const shareUrl = 'https://project-kore-llc.github.io/SomniaSyllabus/';
             if (navigator.share) {
                 navigator.share({
-                    title: 'SomniaScapes',
-                    url: 'https://somniascapes.com'
+                    title: 'Project KORE | SomniaSyllabus',
+                    text: 'Dive into our private digital sanctuary and engine.',
+                    url: shareUrl
                 }).catch(console.error);
             } else {
-                navigator.clipboard.writeText('https://somniascapes.com');
-                somniaAlert("Link Copied!", "The SomniaScapes URL has been copied to your clipboard.");
+                navigator.clipboard.writeText(shareUrl);
+                somniaAlert("Link Copied!", "The repository link has been copied to your clipboard.");
             }
         }
 
@@ -888,7 +979,7 @@
             delBtn.onclick = async () => {
                 if(await somniaConfirm("Delete Background?", "Are you sure you want to delete this custom background?")) {
                     await deleteMedia(key);
-                    if(localStorage.getItem('somnia_active_bg_key') === key) { document.getElementById('bg-anchor').style.backgroundImage = "none"; localStorage.removeItem('somnia_active_bg_key'); }
+                    if(localStorage.getItem('somnia_active_bg_key') === key) { document.getElementById('bg-anchor').style.backgroundImage = "url('SomniaSyllabus.png')"; localStorage.removeItem('somnia_active_bg_key'); }
                     loadCustomBackgrounds();
                 }
             };
@@ -1027,10 +1118,14 @@
         }
 
         // --- 4. ATMOS & PARTICLES ---
-        const glows = ['pulse','breathe','strobe','phantom','wave','flicker','aurora','static','none'];
-        const particlesList = ['dust','embers','snow','void','rain','ash','stars','bubbles','spores'];
-        const particleColors = [ { name: 'Lunar', value: '#e0e7ff' }, { name: 'Noir', value: '#D4AF37' }, { name: 'Vellum', value: '#C2B280' }, { name: 'Amethyst', value: '#d8b4e2' }, { name: 'Crimson', value: '#fb7185' }, { name: 'Emerald', value: '#34d399' }, { name: 'Solar', value: '#fbbf24' }, { name: 'Void', value: '#ec4899' }, { name: 'Obsidian', value: '#9ca3af' }, { name: 'Ghost', value: '#f8fafc' } ];
-        const glowColors = [ { name: 'Lunar', value: 'rgba(224,231,255,0.4)' }, { name: 'Noir', value: 'rgba(212,175,55,0.4)' }, { name: 'Vellum', value: 'rgba(194,178,128,0.4)' }, { name: 'Amethyst', value: 'rgba(216,180,226,0.4)' }, { name: 'Crimson', value: 'rgba(251,113,133,0.4)' }, { name: 'Emerald', value: 'rgba(52,211,153,0.4)' }, { name: 'Solar', value: 'rgba(251,191,36,0.4)' }, { name: 'Void', value: 'rgba(236,72,153,0.4)' }, { name: 'Obsidian', value: 'rgba(156,163,175,0.4)' }, { name: 'Ghost', value: 'rgba(248,250,252,0.4)' } ];
+        const glows = ['pulse','breathe','strobe','phantom','wave','flicker','aurora','static','none',
+                       'heartbeat','shimmer','glitch','scanner','nebula','vortex','ripple','halo','eclipse','inferno'];
+        const particlesList = ['dust','embers','snow','void','rain','ash','stars','bubbles','spores',
+                               'leaves','glitch','runes','fireflies','fog','petals','sparks','bats','static','motes'];
+        const particleColors = [ { name: 'Lunar', value: '#e0e7ff' }, { name: 'Noir', value: '#D4AF37' }, { name: 'Vellum', value: '#C2B280' }, { name: 'Amethyst', value: '#d8b4e2' }, { name: 'Crimson', value: '#fb7185' }, { name: 'Emerald', value: '#34d399' }, { name: 'Solar', value: '#fbbf24' }, { name: 'Void', value: '#ec4899' }, { name: 'Obsidian', value: '#9ca3af' }, { name: 'Ghost', value: '#f8fafc' },
+                                 { name: 'Gothic', value: '#881337' }, { name: 'Academia', value: '#78350f' }, { name: 'Y2K', value: '#22d3ee' }, { name: 'Vintage', value: '#57534e' }, { name: 'Cyber', value: '#84cc16' }, { name: 'Twilight', value: '#312e81' }, { name: 'Autumn', value: '#ea580c' }, { name: 'Abyss', value: '#0891b2' }, { name: 'Sepia', value: '#b45309' }, { name: 'Frost', value: '#bae6fd' } ];
+        const glowColors = [ { name: 'Lunar', value: 'rgba(224,231,255,0.4)' }, { name: 'Noir', value: 'rgba(212,175,55,0.4)' }, { name: 'Vellum', value: 'rgba(194,178,128,0.4)' }, { name: 'Amethyst', value: 'rgba(216,180,226,0.4)' }, { name: 'Crimson', value: 'rgba(251,113,133,0.4)' }, { name: 'Emerald', value: 'rgba(52,211,153,0.4)' }, { name: 'Solar', value: 'rgba(251,191,36,0.4)' }, { name: 'Void', value: 'rgba(236,72,153,0.4)' }, { name: 'Obsidian', value: 'rgba(156,163,175,0.4)' }, { name: 'Ghost', value: 'rgba(248,250,252,0.4)' },
+                             { name: 'Gothic', value: 'rgba(136,19,55,0.4)' }, { name: 'Academia', value: 'rgba(120,53,15,0.4)' }, { name: 'Y2K', value: 'rgba(34,211,238,0.4)' }, { name: 'Vintage', value: 'rgba(87,83,78,0.4)' }, { name: 'Cyber', value: 'rgba(132,204,22,0.4)' }, { name: 'Twilight', value: 'rgba(49,46,129,0.4)' }, { name: 'Autumn', value: 'rgba(234,88,12,0.4)' }, { name: 'Abyss', value: 'rgba(8,145,178,0.4)' }, { name: 'Sepia', value: 'rgba(180,83,9,0.4)' }, { name: 'Frost', value: 'rgba(186,230,253,0.4)' } ];
         
         const paletteArray = Object.keys(palettes).map(k => ({ name: k.charAt(0).toUpperCase() + k.slice(1), value: k }));
 
@@ -1051,9 +1146,9 @@
             });
         }
 
-        window.particleType = 'dust'; let particleCount = 50; 
-        function buildParticles(w, h) { return Array.from({ length: particleCount }, () => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 2 + 0.5, vx: (Math.random() - 0.5), vy: (Math.random() - 0.5) })); }
-        function updateParticleDensity(val) { particleCount = parseInt(val); flagUnsaved(); }
+        window.particleType = 'dust'; window.particleCount = 50; 
+        function buildParticles(w, h) { return Array.from({ length: window.particleCount }, () => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 2 + 0.5, vx: (Math.random() - 0.5), vy: (Math.random() - 0.5), t: Math.random() * 100 })); }
+        function updateParticleDensity(val) { window.particleCount = parseInt(val); flagUnsaved(); }
 
         function initParticles() {
             const canvas = document.getElementById('particleCanvas'); const ctx = canvas.getContext('2d');
@@ -1068,25 +1163,35 @@
                 lastTime = timestamp;
 
                 ctx.clearRect(0, 0, w, h);
-                if (particles.length !== particleCount) particles = buildParticles(w, h);
+                if (particles.length !== window.particleCount) particles = buildParticles(w, h);
 
                 let color = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim();
                 if (color.includes('var(')) { const varName = color.match(/var\(([^)]+)\)/)[1].trim(); color = getComputedStyle(document.documentElement).getPropertyValue(varName).trim(); }
                 ctx.fillStyle = color; ctx.shadowBlur = 8; ctx.shadowColor = color;
 
-                particles.forEach((p) => {
+                particles.forEach((p, i) => {
                     let spd = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--anim-speed')) || 10;
                     let mult = 10 / spd;
 
-                    if (particleType === 'dust') { p.x += p.vx * mult; p.y += p.vy * mult; }
-                    else if (particleType === 'embers') { p.y -= (Math.abs(p.vy)+0.5)*mult; p.x += p.vx*mult; }
-                    else if (particleType === 'snow') { p.y += (Math.abs(p.vy)+0.5)*mult; p.x += Math.sin(p.y/50)*mult; }
-                    else if (particleType === 'void') { p.x += p.vx*2*mult; p.y += p.vy*2*mult; ctx.shadowBlur=0; }
-                    else if (particleType === 'rain') { p.y += 8*mult; p.x -= 1*mult; }
-                    else if (particleType === 'ash') { p.y -= p.vy*mult; p.x += Math.cos(p.y/30)*mult; ctx.fillStyle="#555"; }
-                    else if (particleType === 'stars') { p.x += 0.05*mult; p.y += 0.05*mult; if(Math.random()<0.01) p.r = Math.random()*3; }
-                    else if (particleType === 'bubbles') { p.y -= 2*mult; p.x += Math.sin(p.y/20)*2*mult; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*2,0,Math.PI*2); ctx.strokeStyle=color; ctx.stroke(); return; }
-                    else if (particleType === 'spores') { p.x += (Math.random()-0.5)*mult; p.y += (Math.random()-0.5)*mult; p.r = Math.abs(Math.sin(Date.now()/1000))*3; }
+                    if (window.particleType === 'dust') { p.x += p.vx * mult; p.y += p.vy * mult; }
+                    else if (window.particleType === 'embers') { p.y -= (Math.abs(p.vy)+0.5)*mult; p.x += p.vx*mult; }
+                    else if (window.particleType === 'snow') { p.y += (Math.abs(p.vy)+0.5)*mult; p.x += Math.sin(p.y/50)*mult; }
+                    else if (window.particleType === 'void') { p.x += p.vx*2*mult; p.y += p.vy*2*mult; ctx.shadowBlur=0; }
+                    else if (window.particleType === 'rain') { p.y += 8*mult; p.x -= 1*mult; }
+                    else if (window.particleType === 'ash') { p.y -= p.vy*mult; p.x += Math.cos(p.y/30)*mult; ctx.fillStyle="#555"; }
+                    else if (window.particleType === 'stars') { p.x += 0.05*mult; p.y += 0.05*mult; if(Math.random()<0.01) p.r = Math.random()*3; }
+                    else if (window.particleType === 'bubbles') { p.y -= 2*mult; p.x += Math.sin(p.y/20)*2*mult; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*2,0,Math.PI*2); ctx.strokeStyle=color; ctx.stroke(); return; }
+                    else if (window.particleType === 'spores') { p.x += (Math.random()-0.5)*mult; p.y += (Math.random()-0.5)*mult; p.r = Math.abs(Math.sin(Date.now()/1000))*3; }
+                    else if (window.particleType === 'leaves') { p.y += (Math.abs(p.vy)+1)*mult; p.x += Math.sin(p.y/30)*2*mult; ctx.fillRect(p.x, p.y, p.r*2, p.r); return; }
+                    else if (window.particleType === 'glitch') { if(Math.random()<0.05){ p.x = Math.random()*w; p.y = Math.random()*h; } ctx.fillRect(p.x, p.y, p.r*10, 2); return; }
+                    else if (window.particleType === 'runes') { p.y -= 1*mult; ctx.fillText(String.fromCharCode(0x16A0+Math.random()*80), p.x, p.y); return; }
+                    else if (window.particleType === 'fireflies') { p.x += Math.sin(p.t)*mult; p.y += Math.cos(p.t)*mult; p.t+=0.05; ctx.shadowBlur = 15; ctx.beginPath(); ctx.arc(p.x, p.y, p.r*1.5, 0, Math.PI * 2); ctx.fill(); return; }
+                    else if (window.particleType === 'fog') { p.x += p.vx*mult; ctx.globalAlpha=0.1; ctx.beginPath(); ctx.arc(p.x, p.y, p.r*20, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha=1; return; }
+                    else if (window.particleType === 'petals') { p.y += 2*mult; p.x += Math.sin(p.y/40)*3*mult; ctx.fillStyle='rgba(255,182,193,0.8)'; ctx.beginPath(); ctx.ellipse(p.x, p.y, p.r*3, p.r, Math.PI/4, 0, 2*Math.PI); ctx.fill(); return; }
+                    else if (window.particleType === 'sparks') { p.y -= (Math.abs(p.vy)+3)*mult; p.x += (Math.random()-0.5)*mult; ctx.fillRect(p.x, p.y, 2, p.r*4); return; }
+                    else if (window.particleType === 'bats') { p.x += p.vx*3*mult; p.y += Math.sin(p.x/20)*2*mult; ctx.fillText('v', p.x, p.y); return; }
+                    else if (window.particleType === 'static') { if(Math.random()<0.1) { p.x=Math.random()*w; p.y=Math.random()*h; } ctx.fillRect(p.x, p.y, 2, 2); return; }
+                    else if (window.particleType === 'motes') { p.y -= 0.5*mult; p.x += Math.sin(p.y/50)*mult; ctx.globalAlpha=Math.abs(Math.sin(p.t)); p.t+=0.02; ctx.beginPath(); ctx.arc(p.x, p.y, p.r/2, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha=1; return; }
 
                     if (p.x < 0) p.x = w; if (p.x > w) p.x = 0; if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
                     ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
@@ -1430,7 +1535,211 @@
         function saveTallies() { localStorage.setItem('somnia_tallies', JSON.stringify(tallies)); flagUnsaved(); }
         function addTally() { tallies.push({name: "Tracker", val: 0}); saveTallies(); renderTallies(); }
 
-        // === CORE EXPORT ENGINE (REPLACES FULL BACKUP EXPORT) ===
+        // === 8.5 PLAYBOOK ENGINE (80 Games & Team Scoreboard) ===
+        let customGames = JSON.parse(localStorage.getItem('somnia_custom_games')) || [];
+        let scoreboardTeams = JSON.parse(localStorage.getItem('somnia_scoreboard')) || [];
+        let playbookTimerSeconds = 300; 
+        let playbookTimerInterval = null;
+        
+        const defaultGames = [
+            // Early Explorers (4-7)
+            { cat: "Early Explorers", title: "1. Phonics Lilypads", desc: "Scatter letters on the floor. Timer: 60s. Call a sound ('Buh!'). They jump to it. Score: +10 per correct jump." },
+            { cat: "Early Explorers", title: "2. Color Scavenger", desc: "Timer: 2 mins. 'Find 5 things that are yellow.' Score: +50 for beating the clock." },
+            { cat: "Early Explorers", title: "3. The Counting Bear", desc: "Hide 15 stuffed animals. Timer: 3 mins. They must find and count them aloud. Score: +10 per item." },
+            { cat: "Early Explorers", title: "4. Animal Freeze Dance", desc: "Timer: 3 mins. Play audio. Pause randomly. They freeze like a flamingo. Score: +5 per solid freeze." },
+            { cat: "Early Explorers", title: "5. Left/Right Sprint", desc: "Timer: 60s. 'Touch the left wall! Touch the right couch!' Score: +10 per correct direction." },
+            { cat: "Early Explorers", title: "6. Syllable Hopscotch", desc: "Timer: 2 mins. Call a word. They hop once per syllable. Score: +10 per correct sequence." },
+            { cat: "Early Explorers", title: "7. The Floor is Lava (Add)", desc: "Pillows have numbers 1-10. Call '2+3!'. Jump to 5. Score: +10 per safe landing." },
+            { cat: "Early Explorers", title: "8. Texture Hunt", desc: "Timer: 2 mins. 'Find something fluffy and something rough.' Score: +20 for accuracy." },
+            { cat: "Early Explorers", title: "9. Rhyme Time Dash", desc: "Timer: 60s. Put objects in a pile. Call 'Bat!' They grab the 'Cat.' Score: +15 per rhyme." },
+            { cat: "Early Explorers", title: "10. Emotion Charades", desc: "Timer: 60s. They must act out 'Frustrated,' 'Joyful,' 'Shy.' Score: +10 per emotion." },
+            { cat: "Early Explorers", title: "11. Shape Shifters", desc: "Timer: 90s. Use their body to form a triangle, circle, or letter. Score: +20 per shape." },
+            { cat: "Early Explorers", title: "12. Simon Says Sprint", desc: "Timer: 2 mins. A high-speed version of Simon Says to train auditory processing. Score: +5 per survived round." },
+            { cat: "Early Explorers", title: "13. Sink or Float Prediction", desc: "Timer: 60s. Sort 10 items into sink/float piles before testing. Score: +10 per correct hypothesis." },
+            { cat: "Early Explorers", title: "14. The Heavy Work Haul", desc: "Timer: 3 mins. Move a heavy basket of books across the room. Score: +50 for completion." },
+            { cat: "Early Explorers", title: "15. Pattern Builder", desc: "Timer: 90s. Lay out Red-Blue-Red Legos. They continue it. Score: +20 per perfect pattern." },
+            { cat: "Early Explorers", title: "16. Ninja Tip-Toes", desc: "Timer: 2 mins. Cross a room of crinkly paper silently. Score: Start at 100, -10 per noise." },
+            { cat: "Early Explorers", title: "17. Sight Word Slap", desc: "Timer: 60s. Write sight words on wall. Call a word. They slap it with a flyswatter. Score: +10 per slap." },
+            { cat: "Early Explorers", title: "18. Mirror Image", desc: "Timer: 90s. Do a sequence of 3 movements. They mirror it perfectly. Score: +15 per mimic." },
+            { cat: "Early Explorers", title: "19. The Cleanup Heist", desc: "Timer: 2 mins. 'Steal the stray Legos and hide them in this bin before I turn around.' Score: +100 for a clean floor." },
+            { cat: "Early Explorers", title: "20. Breathing Balloon", desc: "Timer: 2 mins. Keep a balloon in the air using only their breath. Score: +10 per breath cycle." },
+            
+            // Junior Adventurers (8-11)
+            { cat: "Junior Adventurers", title: "21. Multiplication Lava", desc: "Cushions have numbers. Call '6x4!'. They jump to 24. Timer: 60s. Score: +10 per jump." },
+            { cat: "Junior Adventurers", title: "22. The Spelling Relay", desc: "Timer: 2 mins. Sprint to a pile of letters, grab one, run back, and spell a word. Score: +50 per word." },
+            { cat: "Junior Adventurers", title: "23. Pantry Price is Right", desc: "Timer: 3 mins. 'Find items that add up to exactly $8.50.' Score: +100 for perfect math." },
+            { cat: "Junior Adventurers", title: "24. Magnetic Dash", desc: "Timer: 2 mins. Hand them a magnet. 'Find 5 things that are magnetic.' Score: +20 per item." },
+            { cat: "Junior Adventurers", title: "25. State Capital Sprint", desc: "Timer: 90s. Call a state. They write the capital on a whiteboard across the room. Score: +15 per capital." },
+            { cat: "Junior Adventurers", title: "26. Measurement Estimation", desc: "Timer: 2 mins. 'Find something exactly 6 inches long.' Measure it after. Score: +50 if within an inch." },
+            { cat: "Junior Adventurers", title: "27. The Mad Libs Dash", desc: "Timer: 90s. Construct a sentence using scattered noun/verb/adjective cards. Score: +10 per correct word." },
+            { cat: "Junior Adventurers", title: "28. Dictionary Dig", desc: "Timer: 60s. Call a word. They must physically find it in a paper dictionary. Score: +50 for beating the clock." },
+            { cat: "Junior Adventurers", title: "29. Fraction Builder", desc: "Timer: 2 mins. 'Bring me exactly 3/4 of a dozen apples (or blocks).' Score: +30 per correct fraction." },
+            { cat: "Junior Adventurers", title: "30. Historical Timeline", desc: "Write 5 events on cards. Timer: 60s. Physically arrange them chronologically. Score: +40 for perfection." },
+            { cat: "Junior Adventurers", title: "31. The Architect's Challenge", desc: "Timer: 10 mins. Build the tallest tower using only index cards and tape. Score: +10 per inch." },
+            { cat: "Junior Adventurers", title: "32. Working Memory Barista", desc: "Timer: 30s. 'I need a red block, two blue cars, a yellow pencil.' They fetch it. Score: +20 per perfect order." },
+            { cat: "Junior Adventurers", title: "33. Blindfolded Navigator", desc: "Timer: 3 mins. One sibling verbally guides a blindfolded sibling through obstacles. Score: +100 for zero crashes." },
+            { cat: "Junior Adventurers", title: "34. Geometry Scavenger", desc: "Timer: 2 mins. 'Find an obtuse angle and a cylinder.' Score: +25 per item." },
+            { cat: "Junior Adventurers", title: "35. Synonym Slap", desc: "Timer: 45s. Call a word. They run to the board and write a synonym before the buzzer. Score: +15 per word." },
+            { cat: "Junior Adventurers", title: "36. Scientific Sort", desc: "Timer: 2 mins. Sort animal cards into Mammal, Reptile, Amphibian, Bird. Score: +10 per correct sort." },
+            { cat: "Junior Adventurers", title: "37. The Balance Beam", desc: "Timer: 2 mins. Walk a tape line on the floor while reciting the 7 times tables. Score: +50 for zero falls." },
+            { cat: "Junior Adventurers", title: "38. Water Transfer (Volume)", desc: "Timer: 2 mins. Transfer exactly 2 cups of water using a 1/4 cup measure. Score: +40 for perfect math." },
+            { cat: "Junior Adventurers", title: "39. Code Breaker", desc: "Timer: 3 mins. Solve a Caesar cipher to find where the next clue is hidden. Score: +100 for cracking the code." },
+            { cat: "Junior Adventurers", title: "40. Reverse Spelling", desc: "Timer: 60s. Call a word. They must spell it backward on the board. Score: +30 per word." },
+
+            // Senior Strategists (12+)
+            { cat: "Senior Strategists", title: "41. Equation Builder", desc: "Scatter numbers and variables. Timer: 2 mins. Build an equation that equals 24. Score: +50 per valid equation." },
+            { cat: "Senior Strategists", title: "42. Debate the Clock", desc: "Timer: 2 mins. Argue a controversial topic ('Hotdogs are sandwiches') without saying 'um'. Score: +100 for flawless argument." },
+            { cat: "Senior Strategists", title: "43. Periodic Table Sprint", desc: "Timer: 60s. Call an element ('Au!'). Write full name and atomic number. Score: +20 per element." },
+            { cat: "Senior Strategists", title: "44. Language Relay", desc: "Timer: 2 mins. Call an English word. Sprint to the board to write the translation. Score: +15 per translation." },
+            { cat: "Senior Strategists", title: "45. Physics Drop", desc: "Timer: 5 mins. Build a container from 3 pieces of paper that protects an egg from a 5ft drop. Score: +200 if it survives." },
+            { cat: "Senior Strategists", title: "46. The 30-Second Thesis", desc: "Timer: 30s. Outline a 3-point thesis statement for a historical prompt. Score: +50 for structural perfection." },
+            { cat: "Senior Strategists", title: "47. Root Word Race", desc: "Timer: 60s. Give a Latin/Greek root ('Dict'). Write English words containing it. Score: +5 per word." },
+            { cat: "Senior Strategists", title: "48. Blindfolded Architecture", desc: "Timer: 3 mins. Build a Lego structure blindfolded using verbal instructions from a partner. Score: +100 for accuracy." },
+            { cat: "Senior Strategists", title: "49. Budget Crisis", desc: "Timer: 5 mins. Given a grocery circular and $50 budget, plan 3 meals. Score: +100 for zero math errors." },
+            { cat: "Senior Strategists", title: "50. Map Maker", desc: "Timer: 2 mins. On a blank map, label 10 specific countries before the buzzer. Score: +10 per country." },
+            { cat: "Senior Strategists", title: "51. The Forbidden Word", desc: "Timer: 60s. Explain a concept ('Photosynthesis') without using the top 3 obvious words. Score: +50 per success." },
+            { cat: "Senior Strategists", title: "52. Logic Grid Dash", desc: "Timer: 3 mins. Solve a 3-variable logic puzzle. Score: +100 for cracking it under pressure." },
+            { cat: "Senior Strategists", title: "53. Percentage Pro", desc: "Timer: 60s. 'What is 15% of 80?' Mental math and write the answer. Score: +25 per correct answer." },
+            { cat: "Senior Strategists", title: "54. Historical Roleplay", desc: "Timer: 60s. Answer 3 interview questions entirely in character as a historical figure. Score: +50 for accuracy." },
+            { cat: "Senior Strategists", title: "55. Book Pitch", desc: "Timer: 90s. 'Pitch' the last book read to you like a Hollywood movie producer. Score: +50 for persuasion." },
+            { cat: "Senior Strategists", title: "56. Metric Conversion Relay", desc: "Timer: 90s. Sprint to the board and convert Imperial measurements to Metric. Score: +20 per correct conversion." },
+            { cat: "Senior Strategists", title: "57. The Tax Bracket", desc: "Timer: 3 mins. Give a fake salary and state. Calculate the take-home pay. Score: +100 for financial literacy." },
+            { cat: "Senior Strategists", title: "58. Poetry Under Pressure", desc: "Timer: 2 mins. Write a biologically accurate Haiku about mitochondria. Score: +50 for structure and science." },
+            { cat: "Senior Strategists", title: "59. Constellation Map", desc: "Timer: 60s. Use marshmallows and toothpicks to build an accurate constellation. Score: +30 per constellation." },
+            { cat: "Senior Strategists", title: "60. The Coding Bug", desc: "Timer: 3 mins. Hand them printed code with an error. Find the bug. Score: +100 per fix." },
+
+            // Family Night
+            { cat: "Family Night", title: "61. Quick Draw", desc: "Timer: 60s. Draw a secret word without speaking. Score: +50 for a successful guess." },
+            { cat: "Family Night", title: "62. Act It Out", desc: "Timer: 90s. Pantomime an animal, movie, or action without sound. Score: +50 per guess." },
+            { cat: "Family Night", title: "63. The Forbidden Word", desc: "Timer: 60s. Get the family to guess 'OCEAN' without saying 'Water, Blue, or Waves'. Score: +20 per success." },
+            { cat: "Family Night", title: "64. 20 Questions Sprint", desc: "Timer: 2 mins. Ask yes/no questions to guess the item before the buzzer. Score: +100 for beating the clock." },
+            { cat: "Family Night", title: "65. Cup Stacking", desc: "Timer: 60s. Build a pyramid of 15 plastic cups and collapse it back. Score: +50 for completing it." },
+            { cat: "Family Night", title: "66. Balloon Keep-Up", desc: "Timer: 2 mins. Keep 3 balloons in the air simultaneously. Score: +10 for every 10 seconds they stay up." },
+            { cat: "Family Night", title: "67. The Post-It Face", desc: "Timer: 60s. Blindfolded, try to stick a post-it note exactly on a family member's nose. Score: +50 for a bullseye." },
+            { cat: "Family Night", title: "68. Name That Tune", desc: "Timer: 30s. Hum a popular song. Score: +20 per correct guess." },
+            { cat: "Family Night", title: "69. Categorical Chaos", desc: "Timer: 45s. Go in a circle naming things in a category (e.g., Cereal brands). Score: +10 to the last person standing." },
+            { cat: "Family Night", title: "70. Tower of Babel", desc: "Timer: 3 mins. Work together to build a tower out of recycling. Score: +10 per inch." },
+            { cat: "Family Night", title: "71. Sock Toss", desc: "Timer: 60s. Throw rolled-up socks into a laundry basket from 10 feet away. Score: +10 per sock." },
+            { cat: "Family Night", title: "72. Two Truths and a Lie", desc: "Timer: 60s to present. The family votes. Score: +20 to the person who fools the most people." },
+            { cat: "Family Night", title: "73. The Floor is Lava (Team)", desc: "Timer: 3 mins. Cross the room using only 3 pillows, without touching the floor. Score: +100 for a successful crossing." },
+            { cat: "Family Night", title: "74. Dictionary Decoy", desc: "Timer: 2 mins. Pick an obscure word. Everyone writes a fake definition. Vote. Score: +30 for guessing right, +20 for fooling someone." },
+            { cat: "Family Night", title: "75. The Whisper Challenge", desc: "Timer: 60s. Wear noise-canceling headphones and read the whisperer's lips. Score: +50 per phrase." },
+            { cat: "Family Night", title: "76. Paper Airplane Olympics", desc: "Timer: 3 mins to build. Throw to see whose goes the furthest. Score: +50 for the winner." },
+            { cat: "Family Night", title: "77. Spoon Catapult", desc: "Timer: 60s. Catapult mini marshmallows into a bowl using a spoon. Score: +10 per marshmallow." },
+            { cat: "Family Night", title: "78. Human Knot", desc: "Timer: 2 mins. Form a tangled knot holding hands and untangle without letting go. Score: +100 for freedom." },
+            { cat: "Family Night", title: "79. Alphabet Scavenger", desc: "Timer: 3 mins. Find an object starting with A, then B, then C, etc. Score: +5 per letter reached." },
+            { cat: "Family Night", title: "80. The Statue Challenge", desc: "Timer: 2 mins. One person tells jokes. Others must remain completely frozen. Score: +50 to anyone who doesn't laugh." }
+        ];
+
+        function renderPlaybook() {
+            const filter = document.getElementById('playbook-filter').value;
+            const container = document.getElementById('playbook-list');
+            container.innerHTML = '';
+
+            const allGames = [...defaultGames, ...customGames];
+            
+            allGames.forEach((game, index) => {
+                if (filter === 'All' || game.cat === filter || (filter === 'Custom' && game.isCustom)) {
+                    let delBtnHtml = game.isCustom ? `<button class="sched-delete-btn" style="position:absolute; top:10px; right:10px;" onclick="deleteCustomGame(${index - defaultGames.length}); event.stopPropagation();">✕</button>` : '';
+                    
+                    container.innerHTML += `
+                        <div class="playbook-btn">
+                            ${delBtnHtml}
+                            <div class="playbook-cat">${game.cat}</div>
+                            <div class="playbook-title">${game.title}</div>
+                            <div class="playbook-desc">${game.desc}</div>
+                        </div>
+                    `;
+                }
+            });
+
+            if(container.innerHTML === '') {
+                container.innerHTML = `<div style="text-align:center; color:var(--text-muted); margin-top:20px; font-style:italic;">No games found in this category.</div>`;
+            }
+        }
+
+        async function promptAddCustomGame() {
+            const cat = await somniaPrompt("CATEGORY", "What age group is this for?", "Early Explorers") || "Custom";
+            const title = await somniaPrompt("GAME TITLE", "What is the name of the game?", "My New Game");
+            if (!title) return;
+            const desc = await somniaPrompt("RULES & POINTS", "How do you play? (Set the timer, state the rules, and assign points)", "Timer: 60s. Points: +10.");
+            if (!desc) return;
+
+            customGames.push({ cat: cat, title: title, desc: desc, isCustom: true });
+            localStorage.setItem('somnia_custom_games', JSON.stringify(customGames));
+            document.getElementById('playbook-filter').value = 'Custom';
+            renderPlaybook(); flagUnsaved();
+        }
+
+        async function deleteCustomGame(index) {
+            if(await somniaConfirm("DELETE GAME?", "Are you sure you want to remove this custom game?")) {
+                customGames.splice(index, 1);
+                localStorage.setItem('somnia_custom_games', JSON.stringify(customGames));
+                renderPlaybook(); flagUnsaved();
+            }
+        }
+
+        function updatePlaybookTimerDisplay() {
+            const display = document.getElementById('playbook-timer');
+            if(!display) return;
+            const m = Math.floor(playbookTimerSeconds / 60); const s = playbookTimerSeconds % 60;
+            display.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            if (playbookTimerSeconds <= 10 && playbookTimerSeconds > 0) { display.classList.add('timer-flash'); } else { display.classList.remove('timer-flash'); }
+        }
+
+        function adjustPlaybookTimer(delta) { playbookTimerSeconds = Math.max(0, playbookTimerSeconds + delta); updatePlaybookTimerDisplay(); }
+
+        function startPlaybookTimer() {
+            if (playbookTimerInterval) return;
+            playbookTimerInterval = setInterval(() => {
+                if (playbookTimerSeconds > 0) {
+                    playbookTimerSeconds--; updatePlaybookTimerDisplay();
+                    if(playbookTimerSeconds === 0) playTimerChime();
+                } else { clearInterval(playbookTimerInterval); playbookTimerInterval = null; }
+            }, 1000);
+        }
+
+        function pausePlaybookTimer() { clearInterval(playbookTimerInterval); playbookTimerInterval = null; }
+        function resetPlaybookTimer() { pausePlaybookTimer(); playbookTimerSeconds = 300; updatePlaybookTimerDisplay(); }
+
+        function renderScoreboard() {
+            const container = document.getElementById('teams-container');
+            if (scoreboardTeams.length === 0) {
+                container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-style:italic; width:100%;">No teams yet. Time to add some players!</p>`;
+                return;
+            }
+
+            container.innerHTML = scoreboardTeams.map((team, index) => `
+                <div class="team-card">
+                    <button class="sched-delete-btn" onclick="removeTeam(${index})">✕</button>
+                    <input type="text" class="team-name-input" value="${team.name}" onchange="updateTeamName(${index}, this.value)">
+                    <div class="score-ctrls">
+                        <button class="score-btn" onclick="updateTeamScore(${index}, -1)">-</button>
+                        <div class="team-score">${team.score}</div>
+                        <button class="score-btn" onclick="updateTeamScore(${index}, 1)">+</button>
+                    </div>
+                </div>
+            `).join('');
+            localStorage.setItem('somnia_scoreboard', JSON.stringify(scoreboardTeams));
+        }
+
+        function addTeam() { scoreboardTeams.push({ name: `Team ${scoreboardTeams.length + 1}`, score: 0 }); renderScoreboard(); flagUnsaved(); }
+        function updateTeamScore(index, delta) { scoreboardTeams[index].score += delta; renderScoreboard(); flagUnsaved(); }
+        function updateTeamName(index, newName) { scoreboardTeams[index].name = newName; localStorage.setItem('somnia_scoreboard', JSON.stringify(scoreboardTeams)); flagUnsaved(); }
+        
+        async function removeTeam(index) {
+            if (await somniaConfirm("REMOVE TEAM?", "Are you sure you want to kick this team off the board?")) {
+                scoreboardTeams.splice(index, 1); renderScoreboard(); flagUnsaved();
+            }
+        }
+
+        async function resetScores() {
+            if (await somniaConfirm("RESET ALL SCORES?", "Are you sure you want to set everyone back to zero?")) {
+                scoreboardTeams = scoreboardTeams.map(t => ({ ...t, score: 0 })); renderScoreboard(); flagUnsaved();
+            }
+        }
+
+        // === 9. CORE EXPORT ENGINE (REPLACES FULL BACKUP EXPORT) ===
         function exportCoreData(isSnapshot = false) {
             const coreKeys = [
                 'somnia_academy', 
@@ -1440,18 +1749,17 @@
                 'somnia_tallies', 
                 'kore_archive', 
                 'somnia_attendance_days', 
-                'somnia_state_rule'
+                'somnia_state_rule',
+                'somniaVault',
+                'somnia_scoreboard',
+                'somnia_custom_games'
             ];
             
             let coreData = {};
             coreKeys.forEach(k => {
                 if(localStorage.getItem(k)) {
-                    // Try parsing to keep structure intact if valid JSON, otherwise store as string
-                    try {
-                        coreData[k] = JSON.parse(localStorage.getItem(k));
-                    } catch (e) {
-                        coreData[k] = localStorage.getItem(k);
-                    }
+                    try { coreData[k] = JSON.parse(localStorage.getItem(k)); } 
+                    catch (e) { coreData[k] = localStorage.getItem(k); }
                 }
             });
             
@@ -1511,7 +1819,7 @@
             exportCoreData(true);
         }
 
-        // === 9. JOURNAL ===
+        // === 10. JOURNAL ===
         let archive = JSON.parse(localStorage.getItem('kore_archive')) || [];
         let pendingJournalImage = null;
 
@@ -1566,7 +1874,7 @@
             }
         }
 
-        // === 10. AI ASSISTANT (Gemini API) ===
+        // === 11. AI ASSISTANT (Gemini API) ===
         function saveApiKey() {
             const input = document.getElementById('gemini-key-input'); const btn = document.getElementById('save-key-btn');
             if(input.value.trim() !== '') {
@@ -1602,7 +1910,7 @@
             chat.scrollTop = chat.scrollHeight;
         }
 
-        // === 11. VAULT & PDF CODEX ===
+        // === 12. VAULT & PDF CODEX ===
         let savedVault = JSON.parse(localStorage.getItem('somniaVault')) || [];
         
         function saveCurrentState() {
@@ -1750,7 +2058,6 @@
                 }).join('');
             }
 
-            // Append Academy Roster Records if any exist
             const rosterDiv = document.getElementById('print-academy-roster');
             if (academyData.students.length > 0) {
                 let rosterHtml = `<h3 style="border-bottom: 2px solid #000; padding-bottom: 5px;">Academy Roster & Subject Grades</h3>`;
@@ -1773,7 +2080,7 @@
                 });
                 rosterDiv.innerHTML = rosterHtml;
             } else {
-                rosterDiv.innerHTML = ''; // clear it
+                rosterDiv.innerHTML = ''; 
             }
 
             window.print();
@@ -1796,9 +2103,8 @@
             await loadCustomBackgrounds(); await loadCustomAudio(); await restoreActiveState();
             
             initParticles(); renderSchedsHeader(); renderSchedsCalendar(); updateSchedsTimerDisplay(); renderVault(); 
-            renderPathways(); renderAcademy(); renderTallies();
+            renderPathways(); renderAcademy(); renderTallies(); renderPlaybook(); renderScoreboard(); updatePlaybookTimerDisplay();
             
-            // Re-hydrate UI if key is present
             const keyInput = document.getElementById('gemini-key-input');
             if(localStorage.getItem('gemini_api_key') && keyInput) {
                 keyInput.value = localStorage.getItem('gemini_api_key');
