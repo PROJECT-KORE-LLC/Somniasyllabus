@@ -6,7 +6,7 @@ Welcome to your private workshop.
 
 SomniaSyllabus is an offline-first command center blending a minimalist day planner, somatic journal, and educational roster management within a deeply immersive, ambient environment. It was built specifically for neurodivergent homeschooling families and deep-work creatives who are exhausted by bloated software, sensory overload, and expensive monthly subscriptions.
 
-Quality education and peace of mind are not luxury subscription services. Buy it once, own it forever, and keep your data exactly where it belongs: on your own machine.
+Quality education and peace of mind are not luxury subscription services. Keep your data exactly where it belongs: on your own machine.
 
 ---
 
