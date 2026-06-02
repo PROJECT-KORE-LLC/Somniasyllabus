@@ -1,70 +1,74 @@
-# 🌙 SOMNIASYLLABUS // THE SOVEREIGN ACADEMY
+Here is a complete, beautifully formatted README.md file. You can include this directly inside the .zip folder that your customers download. It perfectly captures your ethos, explains how to use the tool, and sets expectations for how their data is handled.
 
-**Quiet the noise. Reclaim the classroom. Absolute digital sovereignty.**
+SOMNIASYLLABUS // DIGITAL SANCTUARY
+Version: 1.0.0 (Academy Edition)
 
-Modern educational software and online gradebooks are bloated with trackers, cloud-syncing delays, and rigid, uninspiring interfaces. **SomniaSyllabus** is a rejection of that ecosystem. 
+Created by: Project Kore LLC
 
-Designed as a private, local-first command center, this engine fuses a robust homeschool management system with a deeply immersive, ambient focus environment. It is your gradebook, your day planner, your private journal, and your atmospheric soundboard—all running entirely from a single file on your local hard drive.
+Welcome to your private workshop.
 
-No servers. No subscriptions. No data mining. Just a pure, unadulterated digital sanctuary.
+SomniaSyllabus is an offline-first command center blending a minimalist day planner, somatic journal, and educational roster management within a deeply immersive, ambient environment. It was built specifically for neurodivergent homeschooling families and deep-work creatives who are exhausted by bloated software, sensory overload, and expensive monthly subscriptions.
 
----
+Quality education and peace of mind are not luxury subscription services. Buy it once, own it forever, and keep your data exactly where it belongs: on your own machine.
 
-## 🏛️ The Core Pillars
+✨ CORE ETHOS
+No Subscriptions: You own this software entirely. There are no recurring fees or paywalls.
 
-### 1. The Academy Roster
-Manage your sovereign classroom without a corporate database.
-*   **Student Profiles:** Create and manage individual student profiles seamlessly.
-*   **Attendance & Grading:** Log daily attendance and record subject-specific grades that stay permanently on your machine.
-*   **Zero-Cloud Storage:** All Academy data is stored directly in your browser's native `localStorage` and `IndexedDB`.
+ND-Friendly Design: A calming, somatic environment that reduces sensory overload, featuring a built-in ambient audio mixer and customizable visual aesthetics.
 
-### 2. The Ambient Focus Engine
-A true dark academia and cozy aesthetic right in your browser. The environment you teach and learn in matters.
-*   **Web Audio Mixer:** Blend custom audio tracks with built-in ambient stems (rain, hearth fire, ticking clocks) using a high-fidelity Web Audio API master mixer.
-*   **Visual Palettes:** Shift the entire interface atmosphere instantly—from `Lunar` to `Noir`, `Vellum`, or `Amethyst`.
-*   **Particle Systems:** Render beautiful, lightweight particle effects (floating dust, embers, falling snow) to keep the workspace feeling alive and immersive without draining your GPU.
+Effortless Record-Keeping: Generate state-compliant educational transcripts and daily snapshots with one click.
 
-### 3. The Master Planner
-*   **Daily Tallies:** Track custom daily goals (water, read-aloud time, physical education) with a clean `+/-` tally system.
-*   **Focus Timer:** A built-in focus/Pomodoro timer that utilizes synthesized audio chimes to gently pull you and your students out of deep work sessions.
-*   **Day Plans & Notes:** Keep your daily tasks and quick observations beautifully organized.
+Total Privacy: There is no cloud, no server, and no data harvesting. Your device is your private workshop. Everything runs 100% locally in your browser.
 
-### 4. SomniaScribes (The Codex)
-Your private somatic journal and educator's log. 
-*   **Immutable Archiving:** Log timestamped entries into an archive that feels like an ancient, digital grimoire.
-*   **Local Image Compression:** Attach images to your journal entries. The engine automatically compresses them into lightweight Base64 strings so they save locally without crashing your browser.
+🚀 GETTING STARTED
+Because SomniaSyllabus is completely self-contained, there is no complex installation or software to download.
 
-### 5. The Oracle Connection
-*   **Private AI Tutor:** Store your own Gemini API key locally to commune with the Oracle. Generate deep lore, brainstorm curriculum ideas, or answer complex student questions instantly from within the sanctuary, ensuring your API key never leaves your browser.
+Extract the Files: Unzip the folder you downloaded.
 
----
+Open the Sanctuary: Double-click the index.html file. It will instantly open in your default web browser.
 
-## 🚀 How to Enter the Sanctuary
+Full Screen Mode: For the best immersive experience, click "Projector" in the top navigation and select "Just Fill My Screen" (or press F11 on your keyboard) to hide your browser tabs.
 
-You do not need to install anything, configure a database, or download dependencies. 
+Focus Mode: Click "Focus Mode" in the top navigation to cleanly melt away the entire user interface for deep, distraction-free work.
 
-1. Download the `index.html` file.
-2. Double-click it to open it in your browser.
-3. Breathe.
+🛠️ THE TOOLS
+🎓 The Academy
+Add students to your private roster. Track their daily attendance and log individual subject grades.
 
-*(Pro-Tip: Press `F11` or use the built-in Fullscreen button to completely hide your browser UI, turning your monitor or casted TV into a living piece of digital furniture).*
+🗺️ The Lessons (Pathways)
+Break down overwhelming subjects into actionable, stress-free task lists. Check them off as you progress, and log final grades upon completion. No dates, no deadlines. Just do the next thing.
 
----
+⏱️ The Planner
+Plan your day, set the visual Focus Timer, leave quick notes, and keep track of daily habits (like water intake or reading minutes) using the Tracker Tallies.
 
-## 🛠️ The Architecture
+📓 SomniaJournal
+A private somatic thought log. Record your daily progress, attach local images, and write freely.
 
-Built for absolute resilience, privacy, and longevity.
-*   **HTML5 / CSS3 / Vanilla JS** (Zero framework bloat. Fast and indestructible.)
-*   **IndexedDB** for high-capacity local media storage (Upload massive custom background images and custom `.mp3` files effortlessly).
-*   **Web Audio API** for synthesized chimes and master volume control.
-*   **Master JSON Backups:** A single button exports your entire classroom roster, journal, schedule, and environment settings into one secure backup file.
+🎨 The Vibe Editor
+Customize your sanctuary. Upload your own local background images, mix ambient audio (like rain, hearth fires, or brown noise), adjust the particle engine, and save your perfect setups to the Vault.
 
----
+🤖 AI Teacher's Assistant
+Bring your own AI. Go to aistudio.google.com to get a free Gemini API key, paste it into the AI Assistant modal, and generate lesson plans, project ideas, or complex explanations without paying a monthly AI subscription fee.
 
-## 📜 Legal & Philosophy
+🖨️ State-Compliant Exports
+Select your state's legal burden level (Low, Medium, or Strict). Click "Generate PDF" to instantly create a clean, professional, print-ready transcript of your entire term's grades and attendance.
 
-**License:** Released under the **MIT License**. Modify it, fork it, and build your own sovereign schoolhouse.
+💾 DATA MANAGEMENT & BACKUPS
+Your data is completely private. When you add a student, change a background, or write a journal entry, that information is saved directly into your web browser's local storage engine.
 
-© 2026 PROJECT KORE LLC // SOMNIASYLLABUS
+If you close the tab, your data will be waiting for you when you return.
 
-*Protect your focus. Build your world.*
+However, if you clear your browser's cache/history, or switch to a new computer, your sanctuary will reset to a blank slate. To protect your records, you must use the Snapshot/Backup system:
+
+The Daily Snapshot: At the end of your day, click 📸 Snapshot in the top navigation. The engine will instantly compile your attendance and lesson progress, log it to your Journal, and automatically download a .somnia backup file to your computer.
+
+Cloud Safety: We highly recommend creating a dedicated "SomniaSyllabus Backups" folder in your Google Drive, iCloud, or Dropbox, and moving your daily .somnia files there.
+
+Restoring Data: To restore your sanctuary on a new device, simply click Vibe Editor > Settings > Import Data, select your latest .somnia file, and your entire room, roster, and journal will instantly rebuild itself.
+
+📺 PRO TIPS
+The Big Screen: Want to make your room entirely magical? Use your browser's Tab Mirroring to cast the environment to your living room TV.
+
+Custom Vibes: Visit sites like Pixabay.com for free, high-quality ambient audio files to upload into your mixer, or use AI image generators to create the exact aesthetic background you want for your space.
+
+Enjoy your peace.
