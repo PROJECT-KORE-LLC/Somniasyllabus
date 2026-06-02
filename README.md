@@ -85,4 +85,9 @@ Select your state's legal burden level (Low, Medium, or Strict). Click "Generate
 * **The Big Screen:** Want to make your room entirely magical? Use your browser's Tab Mirroring to cast the environment to your living room TV.
 * **Custom Vibes:** Visit sites like *Pixabay.com* for free, high-quality ambient audio files to upload into your mixer, or use AI image generators to create the exact aesthetic background you want for your space.
 
+---
+
+## 🎵 A Massive Thank You
+A huge, cozy shoutout to the incredible contributors on **Pixabay**. The beautiful default audio tracks in this engine were provided by their amazing community. You are the real MVPs for providing the soundtrack to our digital sanctuary!
+
 *Enjoy your peace.*
