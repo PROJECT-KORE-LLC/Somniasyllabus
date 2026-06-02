@@ -19,14 +19,28 @@ Quality education and peace of mind are not luxury subscription services. Keep y
 
 ---
 
-## 🚀 GETTING STARTED
+## 🚀 GETTING STARTED  
+SomniaSyllabus is a fully self‑contained **Progressive Web App**, meaning it installs instantly and runs anywhere — desktop, laptop, tablet, or phone — without downloads or setup.
 
-Because SomniaSyllabus is completely self-contained, there is no complex installation or software to download.
+### 1. Open SomniaSyllabus 
+Visit the app in your browser. The Hall loads instantly with no installation required.
 
-1.  **Extract the Files:** Unzip the folder you downloaded.
-2.  **Open the Sanctuary:** Double-click the `index.html` file. It will instantly open in your default web browser.
-3.  **Full Screen Mode:** For the best immersive experience, click "Projector" in the top navigation and select **"Just Fill My Screen"** (or press `F11` on your keyboard) to hide your browser tabs.
-4.  **Focus Mode:** Click **"Focus Mode"** in the top navigation to cleanly melt away the entire user interface for deep, distraction-free work.
+### 2. Install the PWA (optional, but magical)  
+For a seamless, app‑like experience:
+
+- **Desktop (Chrome/Edge):** Click **Install** in the address bar.  
+- **iOS Safari:** Tap **Share → Add to Home Screen**.  
+- **Android Chrome:** Tap **⋮ → Install App**.  
+
+This places Academia Hall directly on your device like a native app.
+
+### 3. Immersive Mode  
+Once inside:
+
+- **Projector Mode:** Expands the Hall to fill your screen for a cinematic, distraction‑free view.  
+- **Focus Mode:** Silences the entire interface so only your work and the atmosphere remain.  
+
+Both modes are designed to feel like stepping deeper into the Somniaverse.
 
 ---
 
