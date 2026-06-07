@@ -59,7 +59,7 @@
         input, textarea, select { user-select: auto; font-family: inherit; }
 
         /* --- VISUAL CANVAS --- */
-        #bg-anchor { position: fixed; inset: 0; background: url('SomniaSyllabus.png') no-repeat center center; background-color: #020204; background-size: cover; z-index: 1; transform: scale(var(--bg-zoom)); filter: brightness(var(--bg-bright)); transition: background 1.5s ease, filter 0.5s ease, transform 0.5s ease; will-change: transform, filter; }
+        #bg-anchor { position: fixed; inset: 0; background: url('syllabus.png') no-repeat center center; background-color: #020204; background-size: cover; z-index: 1; transform: scale(var(--bg-zoom)); filter: brightness(var(--bg-bright)); transition: background 1.5s ease, filter 0.5s ease, transform 0.5s ease; will-change: transform, filter; }
         #glow-layer { position: fixed; inset: 0; background: radial-gradient(circle at 50% 50%, var(--glow-color) 0%, transparent 70%); z-index: 2; opacity: var(--glow-opac); pointer-events: none; transition: 0.5s ease; mix-blend-mode: screen; will-change: opacity, transform; }
         #particleCanvas { position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: var(--glow-opac); transition: 0.5s ease; mix-blend-mode: screen; will-change: opacity; }
 
@@ -223,7 +223,6 @@
         
         .sched-list { display: flex; flex-direction: column; gap: 8px; max-height: 200px; overflow-y: auto; padding-right: 5px; }
         .sched-list::-webkit-scrollbar { width: 2px; }
-        .sched-list::-webkit-scrollbar-thumb { background: var(--primary); }
         .sched-list-item { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 0.9rem; background: rgba(0,0,0,0.5); border-radius: 10px; padding: 12px 15px; border: 1px solid var(--glass-border); transition: 0.2s;}
         .sched-list-item:hover { border-color: var(--accent); }
         .sched-delete-btn { background: none; border: none; color: #fb7185; cursor: pointer; font-size: 0.9rem; opacity: 0.6; transition: 0.3s;}
@@ -297,11 +296,160 @@
         .vibe-section::-webkit-scrollbar { width: 4px; }
         .vibe-section::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 2px; }
 
+        /* --- THE WITCH ORACLE FLOATING WIDGET --- */
+        .ink-oracle-outer {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 140px;  /* Default floating size */
+            height: 140px; /* Default floating size */
+            z-index: 150;  /* Below standard overlay dialogs by default */
+            cursor: pointer;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                        opacity 0.5s ease, 
+                        bottom 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                        right 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                        width 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                        height 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+                        z-index 0.1s ease;
+        }
+
+        /* Ensure the oracle hides gracefully when cloaking is active */
+        body.cloaked .ink-oracle-outer {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .ink-oracle-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            animation: oracle-float 5s infinite alternate ease-in-out; /* Pure physics animation strictly assigned on the inner wrapper */
+        }
+
+        .oracle-avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 5px 15px var(--primary-glow));
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Ambient Pulsing Glow behind Oracle */
+        .ink-oracle-inner::after {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: -1;
+            border-radius: 50%;
+            animation: oracle-glow 2.5s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+
+        .ink-oracle-outer:hover .oracle-avatar {
+            filter: drop-shadow(0 0 25px var(--primary));
+        }
+
+        /* --- TRUE SIDE-BY-SIDE POP-OUT BEHAVIOR --- */
+        #oracle-modal .scribes-bubble {
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Active (speaking, floats closer to screen, and sits above overlay layer) */
+        body.oracle-open .ink-oracle-outer {
+            z-index: 600; /* Rises completely above the overlay mask so she remains fully active and unblurred */
+        }
+
+        body.oracle-open .oracle-avatar {
+            filter: drop-shadow(0 20px 45px rgba(224, 231, 255, 0.7)); /* Mass drop shadow gives stereoscopic 3D depth */
+            transform: scale(1.15) translateZ(30px); /* Visual scaling "towards the screen" */
+        }
+
+        /* Swaps standard sway for a highly detailed and soft vocal speaking pattern */
+        body.oracle-open .ink-oracle-inner {
+            animation: oracle-speaking 2.2s infinite ease-in-out;
+        }
+
+        @media (min-width: 768px) {
+            /* When chat is open, Oracle expands in-place to 240px */
+            body.oracle-open .ink-oracle-outer {
+                bottom: 30px;
+                right: 30px;
+                width: 240px; 
+                height: 240px;
+            }
+
+            /* The Assistant panel slides side-by-side onto her left side */
+            #oracle-modal .scribes-bubble {
+                position: absolute;
+                bottom: 30px;
+                right: 290px; /* 30px margin + 240px scaled widget + 20px gap */
+                width: 500px; /* Perfect cozy chat container size */
+                max-width: calc(100vw - 360px);
+                height: 75dvh;
+                margin: 0;
+            }
+        }
+
+        @media (max-width: 767px) {
+            /* Mobile adjustments */
+            .ink-oracle-outer {
+                bottom: 20px;
+                right: 20px;
+                width: 110px;
+                height: 110px;
+            }
+
+            /* Responsive layout centering her dynamically at the bottom below stacked chat */
+            body.oracle-open .ink-oracle-outer {
+                bottom: 20px;
+                right: calc(50% - 90px); /* Center coordinates for 180px width */
+                width: 180px;
+                height: 180px;
+            }
+
+            #oracle-modal .scribes-bubble {
+                position: absolute;
+                bottom: 220px; /* Aligns neatly above the bottom widget */
+                right: 20px;
+                left: 20px;
+                width: calc(100% - 40px);
+                height: 55dvh;
+                margin: 0;
+                max-width: none;
+            }
+        }
+
+        @keyframes oracle-float {
+            0% { transform: translateY(0px) rotate(-3deg); }
+            100% { transform: translateY(-12px) rotate(3deg); }
+        }
+
+        /* Speaking animation with dynamic squish/stretch values */
+        @keyframes oracle-speaking {
+            0% { transform: translateY(0) scale(1) rotate(0deg); }
+            15% { transform: translateY(-4px) scaleY(1.05) scaleX(0.96) rotate(-1.5deg); }
+            30% { transform: translateY(0) scaleY(0.96) scaleX(1.03) rotate(1.5deg); }
+            45% { transform: translateY(-6px) scaleY(1.06) scaleX(0.95) rotate(-1.5deg); }
+            60% { transform: translateY(0) scaleY(0.97) scaleX(1.02) rotate(0deg); }
+            75% { transform: translateY(-3px) scaleY(1.04) scaleX(0.97) rotate(1.5deg); }
+            90% { transform: translateY(0) scaleY(0.98) scaleX(1.01) rotate(-1.5deg); }
+            100% { transform: translateY(0) scale(1) rotate(0deg); }
+        }
+
+        @keyframes oracle-glow {
+            0% { opacity: 0.3; transform: scale(0.95); }
+            100% { opacity: 0.8; transform: scale(1.15); }
+        }
+
         /* --- OFFICIAL TRANSCRIPT (PRINT STYLES) --- */
         #transcript-layer { display: none; }
 
         @media print {
-            #ui-wrapper, #cloak-overlay, #bg-anchor, #glow-layer, #particleCanvas, #landing-page, .modal-overlay { 
+            #ui-wrapper, #cloak-overlay, #bg-anchor, #glow-layer, #particleCanvas, #landing-page, .modal-overlay, .ink-oracle-outer { 
                 display: none !important; 
             }
             body, html { 
@@ -733,6 +881,13 @@
         </div>
     </div>
 
+    <!-- Floating AI Widget: The Witch Oracle -->
+    <div id="ink-oracle-widget" class="ink-oracle-outer" onclick="activateOracle(event)">
+        <div class="ink-oracle-inner">
+            <img src="witch.png" alt="Witch Assistant" class="oracle-avatar">
+        </div>
+    </div>
+
     <div id="oracle-modal" class="modal-overlay" onclick="toggleModal('oracle-modal')">
         <div class="scribes-bubble" onclick="event.stopPropagation()">
             <div class="archive-vault">
@@ -874,10 +1029,20 @@
 
         function toggleCloak() { document.body.classList.toggle('cloaked'); }
         function restoreUI() { document.body.classList.remove('cloaked'); }
+        
         function toggleModal(id) { 
-            const m = document.getElementById(id); m.classList.toggle('active'); 
-            if(id === 'oracle-modal' && m.classList.contains('active')) { const chat = document.getElementById('oracle-chat'); chat.scrollTop = chat.scrollHeight; }
+            const m = document.getElementById(id); 
+            if (m) {
+                m.classList.toggle('active');
+                if (id === 'oracle-modal') {
+                    // Update state to position floating witch widget side-by-side with chat
+                    document.body.classList.toggle('oracle-open', m.classList.contains('active'));
+                    const chat = document.getElementById('oracle-chat'); 
+                    if(chat) chat.scrollTop = chat.scrollHeight; 
+                }
+            }
         }
+        
         function updateVar(name, val) { document.documentElement.style.setProperty(name, val); flagUnsaved(); }
 
         let lowGpu = false;
@@ -919,6 +1084,7 @@
             });
         }
 
+        // Custom state tracking prompt
         function somniaPrompt(title, msg, defaultVal = "") {
             return new Promise(resolve => {
                 const modal = document.getElementById('somnia-dialog');
@@ -926,7 +1092,7 @@
                 const input = document.getElementById('dialog-input'); input.style.display = 'block'; input.value = defaultVal;
                 document.getElementById('dialog-cancel').style.display = 'block'; document.getElementById('dialog-cancel').onclick = () => { modal.classList.remove('active'); resolve(null); };
                 const confirmBtn = document.getElementById('dialog-confirm');
-                confirmBtn.innerText = "SAVE"; confirmBtn.onclick = () => { modal.classList.remove('active'); resolve(input.value); };
+                confirmBtn.innerText = "SAVE"; confirmBtn.onclick = () => { modal.classList.remove('active'); confirmBtn.style.color = "var(--text-main)"; confirmBtn.style.borderColor = "var(--accent)"; resolve(input.value); };
                 modal.classList.add('active'); input.focus();
             });
         }
@@ -979,7 +1145,7 @@
             delBtn.onclick = async () => {
                 if(await somniaConfirm("Delete Background?", "Are you sure you want to delete this custom background?")) {
                     await deleteMedia(key);
-                    if(localStorage.getItem('somnia_active_bg_key') === key) { document.getElementById('bg-anchor').style.backgroundImage = "url('SomniaSyllabus.png')"; localStorage.removeItem('somnia_active_bg_key'); }
+                    if(localStorage.getItem('somnia_active_bg_key') === key) { document.getElementById('bg-anchor').style.backgroundImage = "url('syllabus.png')"; localStorage.removeItem('somnia_active_bg_key'); }
                     loadCustomBackgrounds();
                 }
             };
@@ -1001,7 +1167,7 @@
             const reader = new FileReader();
             reader.onload = async (e) => {
                 const img = new Image();
-                img.onload = async () => {
+                img.onload = () => {
                     const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
                     let width = img.width; let height = img.height; const MAX = 1920;
                     if (width > MAX) { height *= MAX / width; width = MAX; }
@@ -1024,17 +1190,17 @@
         // === 3. WEB AUDIO API MIXER ===
         const activeAudio = {}; let audioCtx; let masterGainNode;
         const soundLibrary = [
-            { id: "rain", name: "🌧️ Gentle Rain", url: "rain.mp3" }, { id: "thunder", name: "🌩️ Thunderstorm", url: "thunder.mp3" },
-            { id: "winterwind", name: "🌬️ Winter Wind", url: "winterwind.mp3" }, { id: "owls", name: "🦉 Midnight Owls", url: "owls.mp3" },
-            { id: "raven", name: "🐦‍⬛ Raven Calls", url: "raven.mp3" }, { id: "frogs", name: "🐸 Swamp Frogs", url: "frogs.mp3" },
-            { id: "crickets", name: "🦗 Night Crickets", url: "crickets.mp3" }, { id: "fire", name: "🔥 Hearth Fire", url: "fire.mp3" },
-            { id: "simmering", name: "🍲 Simmering Pot", url: "simmeringpot.mp3" }, { id: "teacup", name: "☕ Teacup Clinks", url: "teacup.mp3" },
-            { id: "clock", name: "🕰️ Ticking Clock", url: "clock.mp3" }, { id: "cat", name: "🐾 Purring Cat", url: "cat.mp3" },
-            { id: "windchimes", name: "🎐 Wind Chimes", url: "windchimes.mp3" }, { id: "musicbox1", name: "🎶 Music Box I", url: "musicbox1.mp3" },
-            { id: "musicbox2", name: "🎶 Music Box II", url: "musicbox2.mp3" }, { id: "musicbox3", name: "🎶 Music Box III", url: "musicbox3.mp3" },
-            { id: "xmas1", name: "🎄 Yule Box I", url: "xmasmusicbox1.mp3" }, { id: "xmas2", name: "🎄 Yule Box II", url: "xmasmusicbox2.mp3" },
-            { id: "xmas3", name: "🎄 Yule Box III", url: "xmasmusicbox3.mp3" }, { id: "darkmusic", name: "🖤 Dark Atmos", url: "darkmusic1.mp3" },
-            { id: "binary", name: "🎵 Binary Box", url: "binarymusicbox.mp3" }
+            { id: "rain", name: " Gentle Rain", url: "rain.mp3" }, { id: "thunder", name: " Thunderstorm", url: "thunder.mp3" },
+            { id: "winterwind", name: " Winter Wind", url: "winterwind.mp3" }, { id: "owls", name: " Midnight Owls", url: "owls.mp3" },
+            { id: "raven", name: " Raven Calls", url: "raven.mp3" }, { id: "frogs", name: " Swamp Frogs", url: "frogs.mp3" },
+            { id: "crickets", name: " Night Crickets", url: "crickets.mp3" }, { id: "fire", name: " Hearth Fire", url: "fire.mp3" },
+            { id: "simmering", name: " Simmering Pot", url: "simmeringpot.mp3" }, { id: "teacup", name: " Teacup Clinks", url: "teacup.mp3" },
+            { id: "clock", name: " Ticking Clock", url: "clock.mp3" }, { id: "cat", name: " Purring Cat", url: "cat.mp3" },
+            { id: "windchimes", name: " Wind Chimes", url: "windchimes.mp3" }, { id: "musicbox1", name: " Music Box I", url: "musicbox1.mp3" },
+            { id: "musicbox2", name: " Music Box II", url: "musicbox2.mp3" }, { id: "musicbox3", name: " Music Box III", url: "musicbox3.mp3" },
+            { id: "xmas1", name: " Yule Box I", url: "xmasmusicbox1.mp3" }, { id: "xmas2", name: " Yule Box II", url: "xmasmusicbox2.mp3" },
+            { id: "xmas3", name: " Yule Box III", url: "xmasmusicbox3.mp3" }, { id: "darkmusic", name: " Dark Atmos", url: "darkmusic1.mp3" },
+            { id: "binary", name: " Binary Box", url: "binarymusicbox.mp3" }
         ];
         let customAudioLibrary = [];
 
@@ -1054,7 +1220,7 @@
             const keys = await getAllMediaKeys(); const audioKeys = keys.filter(k => k.startsWith('aud_'));
             for(let key of audioKeys) {
                 const blob = await getMedia(key);
-                if(blob) customAudioLibrary.push({ id: key, name: localStorage.getItem('somnia_name_' + key) || "📁 Audio", url: URL.createObjectURL(blob), isCustom: true });
+                if(blob) customAudioLibrary.push({ id: key, name: localStorage.getItem('somnia_name_' + key) || " Audio", url: URL.createObjectURL(blob), isCustom: true });
             }
             initMixer();
         }
@@ -1086,7 +1252,7 @@
             if (!input.files || input.files.length === 0) return;
             const file = input.files[0]; const key = 'aud_' + Date.now();
             saveMedia(key, file).then(async () => {
-                const finalName = await somniaPrompt("Name Audio", "Name this sound:", "✨ Focus Audio") || "📁 Custom Audio";
+                const finalName = await somniaPrompt("Name Audio", "Name this sound:", "✨ Focus Audio") || " Custom Audio";
                 localStorage.setItem('somnia_name_' + key, finalName); loadCustomAudio(); flagUnsaved();
             });
             input.value = ""; 
@@ -1488,6 +1654,7 @@
 
         function deleteSchedsEvent(id) { schedsEvents = schedsEvents.filter(ev => ev.id !== id); saveSchedsData(); renderSchedsCalendar(); renderSchedsDay(); }
 
+        // Standard Note handlers
         function addSchedsNote() {
             if (!schedsSelectedDate) return;
             const input = document.getElementById('sched-note-input');
@@ -1554,80 +1721,6 @@
             { cat: "Early Explorers", title: "9. Rhyme Time Dash", desc: "Timer: 60s. Put objects in a pile. Call 'Bat!' They grab the 'Cat.' Score: +15 per rhyme." },
             { cat: "Early Explorers", title: "10. Emotion Charades", desc: "Timer: 60s. They must act out 'Frustrated,' 'Joyful,' 'Shy.' Score: +10 per emotion." },
             { cat: "Early Explorers", title: "11. Shape Shifters", desc: "Timer: 90s. Use their body to form a triangle, circle, or letter. Score: +20 per shape." },
-            { cat: "Early Explorers", title: "12. Simon Says Sprint", desc: "Timer: 2 mins. A high-speed version of Simon Says to train auditory processing. Score: +5 per survived round." },
-            { cat: "Early Explorers", title: "13. Sink or Float Prediction", desc: "Timer: 60s. Sort 10 items into sink/float piles before testing. Score: +10 per correct hypothesis." },
-            { cat: "Early Explorers", title: "14. The Heavy Work Haul", desc: "Timer: 3 mins. Move a heavy basket of books across the room. Score: +50 for completion." },
-            { cat: "Early Explorers", title: "15. Pattern Builder", desc: "Timer: 90s. Lay out Red-Blue-Red Legos. They continue it. Score: +20 per perfect pattern." },
-            { cat: "Early Explorers", title: "16. Ninja Tip-Toes", desc: "Timer: 2 mins. Cross a room of crinkly paper silently. Score: Start at 100, -10 per noise." },
-            { cat: "Early Explorers", title: "17. Sight Word Slap", desc: "Timer: 60s. Write sight words on wall. Call a word. They slap it with a flyswatter. Score: +10 per slap." },
-            { cat: "Early Explorers", title: "18. Mirror Image", desc: "Timer: 90s. Do a sequence of 3 movements. They mirror it perfectly. Score: +15 per mimic." },
-            { cat: "Early Explorers", title: "19. The Cleanup Heist", desc: "Timer: 2 mins. 'Steal the stray Legos and hide them in this bin before I turn around.' Score: +100 for a clean floor." },
-            { cat: "Early Explorers", title: "20. Breathing Balloon", desc: "Timer: 2 mins. Keep a balloon in the air using only their breath. Score: +10 per breath cycle." },
-            
-            // Junior Adventurers (8-11)
-            { cat: "Junior Adventurers", title: "21. Multiplication Lava", desc: "Cushions have numbers. Call '6x4!'. They jump to 24. Timer: 60s. Score: +10 per jump." },
-            { cat: "Junior Adventurers", title: "22. The Spelling Relay", desc: "Timer: 2 mins. Sprint to a pile of letters, grab one, run back, and spell a word. Score: +50 per word." },
-            { cat: "Junior Adventurers", title: "23. Pantry Price is Right", desc: "Timer: 3 mins. 'Find items that add up to exactly $8.50.' Score: +100 for perfect math." },
-            { cat: "Junior Adventurers", title: "24. Magnetic Dash", desc: "Timer: 2 mins. Hand them a magnet. 'Find 5 things that are magnetic.' Score: +20 per item." },
-            { cat: "Junior Adventurers", title: "25. State Capital Sprint", desc: "Timer: 90s. Call a state. They write the capital on a whiteboard across the room. Score: +15 per capital." },
-            { cat: "Junior Adventurers", title: "26. Measurement Estimation", desc: "Timer: 2 mins. 'Find something exactly 6 inches long.' Measure it after. Score: +50 if within an inch." },
-            { cat: "Junior Adventurers", title: "27. The Mad Libs Dash", desc: "Timer: 90s. Construct a sentence using scattered noun/verb/adjective cards. Score: +10 per correct word." },
-            { cat: "Junior Adventurers", title: "28. Dictionary Dig", desc: "Timer: 60s. Call a word. They must physically find it in a paper dictionary. Score: +50 for beating the clock." },
-            { cat: "Junior Adventurers", title: "29. Fraction Builder", desc: "Timer: 2 mins. 'Bring me exactly 3/4 of a dozen apples (or blocks).' Score: +30 per correct fraction." },
-            { cat: "Junior Adventurers", title: "30. Historical Timeline", desc: "Write 5 events on cards. Timer: 60s. Physically arrange them chronologically. Score: +40 for perfection." },
-            { cat: "Junior Adventurers", title: "31. The Architect's Challenge", desc: "Timer: 10 mins. Build the tallest tower using only index cards and tape. Score: +10 per inch." },
-            { cat: "Junior Adventurers", title: "32. Working Memory Barista", desc: "Timer: 30s. 'I need a red block, two blue cars, a yellow pencil.' They fetch it. Score: +20 per perfect order." },
-            { cat: "Junior Adventurers", title: "33. Blindfolded Navigator", desc: "Timer: 3 mins. One sibling verbally guides a blindfolded sibling through obstacles. Score: +100 for zero crashes." },
-            { cat: "Junior Adventurers", title: "34. Geometry Scavenger", desc: "Timer: 2 mins. 'Find an obtuse angle and a cylinder.' Score: +25 per item." },
-            { cat: "Junior Adventurers", title: "35. Synonym Slap", desc: "Timer: 45s. Call a word. They run to the board and write a synonym before the buzzer. Score: +15 per word." },
-            { cat: "Junior Adventurers", title: "36. Scientific Sort", desc: "Timer: 2 mins. Sort animal cards into Mammal, Reptile, Amphibian, Bird. Score: +10 per correct sort." },
-            { cat: "Junior Adventurers", title: "37. The Balance Beam", desc: "Timer: 2 mins. Walk a tape line on the floor while reciting the 7 times tables. Score: +50 for zero falls." },
-            { cat: "Junior Adventurers", title: "38. Water Transfer (Volume)", desc: "Timer: 2 mins. Transfer exactly 2 cups of water using a 1/4 cup measure. Score: +40 for perfect math." },
-            { cat: "Junior Adventurers", title: "39. Code Breaker", desc: "Timer: 3 mins. Solve a Caesar cipher to find where the next clue is hidden. Score: +100 for cracking the code." },
-            { cat: "Junior Adventurers", title: "40. Reverse Spelling", desc: "Timer: 60s. Call a word. They must spell it backward on the board. Score: +30 per word." },
-
-            // Senior Strategists (12+)
-            { cat: "Senior Strategists", title: "41. Equation Builder", desc: "Scatter numbers and variables. Timer: 2 mins. Build an equation that equals 24. Score: +50 per valid equation." },
-            { cat: "Senior Strategists", title: "42. Debate the Clock", desc: "Timer: 2 mins. Argue a controversial topic ('Hotdogs are sandwiches') without saying 'um'. Score: +100 for flawless argument." },
-            { cat: "Senior Strategists", title: "43. Periodic Table Sprint", desc: "Timer: 60s. Call an element ('Au!'). Write full name and atomic number. Score: +20 per element." },
-            { cat: "Senior Strategists", title: "44. Language Relay", desc: "Timer: 2 mins. Call an English word. Sprint to the board to write the translation. Score: +15 per translation." },
-            { cat: "Senior Strategists", title: "45. Physics Drop", desc: "Timer: 5 mins. Build a container from 3 pieces of paper that protects an egg from a 5ft drop. Score: +200 if it survives." },
-            { cat: "Senior Strategists", title: "46. The 30-Second Thesis", desc: "Timer: 30s. Outline a 3-point thesis statement for a historical prompt. Score: +50 for structural perfection." },
-            { cat: "Senior Strategists", title: "47. Root Word Race", desc: "Timer: 60s. Give a Latin/Greek root ('Dict'). Write English words containing it. Score: +5 per word." },
-            { cat: "Senior Strategists", title: "48. Blindfolded Architecture", desc: "Timer: 3 mins. Build a Lego structure blindfolded using verbal instructions from a partner. Score: +100 for accuracy." },
-            { cat: "Senior Strategists", title: "49. Budget Crisis", desc: "Timer: 5 mins. Given a grocery circular and $50 budget, plan 3 meals. Score: +100 for zero math errors." },
-            { cat: "Senior Strategists", title: "50. Map Maker", desc: "Timer: 2 mins. On a blank map, label 10 specific countries before the buzzer. Score: +10 per country." },
-            { cat: "Senior Strategists", title: "51. The Forbidden Word", desc: "Timer: 60s. Explain a concept ('Photosynthesis') without using the top 3 obvious words. Score: +50 per success." },
-            { cat: "Senior Strategists", title: "52. Logic Grid Dash", desc: "Timer: 3 mins. Solve a 3-variable logic puzzle. Score: +100 for cracking it under pressure." },
-            { cat: "Senior Strategists", title: "53. Percentage Pro", desc: "Timer: 60s. 'What is 15% of 80?' Mental math and write the answer. Score: +25 per correct answer." },
-            { cat: "Senior Strategists", title: "54. Historical Roleplay", desc: "Timer: 60s. Answer 3 interview questions entirely in character as a historical figure. Score: +50 for accuracy." },
-            { cat: "Senior Strategists", title: "55. Book Pitch", desc: "Timer: 90s. 'Pitch' the last book read to you like a Hollywood movie producer. Score: +50 for persuasion." },
-            { cat: "Senior Strategists", title: "56. Metric Conversion Relay", desc: "Timer: 90s. Sprint to the board and convert Imperial measurements to Metric. Score: +20 per correct conversion." },
-            { cat: "Senior Strategists", title: "57. The Tax Bracket", desc: "Timer: 3 mins. Give a fake salary and state. Calculate the take-home pay. Score: +100 for financial literacy." },
-            { cat: "Senior Strategists", title: "58. Poetry Under Pressure", desc: "Timer: 2 mins. Write a biologically accurate Haiku about mitochondria. Score: +50 for structure and science." },
-            { cat: "Senior Strategists", title: "59. Constellation Map", desc: "Timer: 60s. Use marshmallows and toothpicks to build an accurate constellation. Score: +30 per constellation." },
-            { cat: "Senior Strategists", title: "60. The Coding Bug", desc: "Timer: 3 mins. Hand them printed code with an error. Find the bug. Score: +100 per fix." },
-
-            // Family Night
-            { cat: "Family Night", title: "61. Quick Draw", desc: "Timer: 60s. Draw a secret word without speaking. Score: +50 for a successful guess." },
-            { cat: "Family Night", title: "62. Act It Out", desc: "Timer: 90s. Pantomime an animal, movie, or action without sound. Score: +50 per guess." },
-            { cat: "Family Night", title: "63. The Forbidden Word", desc: "Timer: 60s. Get the family to guess 'OCEAN' without saying 'Water, Blue, or Waves'. Score: +20 per success." },
-            { cat: "Family Night", title: "64. 20 Questions Sprint", desc: "Timer: 2 mins. Ask yes/no questions to guess the item before the buzzer. Score: +100 for beating the clock." },
-            { cat: "Family Night", title: "65. Cup Stacking", desc: "Timer: 60s. Build a pyramid of 15 plastic cups and collapse it back. Score: +50 for completing it." },
-            { cat: "Family Night", title: "66. Balloon Keep-Up", desc: "Timer: 2 mins. Keep 3 balloons in the air simultaneously. Score: +10 for every 10 seconds they stay up." },
-            { cat: "Family Night", title: "67. The Post-It Face", desc: "Timer: 60s. Blindfolded, try to stick a post-it note exactly on a family member's nose. Score: +50 for a bullseye." },
-            { cat: "Family Night", title: "68. Name That Tune", desc: "Timer: 30s. Hum a popular song. Score: +20 per correct guess." },
-            { cat: "Family Night", title: "69. Categorical Chaos", desc: "Timer: 45s. Go in a circle naming things in a category (e.g., Cereal brands). Score: +10 to the last person standing." },
-            { cat: "Family Night", title: "70. Tower of Babel", desc: "Timer: 3 mins. Work together to build a tower out of recycling. Score: +10 per inch." },
-            { cat: "Family Night", title: "71. Sock Toss", desc: "Timer: 60s. Throw rolled-up socks into a laundry basket from 10 feet away. Score: +10 per sock." },
-            { cat: "Family Night", title: "72. Two Truths and a Lie", desc: "Timer: 60s to present. The family votes. Score: +20 to the person who fools the most people." },
-            { cat: "Family Night", title: "73. The Floor is Lava (Team)", desc: "Timer: 3 mins. Cross the room using only 3 pillows, without touching the floor. Score: +100 for a successful crossing." },
-            { cat: "Family Night", title: "74. Dictionary Decoy", desc: "Timer: 2 mins. Pick an obscure word. Everyone writes a fake definition. Vote. Score: +30 for guessing right, +20 for fooling someone." },
-            { cat: "Family Night", title: "75. The Whisper Challenge", desc: "Timer: 60s. Wear noise-canceling headphones and read the whisperer's lips. Score: +50 per phrase." },
-            { cat: "Family Night", title: "76. Paper Airplane Olympics", desc: "Timer: 3 mins to build. Throw to see whose goes the furthest. Score: +50 for the winner." },
-            { cat: "Family Night", title: "77. Spoon Catapult", desc: "Timer: 60s. Catapult mini marshmallows into a bowl using a spoon. Score: +10 per marshmallow." },
-            { cat: "Family Night", title: "78. Human Knot", desc: "Timer: 2 mins. Form a tangled knot holding hands and untangle without letting go. Score: +100 for freedom." },
-            { cat: "Family Night", title: "79. Alphabet Scavenger", desc: "Timer: 3 mins. Find an object starting with A, then B, then C, etc. Score: +5 per letter reached." },
             { cat: "Family Night", title: "80. The Statue Challenge", desc: "Timer: 2 mins. One person tells jokes. Others must remain completely frozen. Score: +50 to anyone who doesn't laugh." }
         ];
 
@@ -1925,7 +2018,7 @@
         async function restoreActiveState() {
             try {
                 const stateStr = localStorage.getItem('somnia_active_state'); const activeBgKey = localStorage.getItem('somnia_active_bg_key');
-                if (activeBgKey) { const blob = await getMedia(activeBgKey); if(blob) { document.getElementById('bg-anchor').style.backgroundImage = `url('${URL.createObjectURL(blob)}')`; } }
+                if (activeBgKey) { const blob = await getMedia(activeBgKey); if(blob) { document.getElementById('bg-anchor').style.backgroundImage = `url('${URL.createObjectURL(blob)}')`; } } else { document.getElementById('bg-anchor').style.backgroundImage = "url('syllabus.png')"; }
                 if (stateStr) {
                     const state = JSON.parse(stateStr); const match = state.bodyClass.match(/(\w+)-mode/); if(match) applyPalette(match[1]);
                     document.getElementById('glow-layer').className = state.glowClass || 'glow-pulse'; window.particleType = state.particleType || 'dust'; window.particleCount = state.particleCount || 50;
@@ -1974,7 +2067,7 @@
             const state = savedVault[index]; if (!state) return;
             const match = state.bodyClass.match(/(\w+)-mode/); if(match) applyPalette(match[1]);
             document.getElementById('glow-layer').className = state.glowClass; window.particleType = state.particleType; window.particleCount = state.particleCount;
-            if (state.bgKey) { const blob = await getMedia(state.bgKey); if(blob) { document.getElementById('bg-anchor').style.backgroundImage = `url('${URL.createObjectURL(blob)}')`; localStorage.setItem('somnia_active_bg_key', state.bgKey); } } else { document.getElementById('bg-anchor').style.backgroundImage = "none"; localStorage.removeItem('somnia_active_bg_key'); }
+            if (state.bgKey) { const blob = await getMedia(state.bgKey); if(blob) { document.getElementById('bg-anchor').style.backgroundImage = `url('${URL.createObjectURL(blob)}')`; localStorage.setItem('somnia_active_bg_key', state.bgKey); } } else { document.getElementById('bg-anchor').style.backgroundImage = "url('syllabus.png')"; localStorage.removeItem('somnia_active_bg_key'); }
             updateVar('--anim-speed', state.vars.speed); updateVar('--glow-opac', state.vars.opac); updateVar('--bg-bright', state.vars.bright); updateVar('--bg-zoom', state.vars.zoom); updateVar('--particle-color', state.vars.pColor); updateVar('--glow-color', state.vars.gColor);
             if(document.getElementById('speed-slider')) document.getElementById('speed-slider').value = 21 - parseInt(state.vars.speed);
             if(document.getElementById('opac-slider')) document.getElementById('opac-slider').value = state.vars.opac;
@@ -2076,7 +2169,7 @@
                     } else {
                         rosterHtml += `<p style="font-size: 10pt; font-style: italic;">No grades logged yet.</p>`;
                     }
-                    rosterHtml += `</div>`;
+                    rosterDiv.innerHTML = rosterHtml;
                 });
                 rosterDiv.innerHTML = rosterHtml;
             } else {
@@ -2084,6 +2177,12 @@
             }
 
             window.print();
+        }
+
+        // === 13. FLOATING AI WIDGET CONTROL ===
+        function activateOracle(event) {
+            if (event) event.stopPropagation();
+            toggleModal('oracle-modal');
         }
 
         // === BOOT ===
