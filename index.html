@@ -1,17 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="SOMNIASYLLABUS // A private, offline-first educational sanctuary and digital workshop.">
-    <meta name="theme-color" content="#020204">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>SOMNIASYLLABUS // DIGITAL SANCTUARY</title>
-    
-    <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22SomniaSyllabus%22%2C%22short_name%22%3A%22Syllabus%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23020204%22%2C%22theme_color%22%3A%22%23020204%22%7D">
+<meta name="somniasyllabus-build" content="the-academy-reset-v5-original-canvas-particles"/><meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<meta content="THE ACADEMY // A private offline-first learning chamber and homeschool record table." name="description"/>
+<meta content="#020204" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<title>THE ACADEMY // SOMNIASCAPES</title>
 
-    <style>
+<style>
         /* ============================================================
            SOMNIASYLLABUS — THE DIGITAL SANCTUARY (ACADEMY EDITION)
            Luxurious • Heavy Glassmorphism • Private Education Hub
@@ -185,10 +184,10 @@
         .modal-overlay { position: fixed; inset: 0; z-index: 500; display: none; background: rgba(0,0,0,0.85); backdrop-filter: blur(25px); align-items: center; justify-content: center; padding: 20px; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .modal-overlay.active { display: flex; }
-        .cast-box { width: 100%; max-width: 500px; background: var(--glass); border: 1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-radius: 24px; padding: 40px; box-shadow: 0 40px 100px rgba(0,0,0,0.9); text-align: center; max-height: 90vh; overflow-y: auto;}
+        .fullscreen-box { width: 100%; max-width: 500px; background: var(--glass); border: 1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-radius: 24px; padding: 40px; box-shadow: 0 40px 100px rgba(0,0,0,0.9); text-align: center; max-height: 90vh; overflow-y: auto;}
         
         #somnia-dialog { z-index: 10000; }
-        #somnia-dialog .cast-box { padding: 35px; max-width: 400px; text-align: center; align-items: center; }
+        #somnia-dialog .fullscreen-box { padding: 35px; max-width: 400px; text-align: center; align-items: center; }
 
         /* --- LESSONS (PATHWAYS) --- */
         .pathway-card { background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px; margin-bottom: 15px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.03); transition: 0.3s; }
@@ -277,12 +276,12 @@
         .score-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: var(--text-muted); width: 35px; height: 35px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; font-family: monospace; }
         .score-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(255,255,255,0.1); transform: scale(1.1); }
 
-        /* --- AI ASSISTANT MODAL --- */
+        /* ---  MODAL --- */
         .scribes-bubble { width: 100%; max-width: 800px; height: 85vh; background: rgba(6, 6, 8, 0.95); backdrop-filter: blur(40px) saturate(150%); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 30px; box-shadow: 0 30px 100px rgba(0,0,0,0.9); display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
         .oracle-chat-body { flex: 1; overflow-y: auto; padding-right: 10px; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none; }
         .oracle-msg { padding: 15px 20px; border-radius: 12px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; font-family: 'Georgia', serif; }
         .oracle-msg.user { background: rgba(255,255,255,0.05); align-self: flex-end; color: var(--text-main); border: 1px solid var(--glass-border); border-bottom-right-radius: 2px;}
-        .oracle-msg.ai { background: rgba(0,0,0,0.6); align-self: flex-start; color: var(--primary); border: 1px solid var(--primary); border-bottom-left-radius: 2px; box-shadow: 0 0 15px rgba(0,0,0,0.5);}
+        .oracle-msg.guide { background: rgba(0,0,0,0.6); align-self: flex-start; color: var(--primary); border: 1px solid var(--primary); border-bottom-left-radius: 2px; box-shadow: 0 0 15px rgba(0,0,0,0.5);}
 
         /* VIBE MODAL (TRANSLUCENT SIDE PANEL) */
         #vibe-modal { background: rgba(0,0,0,0.1) !important; backdrop-filter: none !important; justify-content: flex-end !important; padding: 20px !important; align-items: center;}
@@ -484,463 +483,209 @@
 
     </style>
 </head>
-<body id="os-body" class="gothic-mode">
-
-    <div id="transcript-layer">
-        <div class="print-header">
-            <div class="print-academy-name" id="print-academy">Official Academy Record</div>
-            <div class="print-doc-title">Official Transcript of Achievement</div>
-        </div>
-        <div class="print-student-info">
-            <div>
-                <strong>Student:</strong> <span id="print-student-name">...</span><br>
-                <strong>Academic Year:</strong> <span id="print-year">...</span><br>
-                <strong>Attendance Status:</strong> <span id="print-attendance">...</span> Days Present
+<body class="gothic-mode" id="os-body">
+<div id="transcript-layer">
+<div class="print-header">
+<div class="print-academy-name" id="print-academy">Official Academy Record</div>
+<div class="print-doc-title">Official Transcript of Achievement</div>
+</div>
+<div class="print-student-info">
+<div>
+<strong>Student:</strong> <span id="print-student-name">...</span><br/>
+<strong>Academic Year:</strong> <span id="print-year">...</span><br/>
+<strong>Attendance Status:</strong> <span id="print-attendance">...</span> Days Present
             </div>
-            <div style="text-align: right;">
-                <strong>Administrator:</strong> <span id="print-admin-name">...</span><br>
-                <strong>Date Generated:</strong> <span id="print-date">...</span>
-            </div>
-        </div>
-        <table class="print-table">
-            <thead>
-                <tr>
-                    <th style="width: 50%;">Course of Study (Lessons)</th>
-                    <th style="width: 20%; text-align: center;">Status</th>
-                    <th style="width: 15%; text-align: center;">Grade</th>
-                    <th style="width: 15%; text-align: right;">Completion</th>
-                </tr>
-            </thead>
-            <tbody id="print-table-body">
-            </tbody>
-        </table>
-        
-        <div id="print-academy-roster" style="margin-top: 40px;">
-        </div>
+<div style="text-align: right;">
+<strong>Administrator:</strong> <span id="print-admin-name">...</span><br/>
+<strong>Date Generated:</strong> <span id="print-date">...</span>
+</div>
+</div>
+<table class="print-table">
+<thead>
+<tr>
+<th style="width: 50%;">Course of Study (Lessons)</th>
+<th style="width: 20%; text-align: center;">Status</th>
+<th style="width: 15%; text-align: center;">Grade</th>
+<th style="width: 15%; text-align: right;">Completion</th>
+</tr>
+</thead>
+<tbody id="print-table-body">
+</tbody>
+</table>
+<div id="print-academy-roster" style="margin-top: 40px;">
+</div>
+<p style="font-size: 10pt; line-height: 1.5; margin-top: 40px;">
+<em>This document serves as the official academic record and portfolio summary, compiled by the primary educator in accordance with private educational standards.</em>
+</p>
+<div class="print-signature">Signature of Principal Administrator</div>
+</div>
+<div id="landing-page">
+<div class="landing-kore-orb"></div>
+<div class="landing-container">
+<h1 class="hero-title">THE ACADEMY</h1>
+<div class="hero-subtitle">A quiet learning chamber beneath lantern light</div>
+<p class="hero-description">Step into a soft, moonlit classroom where the records stay safe, the lessons can wait their turn, and the room settles around you like warm candlelight before the day begins.</p>
+<button class="cta-btn" onclick="enterSanctuary()">ENTER THE ACADEMY</button>
+<div class="landing-footer">© PROJECT KORE LLC</div>
+</div>
+</div>
+<div class="modal-overlay" id="somnia-dialog">
+<div class="fullscreen-box">
+<h3 id="dialog-title" style="color: var(--primary); letter-spacing: 4px; margin-top: 0; text-transform: uppercase; font-family: 'Times New Roman', serif;">Notice</h3>
+<p id="dialog-msg" style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; font-style: italic;"></p>
+<input class="core-input" id="dialog-input" style="display:none;" type="text"/>
+<div style="display:flex; gap:15px; width:100%;">
+<button class="toy-btn" id="dialog-cancel" style="flex:1; padding: 15px; font-size: 0.8rem;">Nevermind</button>
+<button class="toy-btn" id="dialog-confirm" style="flex:1; padding: 15px; font-size: 0.8rem; border-color:var(--accent); background: rgba(255,255,255,0.05);">Confirm</button>
+</div>
+</div>
+</div>
+<div id="bg-anchor"></div>
+<div class="glow-pulse" id="glow-layer"></div>
+<canvas id="particleCanvas"></canvas>
+<div id="cloak-overlay" onclick="restoreUI()"></div>
+<div id="ui-wrapper" style="opacity: 0; pointer-events: none;">
+<div class="nav-logo">THE ACADEMY</div>
+<div class="room-xp-bar" id="room-xp-bar">
+<div class="xp-line"><span>ACADEMY XP</span><strong id="room-xp-text">0</strong></div>
+<div class="xp-track"><div class="xp-fill" id="room-xp-fill"></div></div>
+</div>
+<div id="top-nav" onclick="event.stopPropagation()">
+<button class="artifact-btn" onclick="toggleFullscreen()">Full Screen</button>
+<button class="artifact-btn" onclick="toggleCloak()">Cloak UI</button>
+<button class="artifact-btn" onclick="toggleModal('academy-modal')">Academy</button>
+<button class="artifact-btn" onclick="takeDailySnapshot()">Snapshot</button>
+<button class="artifact-btn btn-drop" onclick="returnToCity(event)">Return to City</button>
+</div>
+<div class="widget-dock" onclick="event.stopPropagation()">
+<div class="gorgeous-widget">
+<div class="time-display" id="clock-widget">00:00</div>
+<div class="date-display" id="date-widget">Loading...</div>
+</div>
+<div class="gorgeous-widget weather-card-clickable" id="weather-card" onclick="refreshAcademyWeather()" title="Tap for local weather">
+<div class="weather-display" id="weather-icon">🌙 --°F</div>
+<div class="weather-desc" id="weather-text">Sanctuary Sky</div>
+<div class="weather-widget-source" id="weather-subnote">TAP CARD FOR LOCAL SKY</div>
+</div>
+</div>
 
-        <p style="font-size: 10pt; line-height: 1.5; margin-top: 40px;">
-            <em>This document serves as the official academic record and portfolio summary, compiled by the primary educator in accordance with private educational standards.</em>
-        </p>
-        <div class="print-signature">Signature of Principal Administrator</div>
-    </div>
-
-    <div id="landing-page">
-        <div class="landing-kore-orb"></div>
-        <div class="landing-container">
-            <h1 class="hero-title">SOMNIASYLLABUS</h1>
-            <div class="hero-subtitle">The Private Academy & Digital Sanctuary</div>
-            
-            <p class="hero-description">
-                A private, offline-first command center blending a minimalist day planner, somatic journal, and educational roster management within a deeply immersive, ambient environment.
-            </p>
-
-            <button class="cta-btn" onclick="enterSanctuary()">ENTER THE SANCTUARY</button>
-            <div class="landing-footer">© PROJECT KORE LLC</div>
-        </div>
-    </div>
-
-    <div id="somnia-dialog" class="modal-overlay">
-        <div class="cast-box">
-            <h3 id="dialog-title" style="color: var(--primary); letter-spacing: 4px; margin-top: 0; text-transform: uppercase; font-family: 'Times New Roman', serif;">Notice</h3>
-            <p id="dialog-msg" style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; font-style: italic;"></p>
-            <input type="text" id="dialog-input" class="core-input" style="display:none;">
-            <div style="display:flex; gap:15px; width:100%;">
-                <button id="dialog-cancel" class="toy-btn" style="flex:1; padding: 15px; font-size: 0.8rem;">Nevermind</button>
-                <button id="dialog-confirm" class="toy-btn" style="flex:1; padding: 15px; font-size: 0.8rem; border-color:var(--accent); background: rgba(255,255,255,0.05);">Confirm</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="bg-anchor"></div>
-    <div id="glow-layer" class="glow-pulse"></div>
-    <canvas id="particleCanvas"></canvas>
-
-    <div id="cloak-overlay" onclick="restoreUI()"></div>
-
-    <div id="ui-wrapper" style="opacity: 0; pointer-events: none;">
-        <div id="top-nav">
-            <div id="attendance-module" class="hearth-container">
-                <button id="hearth-btn" class="hearth-btn" onclick="lightHearth()">🔥</button>
-                <div style="display: flex; flex-direction: column;">
-                    <span style="font-size: 0.6rem; color: var(--accent); font-family: monospace; letter-spacing: 1px;">HEARTH LIT</span>
-                    <span style="font-size: 0.9rem; color: var(--text-main); font-family: 'Times New Roman', serif; font-weight: bold;">
-                        <span id="hearth-count">0</span> <span style="font-size: 0.7rem; color: var(--text-muted);">/ 180</span>
-                    </span>
-                </div>
-                <button class="toy-btn" style="font-size: 0.6rem; padding: 3px 8px; border: none; background: transparent; color: #fb7185;" onclick="undoHearth()">-</button>
-            </div>
-
-            <button class="artifact-btn" onclick="toggleModal('vibe-modal')">Vibe Editor</button>
-            <button class="artifact-btn" onclick="toggleCloak()">Focus Mode</button>
-            <button class="artifact-btn" onclick="toggleModal('oracle-modal')">AI Assistant</button>
-            <button class="artifact-btn" onclick="takeDailySnapshot()">📸 Snapshot</button>
-            <button class="artifact-btn" onclick="toggleModal('cast-modal')">Projector</button>
-            <button class="artifact-btn" onclick="shareSomnia()" style="border-color: #34d399; color: #d1fae5; background: rgba(52,211,153,0.1);">DROP</button>
-            <button id="export-reminder" class="artifact-btn" onclick="exportCoreData()">⚠️ Export Backup</button>
-        </div>
-
-        <div class="nav-logo">SOMNIASYLLABUS</div>
-
-        <main id="maker-panel">
-            <div class="tab-bar">
-                <button class="tab-btn active" onclick="switchTab('tab-academy', this)">Academy</button>
-                <button class="tab-btn" onclick="switchTab('tab-lessons', this)">Lessons</button>
-                <button class="tab-btn" onclick="switchTab('tab-planner', this)">Planner</button>
-                <button class="tab-btn" onclick="switchTab('tab-playbook', this)">Playbook</button>
-                <button class="tab-btn" onclick="switchTab('tab-journal', this)">Journal</button>
-                <button class="tab-btn" onclick="switchTab('tab-vault', this)">Vault</button>
-                <button class="tab-btn" onclick="switchTab('tab-protips', this)">Pro Tips</button>
-            </div>
-
-            <div id="tab-academy" class="tab-content active">
-                <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px;">
-                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                        <input type="text" id="new-student-name" class="core-input" style="margin:0;" placeholder="Add student name...">
-                        <button class="toy-btn" style="padding: 10px 20px;" onclick="addStudent()">Add</button>
-                    </div>
-                </div>
-                <div id="academy-container" style="display: flex; flex-direction: column; gap: 15px; margin-top: 5px;"></div>
-            </div>
-
-            <div id="tab-lessons" class="tab-content">
-                <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0 0 5px 0; font-family: 'Times New Roman', serif;">THE LESSONS</h3>
-                <p style="font-size: 0.8rem; color: var(--text-muted); font-family: monospace; margin-top:0; margin-bottom: 20px;">No dates. No deadlines. Just do the next thing.</p>
-                
-                <div id="pathways-container" style="display: flex; flex-direction: column; gap: 10px;"></div>
-
-                <div style="display: flex; gap: 10px; margin-top: 15px;">
-                    <input type="text" id="new-pathway-input" class="core-input" style="margin:0;" placeholder="New Subject (e.g. Math Vol 1)">
-                    <button class="toy-btn" style="border-color: var(--accent);" onclick="createNewPathway()">+ Add Lesson</button>
-                </div>
-            </div>
-
-            <div id="tab-planner" class="tab-content">
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <div class="sched-card" style="flex: 1.5; min-width: 250px;">
-                        <div class="sched-header-row">
-                            <div>
-                                <div class="sched-header-main" id="sched-today-label">Today</div>
-                                <div class="sched-subtext" id="sched-today-date"></div>
-                            </div>
-                            <div style="text-align:right;">
-                                <div class="sched-subtext" id="sched-time-label" style="font-size: 1.2rem; color: var(--primary);">--:--</div>
-                            </div>
-                        </div>
-                        <div class="sched-calendar-nav" style="margin-top: 15px;">
-                            <button class="toy-btn" style="padding: 6px 12px; border-radius: 20px;" onclick="changeSchedsMonth(-1)">◀</button>
-                            <div class="sched-calendar-month" id="sched-month-label"></div>
-                            <button class="toy-btn" style="padding: 6px 12px; border-radius: 20px;" onclick="changeSchedsMonth(1)">▶</button>
-                        </div>
-                        <div class="sched-calendar-grid" id="sched-calendar-grid"></div>
-                    </div>
-                    
-                    <div class="sched-card" style="flex: 1; min-width: 200px; display: flex; justify-content: center; align-items: center;">
-                        <div class="sched-section-title" style="width: 100%; text-align: left;">Focus Timer</div>
-                        <div class="sched-timer-display" id="sched-timer-display">25:00</div>
-                        <div class="sched-timer-controls" style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-                            <button class="toy-btn" onclick="startSchedsTimer()" style="border-color: #34d399; color: #34d399; border-radius:20px;">Start</button>
-                            <button class="toy-btn" onclick="pauseSchedsTimer()" style="border-radius:20px;">Pause</button>
-                            <button class="toy-btn" onclick="resetSchedsTimer()" style="border-radius:20px;">Reset</button>
-                        </div>
-                        <div class="sched-input-row" style="margin-top: 15px; justify-content: center;">
-                            <input id="sched-timer-minutes" class="core-input" type="number" min="1" max="180" value="25" style="width: 70px; text-align: center; margin:0; padding: 8px;" onchange="setSchedsPreset(this.value)">
-                            <span class="sched-subtext">mins</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sched-card">
-                    <div class="sched-section-title">Daily Tallies</div>
-                    <div id="tallies-container" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;"></div>
-                    <button class="toy-btn" style="align-self: flex-start; margin-top: 10px; border-radius:20px; padding: 8px 15px;" onclick="addTally()">+ Add Tracker</button>
-                </div>
-
-                <div class="sched-card">
-                    <div class="sched-section-title">Calendar Tasks</div>
-                    <div class="sched-subtext" id="sched-selected-date-label">Select a day to plan.</div>
-                    <div class="sched-input-row" style="margin-top:15px;">
-                        <input id="sched-event-title" class="core-input" style="margin:0;" type="text" placeholder="Task or event...">
-                        <input id="sched-event-time" class="core-input" style="margin:0; max-width:100px;" type="time">
-                        <button class="toy-btn" style="padding: 10px 20px;" onclick="addSchedsEvent()">Add</button>
-                    </div>
-                    <div class="sched-list" id="sched-event-list" style="margin-top: 15px;"></div>
-                </div>
-
-                <div class="sched-card">
-                    <div class="sched-section-title">Quick Notes</div>
-                    <textarea id="sched-note-input" class="sched-textarea" placeholder="Type a note and press 'Save'..." style="margin-top: 10px;"></textarea>
-                    <button class="toy-btn" style="align-self: flex-end; margin-top: 10px; padding: 10px 20px; border-radius: 20px;" onclick="addSchedsNote()">Save Note</button>
-                    <div class="sched-list" id="sched-note-list" style="margin-top: 15px;"></div>
-                </div>
-            </div>
-
-            <div id="tab-playbook" class="tab-content">
-                <div style="display: flex; flex-direction: column; gap: 20px;">
-                    
-                    <div class="sched-card" style="align-items: center;">
-                        <div class="sched-section-title" style="width: 100%; text-align: left;">Game Timer</div>
-                        <div id="playbook-timer" class="sched-timer-display" style="font-size: 4rem;">05:00</div>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-                            <button class="toy-btn" onclick="adjustPlaybookTimer(-60)">-1 Min</button>
-                            <button class="toy-btn" onclick="startPlaybookTimer()" style="color: #34d399; border-color: rgba(52,211,153,0.4); background: rgba(52,211,153,0.1);">▶ Play</button>
-                            <button class="toy-btn" onclick="pausePlaybookTimer()" style="color: var(--accent); border-color: var(--glass-border);">⏸ Pause</button>
-                            <button class="toy-btn" onclick="resetPlaybookTimer()" style="color: #fbbf24; border-color: rgba(251,191,36,0.4);">↺ Reset</button>
-                            <button class="toy-btn" onclick="adjustPlaybookTimer(60)">+1 Min</button>
-                        </div>
-                    </div>
-
-                    <div class="sched-card">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                            <div class="sched-section-title">Scoreboard</div>
-                            <div style="display:flex; gap:10px;">
-                                <button class="toy-btn" style="padding: 5px 10px; font-size: 0.65rem; border-color: var(--accent);" onclick="addTeam()">+ Add Team</button>
-                                <button class="toy-btn" style="padding: 5px 10px; font-size: 0.65rem; border-color: #fb7185; color: #fb7185; background: rgba(251,113,133,0.05);" onclick="resetScores()">Reset Scores</button>
-                            </div>
-                        </div>
-                        <div id="teams-container" style="display: flex; flex-direction: column; max-height: 300px; overflow-y: auto; padding-right: 5px;" class="annals-body"></div>
-                    </div>
-
-                    <div class="sched-card">
-                        <div class="sched-section-title">Games & Heists</div>
-                        <select id="playbook-filter" class="core-input" style="margin-bottom: 15px;" onchange="renderPlaybook()">
-                            <option value="All">Show All Games (80+)</option>
-                            <option value="Early Explorers">Early Explorers (Ages 4-7)</option>
-                            <option value="Junior Adventurers">Junior Adventurers (Ages 8-11)</option>
-                            <option value="Senior Strategists">Senior Strategists (Ages 12+)</option>
-                            <option value="Family Night">Family Night (All Ages)</option>
-                            <option value="Custom">My Custom Games</option>
-                        </select>
-                        <div id="playbook-list" style="overflow-y: auto; max-height: 400px; padding-right: 5px;" class="annals-body"></div>
-                        <button class="toy-btn" style="margin-top: 15px; border-color: var(--accent);" onclick="promptAddCustomGame()">+ Add Custom Game</button>
-                    </div>
-
-                </div>
-            </div>
-
-            <div id="tab-journal" class="tab-content">
-                <div class="archive-vault" style="height: 60vh;">
-                    <div class="vault-header">
-                        <div>
-                            <h2>SomniaJournal</h2>
-                            <div style="font-size: 0.65rem; opacity: 0.7; letter-spacing: 5px; font-family: monospace; color: var(--accent);">PRIVATE SOMATIC JOURNAL</div>
-                        </div>
-                        <input type="text" id="search-annals" placeholder="SEARCH ARCHIVE..." oninput="renderAnnals()">
-                    </div>
-                    <div id="annals" class="annals-body"></div>
-                    <div class="editor-container">
-                        <textarea id="lore-editor" class="lore-input" rows="3" placeholder="Write a new entry..."></textarea>
-                        <div class="editor-tools">
-                            <label class="toy-btn" style="padding: 10px; font-size: 0.8rem; text-align: center; border-radius: 8px;" title="Attach Image">
-                                📷 <input type="file" id="lore-img" accept="image/*" style="display:none;" onchange="attachJournalImage(this)">
-                            </label>
-                            <button class="toy-btn" style="padding: 10px; font-size: 0.8rem; font-weight: bold; color: var(--primary); border-color: var(--primary); border-radius: 8px;" onclick="commitLore()">SAVE</button>
-                        </div>
-                    </div>
-                    <div id="img-preview-container" style="display:none; font-size: 0.7rem; color: var(--accent); font-family: monospace; margin-top: 5px;">
-                        Image Ready to Attach <button onclick="clearJournalImage()" style="background:none;border:none;color:#fb7185;cursor:pointer; font-weight: bold;">✕</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tab-vault" class="tab-content">
-                <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border: 1px solid var(--glass-border); margin-bottom: 20px;">
-                    <h4 class="section-title" style="border:none; margin-bottom: 5px;">State Compliance Rules</h4>
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0; margin-bottom: 15px;">Select your state's burden level. We will hide whatever you don't legally need.</p>
-                    <select id="state-rule-selector" class="core-input" style="width: 100%; text-align: left;" onchange="updateComplianceUI()">
-                        <option value="none">Low Rules (e.g., Mississippi, Texas)</option>
-                        <option value="attendance">Medium Rules (e.g., Colorado, Florida)</option>
-                        <option value="strict">High Rules (e.g., New York, Pennsylvania)</option>
-                    </select>
-                </div>
-
-                <button class="toy-btn" style="width: 100%; border-color: var(--primary); padding: 15px; margin-bottom: 20px; border-radius: 12px; font-weight:bold;" onclick="generatePDF()">🖨️ Generate PDF Codex / Transcript</button>
-            </div>
-
-            <div id="tab-protips" class="tab-content">
-                <h4 class="section-title">How To Use SomniaSyllabus</h4>
-                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Welcome to your private educational workshop. Here is how to get started:</p>
-                <ul style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-                    <li><strong>Academy:</strong> Add students to your roster. Track their daily attendance and log individual subject grades here.</li>
-                    <li><strong>Lessons:</strong> Break down subjects into actionable tasks. Check them off as you progress, and log final grades.</li>
-                    <li><strong>Planner:</strong> Plan your day, set the focus timer, leave quick notes, and keep track of daily habits.</li>
-                    <li><strong>Playbook:</strong> Gamify executive function with 80+ offline games, a scoreboard, and a high-stakes timer.</li>
-                    <li><strong>Journal:</strong> Record thoughts and attach images. Everything is stored locally on your device.</li>
-                    <li><strong>Vibe Editor:</strong> Customize the background, colors, and sounds. Save your perfect setup to the Vault inside the editor.</li>
-                </ul>
-
-                <h4 class="section-title" style="margin-top: 15px; color: var(--primary);">📸 Pro Tip: The Daily Snapshot</h4>
-                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-                    When you are finished for the day, click the <strong>📸 Snapshot</strong> button in the top navigation. The engine will instantly compile your current attendance, all student statuses, and your lesson progress, log it as a time-stamped text entry directly into your Private Journal, and automatically download your backup core data file.
-                </p>
-
-                <h4 class="section-title" style="margin-top: 15px; color: var(--primary);">🤖 Pro Tip: Activating the AI Assistant</h4>
-                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-                    1. Go to <strong>aistudio.google.com</strong> and sign in with your Google account.<br>
-                    2. Click <strong>"Get API Key"</strong> and create a new key.<br>
-                    3. Copy the key, open the <strong>AI Assistant</strong> from the top navigation in SomniaSyllabus, paste it into the "Gemini API Key" field, and click <strong>Save Key</strong>.
-                </p>
-                
-                <h4 class="section-title" style="margin-top: 15px; color: var(--primary);">PWA Support</h4>
-                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-                    This app is PWA enabled. Install it to your device's home screen for completely offline, local-first computing!
-                </p>
-            </div>
-        </main>
-    </div>
-
-    <div id="vibe-modal" class="modal-overlay" onclick="toggleModal('vibe-modal')">
-        <div class="scribes-bubble" onclick="event.stopPropagation()">
-            <div class="archive-vault" style="height: 100%; border: none; padding: 0;">
-                <div class="vault-header" style="justify-content: center; padding-bottom: 10px;">
-                    <div style="text-align:center;">
-                        <h2 style="font-size: 1.2rem;">Vibe Editor</h2>
-                        <div style="font-size: 0.6rem; opacity: 0.7; letter-spacing: 5px; font-family: monospace; color: var(--accent);">ENVIRONMENT & SETTINGS</div>
-                    </div>
-                </div>
-
-                <div class="vibe-nav">
-                    <button class="vibe-tab-btn active" onclick="switchVibeTab('vibe-canvas', this)">Canvas</button>
-                    <button class="vibe-tab-btn" onclick="switchVibeTab('vibe-audio', this)">Audio</button>
-                    <button class="vibe-tab-btn" onclick="switchVibeTab('vibe-atmos', this)">Atmosphere</button>
-                    <button class="vibe-tab-btn" onclick="switchVibeTab('vibe-presets', this)">Presets</button>
-                    <button class="vibe-tab-btn" onclick="switchVibeTab('vibe-settings', this)">Settings</button>
-                </div>
-
-                <div class="annals-body" style="padding-right: 5px;">
-                    <div id="vibe-canvas" class="vibe-section active">
-                        <h4 class="section-title">Saved Backgrounds</h4>
-                        <div class="btn-grid" id="custom-bgs" style="display: flex; flex-direction: column; gap: 10px;"></div>
-                        <h4 class="section-title" style="margin-top:20px;">Upload New</h4>
-                        <label class="upload-zone">
-                            <span>+ Upload Local Background Image</span>
-                            <input type="file" accept="image/*" onchange="executeImageUpload(this)">
-                        </label>
-                    </div>
-
-                    <div id="vibe-audio" class="vibe-section">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <label class="toy-btn" style="flex:1; text-align:center; margin-right:15px; padding: 15px;">
+<div id="academy-guide-widget" class="academy-guide-widget" onclick="sayAcademyGuide(event)" title="Academy Guide">
+  <div class="academy-guide-inner">
+    <img src="witch.png" alt="Academy Guide" class="academy-guide-avatar">
+  </div>
+  <div id="academy-guide-bubble" class="academy-guide-bubble">The Academy table is ready.</div>
+</div>
+<main class="room-editor-panel" id="maker-panel" onclick="event.stopPropagation()">
+<div class="tab-bar">
+<button class="tab-btn active" onclick="switchEditorTab('editor-audio', this)">Audio</button>
+<button class="tab-btn" onclick="switchEditorTab('editor-canvas', this)">Canvas</button>
+<button class="tab-btn" onclick="switchEditorTab('editor-atmos', this)">Atmos</button>
+<button class="tab-btn" onclick="switchEditorTab('editor-vault', this)">Vault</button>
+<button class="tab-btn" onclick="switchEditorTab('editor-protips', this)">Pro Tips</button>
+</div>
+<button aria-expanded="true" class="editor-collapse-toggle" id="editor-collapse-toggle" onclick="toggleEditorCollapse()" type="button">Fold Editor ▴</button>
+<div class="tab-content editor-tab-content active" id="editor-audio">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<label class="toy-btn" style="flex:1; text-align:center; margin-right:15px; padding: 15px;">
                                 + Custom Audio
-                                <input type="file" style="display:none;" accept="audio/*" onchange="handleAudioUpload(this)">
-                            </label>
-                            <button class="toy-btn" onclick="stopAllAudio()" style="border-color:#fb7185; color:#fb7185; padding: 15px;">Silence All</button>
-                        </div>
-                        <div class="ctrl-row" style="margin-top: 10px;">
-                            <label style="color: var(--primary);">Master Gain</label>
-                            <input type="range" class="ctrl-slider" id="master-gain-slider" min="0" max="2" step="0.1" value="1" oninput="setMasterGain(this.value)">
-                        </div>
-                        <div id="mixer-container" style="display:flex; flex-direction:column; gap:10px; margin-top: 10px;"></div>
-                    </div>
+                                <input accept="audio/*" onchange="handleAudioUpload(this)" style="display:none;" type="file"/>
+</label>
+<button class="toy-btn" onclick="stopAllAudio()" style="border-color:#fb7185; color:#fb7185; padding: 15px;">Silence All</button>
+</div>
+<div class="ctrl-row" style="margin-top: 10px;">
+<label style="color: var(--primary);">Master Gain</label>
+<input class="ctrl-slider" id="master-gain-slider" max="2" min="0" oninput="setMasterGain(this.value)" step="0.1" type="range" value="1"/>
+</div>
+<div id="mixer-container" style="display:flex; flex-direction:column; gap:10px; margin-top: 10px;"></div>
+</div>
+<div class="tab-content editor-tab-content" id="editor-canvas">
+<h4 class="section-title">Saved Backgrounds</h4>
+<div class="btn-grid" id="custom-bgs" style="display: flex; flex-direction: column; gap: 10px;"></div>
+<h4 class="section-title" style="margin-top:20px;">Upload New</h4>
+<label class="upload-zone">
+<span>+ Upload Local Background Image</span>
+<input accept="image/*" onchange="executeImageUpload(this)" type="file"/>
+</label>
+</div>
+<div class="tab-content editor-tab-content" id="editor-atmos">
+<h4 class="section-title">Color Palettes</h4>
+<div class="btn-grid" id="color-grid"></div>
+<h4 class="section-title" style="margin-top:15px;">Particle Types</h4>
+<div class="btn-grid" id="particle-grid"></div>
+<h4 class="section-title" style="margin-top:15px;">Screen Glows</h4>
+<div class="btn-grid" id="glow-grid"></div>
+<h4 class="section-title" style="margin-top:25px; color: var(--accent);">Advanced: Particle Colors</h4>
+<div class="btn-grid" id="particle-color-grid"></div>
+<h4 class="section-title" style="margin-top:15px; color: var(--accent);">Advanced: Glow Colors</h4>
+<div class="btn-grid" id="glow-color-grid"></div>
+<h4 class="section-title" style="margin-top:25px; color: var(--accent);">Advanced: Engine</h4>
+<div class="ctrl-row"><label>Speed</label><input class="ctrl-slider" id="speed-slider" max="20" min="1" oninput="updateVar('--anim-speed', (21-this.value)+'s');" type="range" value="10"/></div>
+<div class="ctrl-row"><label>Opacity</label><input class="ctrl-slider" id="opac-slider" max="1" min="0" oninput="updateVar('--glow-opac', this.value);" step="0.1" type="range" value="0.3"/></div>
+<div class="ctrl-row"><label>Brightness</label><input class="ctrl-slider" id="bright-slider" max="2" min="0.2" oninput="updateVar('--bg-bright', this.value);" step="0.1" type="range" value="0.85"/></div>
+<div class="ctrl-row"><label>Density</label><input class="ctrl-slider" id="density-slider" max="200" min="10" oninput="updateParticleDensity(this.value);" step="10" type="range" value="50"/></div>
+<div class="ctrl-row" style="margin-top: 5px;"><label>Low GPU</label><input id="lowGpuToggle" onclick="toggleLowGpu()" style="accent-color: var(--primary); transform: scale(1.2);" type="checkbox"/></div>
+</div>
+<div class="tab-content editor-tab-content" id="editor-vault">
+<h4 class="section-title">Academy Presets</h4>
+<div class="syllabus-preset-grid">
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('dawnDesk')"><img alt="" src="syllabus1.png"/><span><b>Dawn Desk</b><small>Morning Lesson</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('stormStudy')"><img alt="" src="syllabus2.png"/><span><b>Storm Study</b><small>Rain &amp; Focus</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('candleClass')"><img alt="" src="syllabus3.png"/><span><b>Candle Class</b><small>Warm Table</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('moonLessons')"><img alt="" src="syllabus4.png"/><span><b>Moon Lessons</b><small>Night Work</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('greenhouse')"><img alt="" src="syllabus5.png"/><span><b>Greenhouse</b><small>Soft Growth</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('chalkRunes')"><img alt="" src="syllabus6.png"/><span><b>Chalk Runes</b><small>Arcane Board</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('quietStacks')"><img alt="" src="syllabus7.png"/><span><b>Quiet Stacks</b><small>Library Hour</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('emberExam')"><img alt="" src="syllabus8.png"/><span><b>Ember Exam</b><small>Deep Focus</small></span></button>
+</div>
+<h4 class="section-title" style="margin-top:18px;">Academy Games</h4>
+<div class="syllabus-games-panel">
+<button class="toy-btn syllabus-game-btn" onclick="openAcademyGame('rune')"><span>🧩</span>Rune Sort</button>
+<button class="toy-btn syllabus-game-btn" onclick="openAcademyGame('spell')"><span>🪄</span>Spell Steps</button>
+</div>
+<h4 class="section-title" style="margin-top:18px;">Saved Room Vibes</h4>
+<button class="toy-btn" id="save-btn" onclick="savePreset()" style="width:100%; border-color: var(--accent); padding: 15px; margin-bottom: 12px; border-radius: 12px;">Save Current Academy Atmosphere</button>
+<div id="vault-list" style="display:flex; flex-direction:column; gap:10px;"></div>
+</div>
+<div class="tab-content editor-tab-content" id="editor-protips">
+<h4 class="section-title">Editor Pro Tips</h4>
+<p style="font-size:0.85rem; color:var(--text-muted); line-height:1.6; margin-top:0;">
+      This foldable editor changes the room only. The Academy button opens the original school table.
+    </p>
+<ul style="font-size:0.85rem; color:var(--text-muted); line-height:1.6; padding-left:20px;">
+<li><strong>Audio:</strong> mix the full sound library and custom audio.</li>
+<li><strong>Canvas:</strong> upload or restore backgrounds.</li>
+<li><strong>Atmos:</strong> palettes, particles/sprinkles, glows, colors, speed, opacity, brightness, density, and low GPU.</li>
+<li><strong>Vault:</strong> 8 presets, 2 games, and saved room atmospheres.</li>
+</ul>
+</div>
+</main>
+</div>
 
-                    <div id="vibe-atmos" class="vibe-section">
-                        <h4 class="section-title">Color Palettes</h4>
-                        <div class="btn-grid" id="color-grid"></div>
-                        <h4 class="section-title" style="margin-top:15px;">Particle Types</h4>
-                        <div class="btn-grid" id="particle-grid"></div>
-                        <h4 class="section-title" style="margin-top:15px;">Screen Glows</h4>
-                        <div class="btn-grid" id="glow-grid"></div>
-                        
-                        <h4 class="section-title" style="margin-top:25px; color: var(--accent);">Advanced: Particle Colors</h4>
-                        <div class="btn-grid" id="particle-color-grid"></div>
-                        
-                        <h4 class="section-title" style="margin-top:15px; color: var(--accent);">Advanced: Glow Colors</h4>
-                        <div class="btn-grid" id="glow-color-grid"></div>
+<!-- Floating AI Widget: The Witch Oracle -->
 
-                        <h4 class="section-title" style="margin-top:25px; color: var(--accent);">Advanced: Engine</h4>
-                        <div class="ctrl-row"><label>Speed</label><input type="range" class="ctrl-slider" id="speed-slider" min="1" max="20" value="10" oninput="updateVar('--anim-speed', (21-this.value)+'s');"></div>
-                        <div class="ctrl-row"><label>Opacity</label><input type="range" class="ctrl-slider" id="opac-slider" min="0" max="1" step="0.1" value="0.3" oninput="updateVar('--glow-opac', this.value);"></div>
-                        <div class="ctrl-row"><label>Brightness</label><input type="range" class="ctrl-slider" id="bright-slider" min="0.2" max="2" step="0.1" value="0.85" oninput="updateVar('--bg-bright', this.value);"></div>
-                        <div class="ctrl-row"><label>Density</label><input type="range" class="ctrl-slider" id="density-slider" min="10" max="200" value="50" step="10" oninput="updateParticleDensity(this.value);"></div>
-                        <div class="ctrl-row" style="margin-top: 5px;"><label>Low GPU</label><input type="checkbox" id="lowGpuToggle" style="accent-color: var(--primary); transform: scale(1.2);" onclick="toggleLowGpu()"></div>
-                    </div>
 
-                    <div id="vibe-presets" class="vibe-section">
-                        <button class="toy-btn" id="save-btn" style="width: 100%; border-color: var(--accent); padding: 15px; margin-bottom: 15px; border-radius: 12px;" onclick="savePreset()">💾 Save Current Environment Setting</button>
-                        <div id="vault-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
-                    </div>
-
-                    <div id="vibe-settings" class="vibe-section">
-                        <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border: 1px solid var(--glass-border); text-align: center;">
-                            <h4 class="section-title" style="border:none; margin-bottom: 5px;">Data Management</h4>
-                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top:0; margin-bottom: 15px;">Import or Export your clean core data file.</p>
-                            
-                            <div style="display: flex; gap: 10px; justify-content: center;">
-                                <label class="toy-btn" style="flex: 1; text-align: center; border-color: var(--glass-border); color: var(--text-main); padding: 15px;">
-                                    📥 Import Data
-                                    <input type="file" style="display: none;" accept=".somnia, .json" onchange="importFullArchive(event)">
-                                </label>
-                                <button class="toy-btn" style="flex: 1; border-color: var(--glass-border); color: var(--text-main); padding: 15px;" onclick="exportCoreData()">
-                                    📤 Export Data
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Floating AI Widget: The Witch Oracle -->
-    <div id="ink-oracle-widget" class="ink-oracle-outer" onclick="activateOracle(event)">
-        <div class="ink-oracle-inner">
-            <img src="witch.png" alt="Witch Assistant" class="oracle-avatar">
-        </div>
-    </div>
-
-    <div id="oracle-modal" class="modal-overlay" onclick="toggleModal('oracle-modal')">
-        <div class="scribes-bubble" onclick="event.stopPropagation()">
-            <div class="archive-vault">
-                <div class="vault-header">
-                    <div>
-                        <h2>Teacher's Assistant</h2>
-                        <div style="font-size: 0.65rem; opacity: 0.7; letter-spacing: 5px; font-family: monospace; color: var(--accent);">PRIVATE AI ASSISTANT</div>
-                    </div>
-                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: flex-end;">
-                        <input type="password" id="gemini-key-input" class="core-input" style="margin:0; padding: 6px 12px; width: 180px; font-size: 0.75rem;" placeholder="Gemini API Key...">
-                        <button class="toy-btn" id="save-key-btn" style="padding: 6px 12px; font-size: 0.7rem;" onclick="saveApiKey()">Save Key</button>
-                    </div>
-                </div>
-                
-                <div style="display:flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px;">
-                    <button class="artifact-btn" style="font-size: 0.65rem; padding: 8px 15px;" onclick="injectPrompt('Act as a master teacher. Generate a 5-step lesson plan for: ')">Draft Lesson Plan</button>
-                    <button class="artifact-btn" style="font-size: 0.65rem; padding: 8px 15px;" onclick="injectPrompt('Explain this concept simply for a 10 year old: ')">Explain For Kid</button>
-                    <button class="artifact-btn" style="font-size: 0.65rem; padding: 8px 15px;" onclick="injectPrompt('Give me 3 creative, offline project ideas for: ')">Project Ideas</button>
-                </div>
-
-                <div id="oracle-chat" class="oracle-chat-body">
-                    <div class="oracle-msg ai">Connection established. How may I assist you with your curriculum today?</div>
-                </div>
-                <div class="editor-container">
-                    <textarea id="oracle-editor" class="lore-input" rows="2" placeholder="Ask your assistant... [Press ENTER to send]"></textarea>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="cast-modal" class="modal-overlay" onclick="toggleModal('cast-modal')">
-        <div class="cast-box" onclick="event.stopPropagation()">
-            <h3 style="color: var(--primary); letter-spacing: 4px; margin-top: 0; margin-bottom: 15px; font-family: 'Times New Roman', serif;">PROJECTOR MODE</h3>
-            <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; font-family: 'Georgia', serif; font-style: italic;">
-                Cast the scene to a TV, or expand it fully on your monitor to hide all browser distractions.
+<div class="modal-overlay" id="fullscreen-modal" onclick="toggleModal('fullscreen-modal')">
+<div class="fullscreen-box" onclick="event.stopPropagation()">
+<h3 style="color: var(--primary); letter-spacing: 4px; margin-top: 0; margin-bottom: 15px; font-family: 'Times New Roman', serif;">FULL SCREEN MODE</h3>
+<p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; font-family: 'Georgia', serif; font-style: italic;">
+                Full Screen the scene to a TV, or expand it fully on your monitor to hide all browser distractions.
             </p>
-            <div style="background: rgba(0,0,0,0.4); padding: 20px; border-radius: 16px; border: 1px dashed var(--glass-border); width: 100%; margin-bottom: 25px; text-align: left;">
-                <p style="font-size: 0.75rem; color: var(--primary); margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px; font-family: monospace;">How to Cast:</p>
-                <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; margin: 0; font-family: monospace;">
-                    1. Right-click the background.<br>
-                    2. Select <b>"Cast..."</b><br>
-                    3. Choose your display.<br>
-                    <i>* Make sure "Cast Tab" is selected!</i>
-                </p>
-            </div>
-            <button class="toy-btn" style="width: 100%; padding: 18px; border-color: var(--accent); color: var(--text-main); font-size: 0.8rem; border-radius: 50px;" onclick="toggleFullscreen()">⛶ Just Fill My Screen</button>
-            <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; margin-top: 20px; font-family: monospace;">
-                * Pro Tip: Hit "Just Fill My Screen", and then hit "Focus Mode" in the top navigation to cleanly melt away the entire UI for deep work.
+<div style="background: rgba(0,0,0,0.4); padding: 20px; border-radius: 16px; border: 1px dashed var(--glass-border); width: 100%; margin-bottom: 25px; text-align: left;">
+<p style="font-size: 0.75rem; color: var(--primary); margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px; font-family: monospace;">How to Full Screen:</p>
+<p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; margin: 0; font-family: monospace;">
+                    1. Right-click the background.<br/>
+                    2. Select <b>"Full Screen..."</b><br/>
+                    3. Choose your display.<br/>
+<i>* Make sure "Full Screen Tab" is selected!</i>
+</p>
+</div>
+<button class="toy-btn" onclick="toggleFullscreen()" style="width: 100%; padding: 18px; border-color: var(--accent); color: var(--text-main); font-size: 0.8rem; border-radius: 50px;">⛶ Just Fill My Screen</button>
+<p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; margin-top: 20px; font-family: monospace;">
+                * Pro Tip: Hit "Just Fill My Screen", and then hit "Cloak UI" in the top navigation to cleanly melt away the entire UI for deep work.
             </p>
-        </div>
-    </div>
-
-    <script>
+</div>
+</div>
+<script>
         // === PWA REGISTRATION (Inline Service Worker) ===
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -1056,7 +801,12 @@
         function toggleFullscreen() {
             if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(e => console.log(e)); } 
             else { document.exitFullscreen(); }
-            toggleModal('cast-modal');
+            toggleModal('fullscreen-modal');
+        }
+
+        function returnToCity(event) {
+            if (event) { event.preventDefault(); event.stopPropagation(); }
+            window.location.href = 'https://somniascapes.com/';
         }
 
         function shareSomnia() {
@@ -1967,7 +1717,7 @@
             }
         }
 
-        // === 11. AI ASSISTANT (Gemini API) ===
+        // === 11.  ( API) ===
         function saveApiKey() {
             const input = document.getElementById('gemini-key-input'); const btn = document.getElementById('save-key-btn');
             if(input.value.trim() !== '') {
@@ -1986,7 +1736,7 @@
             const input = document.getElementById('oracle-editor'); const chat = document.getElementById('oracle-chat');
             const prompt = input.value.trim(); if(!prompt) return;
             const apiKey = localStorage.getItem('gemini_api_key');
-            if(!apiKey) { chat.innerHTML += `<div class="oracle-msg ai">ERROR: No API Key found. Please save your Gemini key in the header above.</div>`; input.value = ''; return; }
+            if(!apiKey) { chat.innerHTML += `<div class="oracle-msg ai">ERROR: No  found. Please save your  key in the header above.</div>`; input.value = ''; return; }
 
             chat.innerHTML += `<div class="oracle-msg user">${prompt}</div>`; input.value = ''; chat.scrollTop = chat.scrollHeight;
             const loadingId = 'loading-' + Date.now();
@@ -2215,5 +1965,1455 @@
             renderAnnals(); schedsSelectedDate = formatDateKey(new Date()); renderSchedsCalendar(); renderSchedsDay();
         });
     </script>
+
+<div class="modal-overlay" id="academy-modal" onclick="toggleModal('academy-modal')">
+<div class="academy-modal-box" onclick="event.stopPropagation()">
+<button class="mini-close academy-modal-close" onclick="toggleModal('academy-modal')">×</button>
+<main id="academy-tool-panel">
+<div class="tab-bar">
+<button class="tab-btn active" onclick="switchTab('tab-academy', this)">Academy</button>
+<button class="tab-btn" onclick="switchTab('tab-lessons', this)">Lessons</button>
+<button class="tab-btn" onclick="switchTab('tab-planner', this)">Planner</button>
+<button class="tab-btn" onclick="switchTab('tab-playbook', this)">Playbook</button>
+<button class="tab-btn" onclick="switchTab('tab-journal', this)">Journal</button>
+<button class="tab-btn" onclick="switchTab('tab-vault', this)">Vault</button>
+<button class="tab-btn" onclick="switchTab('tab-protips', this)">Pro Tips</button>
+</div>
+<div class="tab-content active" id="tab-academy">
+<div style="background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px;">
+<div style="display: flex; gap: 10px; margin-bottom: 10px;">
+<input class="core-input" id="new-student-name" placeholder="Add student name..." style="margin:0;" type="text"/>
+<button class="toy-btn" onclick="addStudent()" style="padding: 10px 20px;">Add</button>
+</div>
+</div>
+<div id="academy-container" style="display: flex; flex-direction: column; gap: 15px; margin-top: 5px;"></div>
+</div>
+<div class="tab-content" id="tab-lessons">
+<h3 style="color: var(--primary); letter-spacing: 4px; margin: 0 0 5px 0; font-family: 'Times New Roman', serif;">THE LESSONS</h3>
+<p style="font-size: 0.8rem; color: var(--text-muted); font-family: monospace; margin-top:0; margin-bottom: 20px;">No dates. No deadlines. Just do the next thing.</p>
+<div id="pathways-container" style="display: flex; flex-direction: column; gap: 10px;"></div>
+<div style="display: flex; gap: 10px; margin-top: 15px;">
+<input class="core-input" id="new-pathway-input" placeholder="New Subject (e.g. Math Vol 1)" style="margin:0;" type="text"/>
+<button class="toy-btn" onclick="createNewPathway()" style="border-color: var(--accent);">+ Add Lesson</button>
+</div>
+</div>
+<div class="tab-content" id="tab-planner">
+<div style="display: flex; gap: 15px; flex-wrap: wrap;">
+<div class="sched-card" style="flex: 1.5; min-width: 250px;">
+<div class="sched-header-row">
+<div>
+<div class="sched-header-main" id="sched-today-label">Today</div>
+<div class="sched-subtext" id="sched-today-date"></div>
+</div>
+<div style="text-align:right;">
+<div class="sched-subtext" id="sched-time-label" style="font-size: 1.2rem; color: var(--primary);">--:--</div>
+</div>
+</div>
+<div class="sched-calendar-nav" style="margin-top: 15px;">
+<button class="toy-btn" onclick="changeSchedsMonth(-1)" style="padding: 6px 12px; border-radius: 20px;">◀</button>
+<div class="sched-calendar-month" id="sched-month-label"></div>
+<button class="toy-btn" onclick="changeSchedsMonth(1)" style="padding: 6px 12px; border-radius: 20px;">▶</button>
+</div>
+<div class="sched-calendar-grid" id="sched-calendar-grid"></div>
+</div>
+<div class="sched-card" style="flex: 1; min-width: 200px; display: flex; justify-content: center; align-items: center;">
+<div class="sched-section-title" style="width: 100%; text-align: left;">Focus Timer</div>
+<div class="sched-timer-display" id="sched-timer-display">25:00</div>
+<div class="sched-timer-controls" style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+<button class="toy-btn" onclick="startSchedsTimer()" style="border-color: #34d399; color: #34d399; border-radius:20px;">Start</button>
+<button class="toy-btn" onclick="pauseSchedsTimer()" style="border-radius:20px;">Pause</button>
+<button class="toy-btn" onclick="resetSchedsTimer()" style="border-radius:20px;">Reset</button>
+</div>
+<div class="sched-input-row" style="margin-top: 15px; justify-content: center;">
+<input class="core-input" id="sched-timer-minutes" max="180" min="1" onchange="setSchedsPreset(this.value)" style="width: 70px; text-align: center; margin:0; padding: 8px;" type="number" value="25"/>
+<span class="sched-subtext">mins</span>
+</div>
+</div>
+</div>
+<div class="sched-card">
+<div class="sched-section-title">Daily Tallies</div>
+<div id="tallies-container" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;"></div>
+<button class="toy-btn" onclick="addTally()" style="align-self: flex-start; margin-top: 10px; border-radius:20px; padding: 8px 15px;">+ Add Tracker</button>
+</div>
+<div class="sched-card">
+<div class="sched-section-title">Calendar Tasks</div>
+<div class="sched-subtext" id="sched-selected-date-label">Select a day to plan.</div>
+<div class="sched-input-row" style="margin-top:15px;">
+<input class="core-input" id="sched-event-title" placeholder="Task or event..." style="margin:0;" type="text"/>
+<input class="core-input" id="sched-event-time" style="margin:0; max-width:100px;" type="time"/>
+<button class="toy-btn" onclick="addSchedsEvent()" style="padding: 10px 20px;">Add</button>
+</div>
+<div class="sched-list" id="sched-event-list" style="margin-top: 15px;"></div>
+</div>
+<div class="sched-card">
+<div class="sched-section-title">Quick Notes</div>
+<textarea class="sched-textarea" id="sched-note-input" placeholder="Type a note and press 'Save'..." style="margin-top: 10px;"></textarea>
+<button class="toy-btn" onclick="addSchedsNote()" style="align-self: flex-end; margin-top: 10px; padding: 10px 20px; border-radius: 20px;">Save Note</button>
+<div class="sched-list" id="sched-note-list" style="margin-top: 15px;"></div>
+</div>
+</div>
+<div class="tab-content" id="tab-playbook">
+<div style="display: flex; flex-direction: column; gap: 20px;">
+<div class="sched-card" style="align-items: center;">
+<div class="sched-section-title" style="width: 100%; text-align: left;">Game Timer</div>
+<div class="sched-timer-display" id="playbook-timer" style="font-size: 4rem;">05:00</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+<button class="toy-btn" onclick="adjustPlaybookTimer(-60)">-1 Min</button>
+<button class="toy-btn" onclick="startPlaybookTimer()" style="color: #34d399; border-color: rgba(52,211,153,0.4); background: rgba(52,211,153,0.1);">▶ Play</button>
+<button class="toy-btn" onclick="pausePlaybookTimer()" style="color: var(--accent); border-color: var(--glass-border);">⏸ Pause</button>
+<button class="toy-btn" onclick="resetPlaybookTimer()" style="color: #fbbf24; border-color: rgba(251,191,36,0.4);">↺ Reset</button>
+<button class="toy-btn" onclick="adjustPlaybookTimer(60)">+1 Min</button>
+</div>
+</div>
+<div class="sched-card">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+<div class="sched-section-title">Scoreboard</div>
+<div style="display:flex; gap:10px;">
+<button class="toy-btn" onclick="addTeam()" style="padding: 5px 10px; font-size: 0.65rem; border-color: var(--accent);">+ Add Team</button>
+<button class="toy-btn" onclick="resetScores()" style="padding: 5px 10px; font-size: 0.65rem; border-color: #fb7185; color: #fb7185; background: rgba(251,113,133,0.05);">Reset Scores</button>
+</div>
+</div>
+<div class="annals-body" id="teams-container" style="display: flex; flex-direction: column; max-height: 300px; overflow-y: auto; padding-right: 5px;"></div>
+</div>
+<div class="sched-card">
+<div class="sched-section-title">Games &amp; Heists</div>
+<select class="core-input" id="playbook-filter" onchange="renderPlaybook()" style="margin-bottom: 15px;">
+<option value="All">Show All Games (80+)</option>
+<option value="Early Explorers">Early Explorers (Ages 4-7)</option>
+<option value="Junior Adventurers">Junior Adventurers (Ages 8-11)</option>
+<option value="Senior Strategists">Senior Strategists (Ages 12+)</option>
+<option value="Family Night">Family Night (All Ages)</option>
+<option value="Custom">My Custom Games</option>
+</select>
+<div class="annals-body" id="playbook-list" style="overflow-y: auto; max-height: 400px; padding-right: 5px;"></div>
+<button class="toy-btn" onclick="promptAddCustomGame()" style="margin-top: 15px; border-color: var(--accent);">+ Add Custom Game</button>
+</div>
+</div>
+</div>
+<div class="tab-content" id="tab-journal">
+<div class="archive-vault" style="height: 60vh;">
+<div class="vault-header">
+<div>
+<h2>SomniaJournal</h2>
+<div style="font-size: 0.65rem; opacity: 0.7; letter-spacing: 5px; font-family: monospace; color: var(--accent);">PRIVATE SOMATIC JOURNAL</div>
+</div>
+<input id="search-annals" oninput="renderAnnals()" placeholder="SEARCH ARCHIVE..." type="text"/>
+</div>
+<div class="annals-body" id="annals"></div>
+<div class="editor-container">
+<textarea class="lore-input" id="lore-editor" placeholder="Write a new entry..." rows="3"></textarea>
+<div class="editor-tools">
+<label class="toy-btn" style="padding: 10px; font-size: 0.8rem; text-align: center; border-radius: 8px;" title="Attach Image">
+                                📷 <input accept="image/*" id="lore-img" onchange="attachJournalImage(this)" style="display:none;" type="file"/>
+</label>
+<button class="toy-btn" onclick="commitLore()" style="padding: 10px; font-size: 0.8rem; font-weight: bold; color: var(--primary); border-color: var(--primary); border-radius: 8px;">SAVE</button>
+</div>
+</div>
+<div id="img-preview-container" style="display:none; font-size: 0.7rem; color: var(--accent); font-family: monospace; margin-top: 5px;">
+                        Image Ready to Attach <button onclick="clearJournalImage()" style="background:none;border:none;color:#fb7185;cursor:pointer; font-weight: bold;">✕</button>
+</div>
+</div>
+</div>
+<div class="tab-content" id="tab-vault">
+<div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border: 1px solid var(--glass-border); margin-bottom: 20px;">
+<h4 class="section-title" style="border:none; margin-bottom: 5px;">State Compliance Rules</h4>
+<p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0; margin-bottom: 15px;">Select your state's burden level. We will hide whatever you don't legally need.</p>
+<select class="core-input" id="state-rule-selector" onchange="updateComplianceUI()" style="width: 100%; text-align: left;">
+<option value="none">Low Rules (e.g., Mississippi, Texas)</option>
+<option value="attendance">Medium Rules (e.g., Colorado, Florida)</option>
+<option value="strict">High Rules (e.g., New York, Pennsylvania)</option>
+</select>
+</div>
+<button class="toy-btn" onclick="generatePDF()" style="width: 100%; border-color: var(--primary); padding: 15px; margin-bottom: 20px; border-radius: 12px; font-weight:bold;">🖨️ Generate PDF Codex / Transcript</button>
+</div>
+<div class="tab-content" id="tab-protips">
+<h4 class="section-title">How To Use The Academy</h4>
+<p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Welcome to your private educational workshop. Here is how to get started:</p>
+<ul style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+<li><strong>Academy:</strong> Add students to your roster. Track their daily attendance and log individual subject grades here.</li>
+<li><strong>Lessons:</strong> Break down subjects into actionable tasks. Check them off as you progress, and log final grades.</li>
+<li><strong>Planner:</strong> Plan your day, set the focus timer, leave quick notes, and keep track of daily habits.</li>
+<li><strong>Playbook:</strong> Gamify executive function with 80+ offline games, a scoreboard, and a high-stakes timer.</li>
+<li><strong>Journal:</strong> Record thoughts and attach images. Everything is stored locally on your device.</li>
+<li><strong>Editor:</strong> Customize the background, colors, and sounds. Save your perfect setup to the Vault inside the editor.</li>
+</ul>
+<h4 class="section-title" style="margin-top: 15px; color: var(--primary);">📸 Pro Tip: The Daily Snapshot</h4>
+<p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+                    When you are finished for the day, click the <strong>📸 Snapshot</strong> button in the top navigation. The engine will instantly compile your current attendance, all student statuses, and your lesson progress, log it as a time-stamped text entry directly into your Private Journal, and automatically download your backup core data file.
+                </p>
+<h4 class="section-title" style="margin-top: 15px; color: var(--primary);">🤖 Pro Tip: Activating the Academy Guide</h4>
+<p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+                    1. Go to <strong>local notes</strong> and sign in with your Google account.<br/>
+                    2. Click <strong>"Get "</strong> and create a new key.<br/>
+                    3. Copy the key, open the <strong>Academy Guide</strong> from the top navigation in The Academy, paste it into the "" field, and click <strong>Save Key</strong>.
+                </p>
+<h4 class="section-title" style="margin-top: 15px; color: var(--primary);">PWA Support</h4>
+<p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+                    This app is PWA enabled. Install it to your device's home screen for completely offline, local-first computing!
+                </p>
+</div>
+</main>
+</div>
+</div>
+
+<div class="modal-overlay" id="academy-game-modal" onclick="closeAcademyGame()">
+<div class="academy-game-stage" id="academy-game-stage" onclick="event.stopPropagation()">
+<div class="academy-game-header">
+<div class="academy-game-title" id="academy-game-title">Academy Game</div>
+<div class="academy-game-stats" id="academy-game-stats">Score 0 · Time 0</div>
+</div>
+<div class="academy-game-toast" id="academy-game-toast">Begin.</div>
+<button class="toy-btn academy-game-close" onclick="closeAcademyGame()">Close</button>
+</div>
+</div>
+
+<style>
+/* === THE ACADEMY REQUESTED RESET BUILD === */
+#ui-wrapper { position: relative; z-index: 100; height: 100vh; width: 100vw; display: block !important; }
+.nav-logo { position:absolute !important; top:30px !important; left:35px !important; margin:0 !important; font-size:1.15rem !important; letter-spacing:5px !important; color:var(--primary); text-transform:uppercase; text-shadow:0 0 20px var(--primary-glow); font-family:'Times New Roman',serif; z-index:200; text-align:left !important; }
+.room-xp-bar { position:absolute; top:63px; left:35px; width:315px; z-index:201; padding:10px 12px; border:1px solid var(--glass-border); border-radius:18px; background:rgba(0,0,0,.28); backdrop-filter:blur(16px); box-shadow:0 10px 28px rgba(0,0,0,.32); }
+.xp-line { display:flex; justify-content:space-between; align-items:center; font-family:monospace; font-size:.62rem; letter-spacing:2px; color:var(--text-muted); margin-bottom:7px; }
+.xp-line strong { color:var(--primary); }
+.xp-track { height:7px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; }
+.xp-fill { height:100%; width:0%; border-radius:999px; background:linear-gradient(90deg,var(--primary),var(--accent)); box-shadow:0 0 15px var(--primary-glow); transition:width .4s ease; }
+#top-nav { position:absolute !important; top:25px !important; right:35px !important; left:auto !important; width:auto !important; display:flex !important; gap:15px !important; align-items:center !important; justify-content:flex-end !important; flex-wrap:wrap !important; padding:0 !important; z-index:200 !important; }
+.widget-dock { position:absolute; top:106px; right:30px; display:flex; flex-direction:column; gap:14px; z-index:90; pointer-events:auto; }
+.gorgeous-widget { background:rgba(10,15,25,.5); backdrop-filter:blur(25px); border:1px solid var(--glass-border); border-radius:28px; padding:20px 23px; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,.5); min-width:248px; position:relative; overflow:hidden; }
+.gorgeous-widget::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--primary),transparent); opacity:.5; }
+.time-display { font-size:3.45rem; font-weight:bold; letter-spacing:4px; color:var(--primary); text-shadow:0 0 25px var(--primary-glow); line-height:1; margin-bottom:5px; font-family:'Times New Roman',serif; }
+.date-display { font-size:.86rem; font-family:monospace; color:var(--text-muted); text-transform:uppercase; letter-spacing:3px; }
+.weather-display { font-size:2.55rem; color:var(--accent); margin-bottom:5px; text-shadow:0 0 20px var(--primary-glow); line-height:1; }
+.weather-desc { font-size:.82rem; font-family:monospace; color:var(--text-main); text-transform:uppercase; letter-spacing:2px; }
+.weather-widget-source { display:none !important; }
+
+#maker-panel.room-editor-panel { position:absolute !important; left:35px !important; top:118px !important; bottom:35px !important; width:420px !important; max-width:none !important; margin:0 !important; background:var(--glass); backdrop-filter:blur(35px); border:1px solid var(--glass-border); border-radius:30px; box-shadow:0 20px 60px rgba(0,0,0,.5); display:flex; flex-direction:column; overflow:hidden; z-index:100; }
+#maker-panel.room-editor-panel .tab-content { display:none; padding:20px; overflow-y:auto; flex:1; max-height:none; }
+#maker-panel.room-editor-panel .tab-content.active { display:flex; flex-direction:column; gap:15px; }
+.editor-collapse-toggle { margin:12px 14px 0; border:1px solid var(--glass-border); background:rgba(0,0,0,.26); color:var(--primary); border-radius:999px; padding:8px 12px; font-family:monospace; font-size:.62rem; letter-spacing:2px; text-transform:uppercase; cursor:pointer; flex-shrink:0; }
+body.editor-collapsed #maker-panel.room-editor-panel { bottom:auto !important; height:102px !important; }
+body.editor-collapsed #maker-panel.room-editor-panel .tab-bar, body.editor-collapsed #maker-panel.room-editor-panel .tab-content { display:none !important; }
+
+#academy-modal { z-index:600; }
+.academy-modal-box { width:min(980px,94vw); height:min(86vh,780px); position:relative; display:flex; }
+.academy-modal-close,.mini-close { position:absolute; right:18px; top:16px; z-index:20; width:34px; height:34px; border-radius:999px; border:1px solid var(--glass-border); background:rgba(0,0,0,.54); color:var(--primary); cursor:pointer; }
+#academy-tool-panel { width:100% !important; max-width:none !important; height:100% !important; margin:0 !important; border-radius:28px !important; background:var(--glass); backdrop-filter:blur(40px) saturate(150%); border:1px solid var(--glass-border); overflow:hidden; display:flex; flex-direction:column; }
+#academy-tool-panel .tab-content { max-height:none !important; flex:1; overflow-y:auto; }
+
+.syllabus-preset-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.syllabus-preset-card { position:relative; min-height:104px; border-radius:18px; padding:0; overflow:hidden; text-align:left; }
+.syllabus-preset-card img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.72; }
+.syllabus-preset-card span { position:absolute; left:12px; right:12px; bottom:12px; z-index:2; display:flex; flex-direction:column; gap:2px; text-shadow:0 0 14px rgba(0,0,0,.9); }
+.syllabus-preset-card b { color:var(--text-main); letter-spacing:2px; font-size:.7rem; }
+.syllabus-preset-card small { color:var(--accent); letter-spacing:2px; font-size:.54rem; }
+.syllabus-games-panel { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.syllabus-game-btn { min-height:72px; border-radius:22px; white-space:normal; }
+.syllabus-game-btn span { display:block; font-size:1.3rem; margin-bottom:5px; }
+
+.academy-game-stage { position:relative; width:min(860px,92vw); height:min(620px,74vh); border-radius:34px; overflow:hidden; border:1px solid var(--glass-border); background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.66)),url('syllabusgame1.png') center/cover no-repeat; box-shadow:0 40px 90px rgba(0,0,0,.78), inset 0 1px 0 rgba(255,255,255,.08); }
+.academy-game-header { position:absolute; top:14px; left:16px; right:16px; z-index:8; display:flex; justify-content:space-between; gap:12px; font-family:monospace; letter-spacing:2px; text-transform:uppercase; color:var(--primary); pointer-events:none; }
+.academy-game-close { position:absolute; right:16px; bottom:16px; z-index:10; }
+.academy-game-toast { position:absolute; left:50%; bottom:80px; transform:translateX(-50%); z-index:9; border:1px solid var(--glass-border); background:rgba(0,0,0,.54); border-radius:999px; padding:10px 16px; color:var(--text-main); font-family:monospace; letter-spacing:1px; pointer-events:none; }
+.academy-game-target { position:absolute; width:70px; height:70px; border-radius:22px; border:1px solid rgba(255,255,255,.16); background:rgba(0,0,0,.45); color:var(--primary); font-size:1.8rem; cursor:pointer; box-shadow:0 0 22px var(--primary-glow); z-index:8; }
+
+#export-reminder { display:none !important; }
+body.cloaked #top-nav, body.cloaked #maker-panel, body.cloaked .nav-logo, body.cloaked .room-xp-bar, body.cloaked .widget-dock { opacity:0 !important; pointer-events:none !important; }
+@media (max-width: 950px) {
+    .nav-logo { left:20px !important; top:18px !important; }
+    .room-xp-bar { left:20px; top:52px; }
+    #top-nav { left:20px !important; right:20px !important; top:94px !important; justify-content:center !important; }
+    #maker-panel.room-editor-panel { left:20px !important; right:20px !important; width:auto !important; top:158px !important; bottom:20px !important; }
+    .widget-dock { display:none; }
+}
+</style>
+
+
+<script>
+/* === THE ACADEMY REQUESTED RESET SCRIPT === */
+(function(){
+    const XP_KEY = 'somniaAcademyRoomXP';
+    function academyXP(){ return parseInt(localStorage.getItem(XP_KEY) || '0', 10); }
+    function setAcademyXP(v){
+        localStorage.setItem(XP_KEY, String(Math.max(0, v || 0)));
+        const text = document.getElementById('room-xp-text');
+        const fill = document.getElementById('room-xp-fill');
+        if (text) text.textContent = String(academyXP());
+        if (fill) fill.style.width = `${Math.min(100, academyXP() % 100)}%`;
+    }
+    window.addAcademyXP = function(amount){ setAcademyXP(academyXP() + Number(amount || 0)); };
+
+    window.switchEditorTab = function(tabId, btn){
+        document.querySelectorAll('#maker-panel .tab-btn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        document.querySelectorAll('#maker-panel .editor-tab-content').forEach(c => c.classList.remove('active'));
+        const tab = document.getElementById(tabId);
+        if (tab) tab.classList.add('active');
+    };
+    window.toggleEditorCollapse = function(){
+        const collapsed = document.body.classList.toggle('editor-collapsed');
+        const btn = document.getElementById('editor-collapse-toggle');
+        if (btn) {
+            btn.setAttribute('aria-expanded', String(!collapsed));
+            btn.textContent = collapsed ? 'Open Editor ▾' : 'Fold Editor ▴';
+        }
+    };
+
+    const originalSwitchTab = window.switchTab || (typeof switchTab === 'function' ? switchTab : null);
+    window.switchTab = function(tabId, btn){
+        const scope = btn ? btn.closest('#academy-tool-panel') : document.getElementById('academy-tool-panel');
+        if (scope && scope.querySelector(`#${tabId}`)) {
+            scope.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            scope.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            const tab = scope.querySelector(`#${tabId}`);
+            if (tab) tab.classList.add('active');
+            return;
+        }
+        if (typeof originalSwitchTab === 'function') originalSwitchTab(tabId, btn);
+    };
+    try { switchTab = window.switchTab; } catch(e) {}
+
+    window.returnToCity = function(event){
+        if (event) { event.preventDefault(); event.stopPropagation(); }
+        window.location.href = 'https://somniascapes.com/';
+    };
+
+    const PRESETS = {
+        dawnDesk:{img:'syllabus1.png',mode:'vellum-mode',glow:'glow-breathe',bright:'0.92',opac:'0.26',label:'Dawn Desk'},
+        stormStudy:{img:'syllabus2.png',mode:'twilight-mode',glow:'glow-scanner',bright:'0.82',opac:'0.38',label:'Storm Study'},
+        candleClass:{img:'syllabus3.png',mode:'noir-mode',glow:'glow-flicker',bright:'0.86',opac:'0.32',label:'Candle Class'},
+        moonLessons:{img:'syllabus4.png',mode:'lunar-mode',glow:'glow-halo',bright:'0.78',opac:'0.34',label:'Moon Lessons'},
+        greenhouse:{img:'syllabus5.png',mode:'emerald-mode',glow:'glow-nebula',bright:'0.88',opac:'0.24',label:'Greenhouse'},
+        chalkRunes:{img:'syllabus6.png',mode:'academia-mode',glow:'glow-shimmer',bright:'0.82',opac:'0.30',label:'Chalk Runes'},
+        quietStacks:{img:'syllabus7.png',mode:'sepia-mode',glow:'glow-pulse',bright:'0.84',opac:'0.22',label:'Quiet Stacks'},
+        emberExam:{img:'syllabus8.png',mode:'autumn-mode',glow:'glow-inferno',bright:'0.76',opac:'0.38',label:'Ember Exam'}
+    };
+    window.applySyllabusPreset = function(key){
+        const preset = PRESETS[key];
+        if (!preset) return;
+        const bg = document.getElementById('bg-anchor');
+        const glow = document.getElementById('glow-layer');
+        document.body.className = document.body.className.split(' ').filter(c => !c.endsWith('-mode')).join(' ').trim();
+        document.body.classList.add(preset.mode);
+        if (bg) {
+            bg.style.backgroundImage = `url('${preset.img}')`;
+            bg.style.backgroundSize = 'cover';
+            bg.style.backgroundPosition = 'center';
+        }
+        if (glow) glow.className = preset.glow;
+        document.documentElement.style.setProperty('--bg-bright', preset.bright);
+        document.documentElement.style.setProperty('--glow-opac', preset.opac);
+        if (typeof saveCurrentState === 'function') saveCurrentState();
+        if (typeof somniaAlert === 'function') somniaAlert('Academy Preset', `${preset.label} has settled over the room.`);
+        window.addAcademyXP(3);
+    };
+
+    function updateClock(){
+        const clock = document.getElementById('clock-widget');
+        const date = document.getElementById('date-widget');
+        const now = new Date();
+        if (clock) clock.textContent = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+        if (date) date.textContent = now.toLocaleDateString([], {weekday:'long', month:'short', day:'numeric'});
+    }
+
+    const WEATHER_CODES = {0:['☀️','Clear Sky'],1:['🌤️','Mostly Clear'],2:['⛅','Partly Cloudy'],3:['☁️','Cloudy'],45:['🌫️','Fog'],48:['🌫️','Rime Fog'],51:['🌦️','Light Drizzle'],53:['🌦️','Drizzle'],55:['🌧️','Heavy Drizzle'],61:['🌧️','Light Rain'],63:['🌧️','Rain'],65:['🌧️','Heavy Rain'],71:['🌨️','Light Snow'],73:['🌨️','Snow'],75:['❄️','Heavy Snow'],80:['🌦️','Rain Showers'],81:['🌧️','Rain Showers'],82:['⛈️','Violent Showers'],95:['⛈️','Thunderstorm']};
+    window.refreshAcademyWeather = function(){
+        const setWeather = (icon, text, temp='--°') => {
+            const iconEl = document.getElementById('weather-icon');
+            const textEl = document.getElementById('weather-text');
+            if (iconEl) iconEl.textContent = `${icon} ${temp}`;
+            if (textEl) textEl.textContent = text;
+        };
+        if (!navigator.geolocation) return setWeather('🌙','Sanctuary Sky');
+        navigator.geolocation.getCurrentPosition(async pos => {
+            try {
+                const unit = (navigator.language || '').toLowerCase().includes('en-us') ? 'fahrenheit' : 'celsius';
+                const suffix = unit === 'fahrenheit' ? '°F' : '°C';
+                const url = new URL('https://api.open-meteo.com/v1/forefullscreen');
+                url.searchParams.set('latitude', String(pos.coords.latitude));
+                url.searchParams.set('longitude', String(pos.coords.longitude));
+                url.searchParams.set('current', 'temperature_2m,weather_code');
+                url.searchParams.set('temperature_unit', unit);
+                url.searchParams.set('timezone', 'auto');
+                const res = await fetch(url.toString(), {cache:'no-store'});
+                if (!res.ok) throw new Error('weather');
+                const data = await res.json();
+                const cur = data.current || {};
+                const mapped = WEATHER_CODES[Number(cur.weather_code)] || ['🌙','Sanctuary Sky'];
+                const temp = Number.isFinite(Number(cur.temperature_2m)) ? `${Math.round(Number(cur.temperature_2m))}${suffix}` : '--°';
+                setWeather(mapped[0], mapped[1], temp);
+            } catch(e) { setWeather('🌙','Sanctuary Sky'); }
+        }, () => setWeather('🌙','Sanctuary Sky'), {timeout:8000});
+    };
+
+    let gameTimer = null;
+    window.openAcademyGame = function(mode){
+        const modal = document.getElementById('academy-game-modal');
+        const stage = document.getElementById('academy-game-stage');
+        const title = document.getElementById('academy-game-title');
+        const stats = document.getElementById('academy-game-stats');
+        if (!modal || !stage) return;
+        modal.classList.add('active');
+        stage.querySelectorAll('.academy-game-target').forEach(t => t.remove());
+        let score = 0, time = 30;
+        if (title) title.textContent = mode === 'spell' ? 'Spell Steps' : 'Rune Sort';
+        const spawn = () => {
+            const target = document.createElement('button');
+            target.className = 'academy-game-target';
+            target.textContent = mode === 'spell' ? '✦' : 'ᚠ';
+            target.style.left = `${30 + Math.random() * Math.max(80, stage.clientWidth - 110)}px`;
+            target.style.top = `${70 + Math.random() * Math.max(80, stage.clientHeight - 170)}px`;
+            target.onclick = ev => { ev.stopPropagation(); score += 1; target.remove(); if (stats) stats.textContent = `Score ${score} · Time ${time}`; };
+            stage.appendChild(target);
+            setTimeout(() => target.remove(), 1600);
+        };
+        clearInterval(gameTimer);
+        if (stats) stats.textContent = `Score ${score} · Time ${time}`;
+        gameTimer = setInterval(() => {
+            time -= 1;
+            if (stats) stats.textContent = `Score ${score} · Time ${time}`;
+            spawn();
+            if (time <= 0) {
+                clearInterval(gameTimer);
+                window.addAcademyXP(Math.max(3, score));
+                if (typeof somniaAlert === 'function') somniaAlert('Round Complete', `Academy score: ${score}`);
+            }
+        }, 800);
+        spawn(); spawn();
+    };
+    window.closeAcademyGame = function(){
+        clearInterval(gameTimer);
+        const modal = document.getElementById('academy-game-modal');
+        const stage = document.getElementById('academy-game-stage');
+        if (stage) stage.querySelectorAll('.academy-game-target').forEach(t => t.remove());
+        if (modal) modal.classList.remove('active');
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        setAcademyXP(academyXP());
+        setInterval(updateClock, 1000);
+        updateClock();
+        window.refreshAcademyWeather();
+        try { if (typeof initMixer === 'function') initMixer(); } catch(e) {}
+        try {
+            if (typeof populateGrid === 'function') {
+                const pairs = [
+                    ['color-grid', typeof paletteArray !== 'undefined' ? paletteArray : [], 'color'],
+                    ['particle-grid', typeof particlesList !== 'undefined' ? particlesList : [], 'particle'],
+                    ['glow-grid', typeof glows !== 'undefined' ? glows : [], 'glow'],
+                    ['particle-color-grid', typeof particleColors !== 'undefined' ? particleColors : [], 'particleColor'],
+                    ['glow-color-grid', typeof glowColors !== 'undefined' ? glowColors : [], 'glowColor']
+                ];
+                pairs.forEach(([id, arr, type]) => {
+                    const grid = document.getElementById(id);
+                    if (grid && !grid.children.length) populateGrid(id, arr, type);
+                });
+            }
+        } catch(e) {}
+    });
+})();
+</script>
+
+
+<style>
+/* === THE ACADEMY RESET v2: editor + avatar repair === */
+.academy-guide-widget {
+    position: absolute;
+    top: 385px;
+    right: 58px;
+    width: 190px;
+    height: 190px;
+    cursor: pointer;
+    z-index: 92;
+}
+.academy-guide-inner {
+    width: 100%;
+    height: 100%;
+    animation: academyGuideFloat 4.8s ease-in-out infinite alternate;
+    filter: drop-shadow(0 18px 34px rgba(0,0,0,.56));
+}
+.academy-guide-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 22px var(--primary-glow));
+}
+.academy-guide-bubble {
+    position: absolute;
+    right: 72%;
+    top: 16px;
+    min-width: 220px;
+    max-width: 280px;
+    padding: 12px 14px;
+    border-radius: 18px 18px 4px 18px;
+    border: 1px solid var(--glass-border);
+    background: rgba(0,0,0,.62);
+    color: var(--text-main);
+    font-family: Georgia,serif;
+    font-size: .82rem;
+    line-height: 1.45;
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: .25s ease;
+    box-shadow: 0 18px 40px rgba(0,0,0,.45);
+}
+.academy-guide-bubble.show { opacity: 1; transform: translateY(0); }
+@keyframes academyGuideFloat { from{transform:translateY(0) rotate(-2deg);} to{transform:translateY(-12px) rotate(2deg);} }
+body.cloaked .academy-guide-widget { opacity:0 !important; pointer-events:none !important; }
+
+#maker-panel.room-editor-panel,
+#maker-panel.room-editor-panel * {
+    pointer-events: auto !important;
+}
+#maker-panel.room-editor-panel .tab-content.active {
+    display: flex !important;
+}
+#maker-panel.room-editor-panel .tab-content:not(.active) {
+    display: none !important;
+}
+#maker-panel.room-editor-panel .tab-btn.active {
+    color: var(--accent) !important;
+    border-bottom-color: var(--accent) !important;
+}
+@media (max-width: 950px) {
+    .academy-guide-widget { display:none; }
+}
+</style>
+
+
+<script>
+/* === THE ACADEMY RESET v2: editor activation + avatar + clean guide === */
+(function(){
+    const guideLines = [
+        'The Academy table is for records. The editor is for the room.',
+        'Open Academy for roster, lessons, planner, journal, records, and transcript.',
+        'Fold the editor when the classroom needs quiet.',
+        'The table stays intact. The room can still change around it.'
+    ];
+
+    window.sayAcademyGuide = function(event) {
+        if (event) event.stopPropagation();
+        const bubble = document.getElementById('academy-guide-bubble');
+        if (!bubble) return;
+        bubble.textContent = guideLines[Math.floor(Math.random() * guideLines.length)];
+        bubble.classList.add('show');
+        clearTimeout(window.__academyGuideBubbleTimer);
+        window.__academyGuideBubbleTimer = setTimeout(() => bubble.classList.remove('show'), 3800);
+    };
+
+    function activateEditorTab(tabId, btn) {
+        document.querySelectorAll('#maker-panel.room-editor-panel .tab-btn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        document.querySelectorAll('#maker-panel.room-editor-panel .editor-tab-content').forEach(c => c.classList.remove('active'));
+        const tab = document.getElementById(tabId);
+        if (tab) tab.classList.add('active');
+    }
+
+    window.switchEditorTab = function(tabId, btn) {
+        activateEditorTab(tabId, btn);
+    };
+
+    document.addEventListener('click', function(ev){
+        const btn = ev.target.closest('#maker-panel.room-editor-panel .tab-btn');
+        if (!btn) return;
+        const call = btn.getAttribute('onclick') || '';
+        const match = call.match(/switchEditorTab\('([^']+)'/);
+        if (!match) return;
+        ev.preventDefault();
+        ev.stopPropagation();
+        activateEditorTab(match[1], btn);
+    }, true);
+
+    window.toggleEditorCollapse = function(){
+        const collapsed = document.body.classList.toggle('editor-collapsed');
+        const btn = document.getElementById('editor-collapse-toggle');
+        if (btn) {
+            btn.setAttribute('aria-expanded', String(!collapsed));
+            btn.textContent = collapsed ? 'Open Editor ▾' : 'Fold Editor ▴';
+        }
+    };
+
+    function repairEditorLibraries() {
+        try { if (typeof initMixer === 'function') initMixer(); } catch(e) { console.warn('audio init failed', e); }
+
+        try {
+            if (typeof populateGrid === 'function') {
+                [
+                    ['color-grid', typeof paletteArray !== 'undefined' ? paletteArray : [], 'color'],
+                    ['particle-grid', typeof particlesList !== 'undefined' ? particlesList : [], 'particle'],
+                    ['glow-grid', typeof glows !== 'undefined' ? glows : [], 'glow'],
+                    ['particle-color-grid', typeof particleColors !== 'undefined' ? particleColors : [], 'particleColor'],
+                    ['glow-color-grid', typeof glowColors !== 'undefined' ? glowColors : [], 'glowColor']
+                ].forEach(([id, arr, type]) => {
+                    const grid = document.getElementById(id);
+                    if (grid && !grid.children.length) populateGrid(id, arr, type);
+                });
+            }
+        } catch(e) { console.warn('atmos init failed', e); }
+
+        document.body.classList.remove('editor-collapsed');
+        const firstBtn = document.querySelector('#maker-panel.room-editor-panel .tab-btn');
+        if (!document.querySelector('#maker-panel.room-editor-panel .editor-tab-content.active')) {
+            activateEditorTab('editor-audio', firstBtn);
+        }
+    }
+
+    function removeVisibleKeyVerbiage() {
+        const badWords = ['gemini', 'api key', 'guide key', 'local note', 'aistudio'];
+        document.querySelectorAll('#maker-panel h1,#maker-panel h2,#maker-panel h3,#maker-panel h4,#maker-panel p,#maker-panel label,#maker-panel small,#maker-panel span,#maker-panel button,#academy-tool-panel h1,#academy-tool-panel h2,#academy-tool-panel h3,#academy-tool-panel h4,#academy-tool-panel p,#academy-tool-panel label,#academy-tool-panel small,#academy-tool-panel span,#academy-tool-panel button').forEach(el => {
+            const text = (el.textContent || '').toLowerCase();
+            if (badWords.some(w => text.includes(w)) && text.length < 160) el.remove();
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        repairEditorLibraries();
+        removeVisibleKeyVerbiage();
+        setTimeout(repairEditorLibraries, 350);
+        setTimeout(removeVisibleKeyVerbiage, 500);
+    });
+    setTimeout(repairEditorLibraries, 900);
+})();
+</script>
+
+
+<style>
+/* === THE ACADEMY RESET v3: PARTICLES / SNAPSHOT / BOOT COPY === */
+#landing-page .hero-subtitle {
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.55;
+}
+#landing-page .hero-description {
+    max-width: 680px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    line-height: 1.8 !important;
+    color: var(--text-muted) !important;
+}
+
+#particleCanvas {
+    opacity: 1 !important;
+    z-index: 12 !important;
+    mix-blend-mode: screen !important;
+    filter: drop-shadow(0 0 8px var(--particle-color)) brightness(1.25);
+}
+
+#academy-particle-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 13;
+    pointer-events: none;
+    overflow: hidden;
+    mix-blend-mode: screen;
+}
+
+.academy-particle-dot {
+    position: absolute;
+    left: var(--x, 50vw);
+    top: var(--y, 100vh);
+    width: var(--size, 4px);
+    height: var(--size, 4px);
+    border-radius: 999px;
+    background: var(--particle-color, #e0e7ff);
+    color: var(--particle-color, #e0e7ff);
+    box-shadow: 0 0 12px currentColor, 0 0 26px currentColor;
+    opacity: var(--particle-opacity, .82);
+    animation: academyParticleFloat var(--speed, 12s) linear infinite;
+}
+
+.academy-particle-dot.runes::before { content: 'ᚠ'; position:absolute; left:-4px; top:-8px; font-size:14px; }
+.academy-particle-dot.stars::before { content: '✦'; position:absolute; left:-4px; top:-8px; font-size:13px; }
+.academy-particle-dot.leaves::before { content: '✧'; position:absolute; left:-4px; top:-8px; font-size:13px; }
+.academy-particle-dot.bats::before { content: '⌁'; position:absolute; left:-4px; top:-8px; font-size:15px; }
+.academy-particle-dot.rain { width: 2px; height: 18px; border-radius: 8px; }
+.academy-particle-dot.snow { background: transparent; box-shadow: none; }
+.academy-particle-dot.snow::before { content:'✧'; position:absolute; left:-4px; top:-8px; color:currentColor; font-size:14px; }
+.academy-particle-dot.embers { background:#f59e0b; color:#f59e0b; }
+.academy-particle-dot.fireflies { background:#fef08a; color:#fef08a; }
+
+@keyframes academyParticleFloat {
+    0% { transform: translate3d(0, 105vh, 0) rotate(0deg); opacity: 0; }
+    10% { opacity: var(--particle-opacity, .82); }
+    88% { opacity: var(--particle-opacity, .82); }
+    100% { transform: translate3d(var(--drift, 40px), -12vh, 0) rotate(180deg); opacity: 0; }
+}
+
+#editor-atmos .toy-btn.active {
+    border-color: var(--accent) !important;
+    color: var(--primary) !important;
+    box-shadow: 0 0 16px var(--primary-glow) !important;
+}
+
+.snapshot-saved-flash {
+    animation: academySnapshotFlash 1.5s ease;
+}
+@keyframes academySnapshotFlash {
+    0%,100% { box-shadow: none; }
+    50% { box-shadow: 0 0 28px #fbbf24; }
+}
+</style>
+
+
+<script>
+/* === THE ACADEMY RESET v3: HARD PARTICLES + SNAPSHOT === */
+(function(){
+    const SNAP_KEY = 'the_academy_snapshots';
+    const PARTICLE_KEY = 'the_academy_particle_state';
+
+    const colorMap = {
+        lunar:'#e0e7ff', noir:'#D4AF37', vellum:'#C2B280', amethyst:'#d8b4e2', crimson:'#fb7185',
+        emerald:'#34d399', solar:'#fbbf24', void:'#ec4899', obsidian:'#9ca3af', ghost:'#f8fafc',
+        gothic:'#881337', academia:'#78350f', y2k:'#22d3ee', vintage:'#57534e', cyber:'#84cc16',
+        twilight:'#a5b4fc', autumn:'#ea580c', abyss:'#0891b2', sepia:'#b45309', frost:'#bae6fd'
+    };
+
+    function getJson(key, fallback) {
+        try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }
+        catch(e) { return fallback; }
+    }
+
+    function setJson(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function currentParticleState() {
+        return getJson(PARTICLE_KEY, { type:'dust', color:'#e0e7ff', density:120, opacity:.82 });
+    }
+
+    function saveParticleState(state) {
+        setJson(PARTICLE_KEY, state);
+    }
+
+    function ensureParticleLayer() {
+        let layer = document.getElementById('academy-particle-layer');
+        if (!layer) {
+            layer = document.createElement('div');
+            layer.id = 'academy-particle-layer';
+            document.body.appendChild(layer);
+        }
+        return layer;
+    }
+
+    function renderParticles(state = currentParticleState()) {
+        const layer = ensureParticleLayer();
+        layer.innerHTML = '';
+        const count = Number(state.density || 120);
+        const type = String(state.type || 'dust').toLowerCase();
+        const color = state.color || '#e0e7ff';
+
+        document.documentElement.style.setProperty('--particle-color', color);
+        document.documentElement.style.setProperty('--particle-opacity', String(state.opacity ?? .82));
+        window.particleType = type;
+        window.particleCount = count;
+
+        for (let i = 0; i < count; i++) {
+            const dot = document.createElement('i');
+            dot.className = `academy-particle-dot ${type}`;
+            dot.style.setProperty('--x', `${Math.random() * 100}vw`);
+            dot.style.setProperty('--y', `${Math.random() * 100}vh`);
+            dot.style.setProperty('--drift', `${(Math.random() * 150) - 75}px`);
+            dot.style.setProperty('--speed', `${7 + Math.random() * 13}s`);
+            dot.style.setProperty('--size', `${2 + Math.random() * 5}px`);
+            dot.style.animationDelay = `${-Math.random() * 14}s`;
+            dot.style.background = color;
+            dot.style.color = color;
+            dot.style.opacity = String(state.opacity ?? .82);
+            layer.appendChild(dot);
+        }
+
+        const canvas = document.getElementById('particleCanvas');
+        if (canvas) {
+            canvas.style.opacity = '1';
+            canvas.style.zIndex = '12';
+            canvas.style.mixBlendMode = 'screen';
+        }
+    }
+
+    function setParticleType(type) {
+        const state = currentParticleState();
+        state.type = String(type || 'dust').toLowerCase();
+        saveParticleState(state);
+        renderParticles(state);
+    }
+
+    function setParticleColor(labelOrColor) {
+        const state = currentParticleState();
+        const key = String(labelOrColor || '').toLowerCase();
+        state.color = colorMap[key] || labelOrColor || '#e0e7ff';
+        saveParticleState(state);
+        renderParticles(state);
+    }
+
+    function setDensity(value) {
+        const state = currentParticleState();
+        state.density = Math.max(20, Math.min(300, Number(value || 120)));
+        saveParticleState(state);
+        renderParticles(state);
+    }
+
+    function setOpacity(value) {
+        const state = currentParticleState();
+        state.opacity = Math.max(0, Math.min(1, Number(value ?? .82)));
+        saveParticleState(state);
+        renderParticles(state);
+    }
+
+    // Captures old Atmos buttons and makes particles visibly change even if old canvas logic fails.
+    document.addEventListener('click', function(event){
+        const btn = event.target.closest('#particle-grid .toy-btn, #particle-color-grid .toy-btn, #glow-grid .toy-btn, #glow-color-grid .toy-btn');
+        if (!btn) return;
+
+        const grid = btn.closest('.btn-grid');
+        if (!grid) return;
+
+        grid.querySelectorAll('.toy-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const label = btn.textContent.trim();
+        if (grid.id === 'particle-grid') setParticleType(label);
+        if (grid.id === 'particle-color-grid') setParticleColor(label);
+        if (grid.id === 'glow-grid') {
+            const glowLayer = document.getElementById('glow-layer');
+            if (glowLayer) glowLayer.className = `glow-${label.toLowerCase()}`;
+        }
+        if (grid.id === 'glow-color-grid') {
+            const color = colorMap[label.toLowerCase()] || '#e0e7ff';
+            document.documentElement.style.setProperty('--glow-color', color + '66');
+        }
+        try { if (typeof saveCurrentState === 'function') saveCurrentState(); } catch(e) {}
+    }, true);
+
+    document.addEventListener('input', function(event){
+        if (event.target.id === 'density-slider') setDensity(event.target.value);
+        if (event.target.id === 'opac-slider') setOpacity(event.target.value);
+    }, true);
+
+    window.takeDailySnapshot = function(){
+        const now = new Date();
+        const snapshot = {
+            id: 'academy-snapshot-' + Date.now(),
+            at: now.toISOString(),
+            title: 'The Academy Snapshot',
+            date: now.toLocaleDateString(),
+            time: now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+        };
+
+        try {
+            const studentCount = (typeof academyData !== 'undefined' && academyData.students) ? academyData.students.length : 0;
+            const subjectCount = (typeof pathways !== 'undefined') ? pathways.length : 0;
+            const completed = (typeof pathways !== 'undefined') ? pathways.reduce((sum,p)=>sum+(p.items||[]).filter(i=>i.completed).length,0) : 0;
+            const total = (typeof pathways !== 'undefined') ? pathways.reduce((sum,p)=>sum+(p.items||[]).length,0) : 0;
+            const attendance = (typeof attendanceDays !== 'undefined') ? attendanceDays : 0;
+            snapshot.text = [
+                'THE ACADEMY SNAPSHOT',
+                `${snapshot.date} ${snapshot.time}`,
+                '',
+                `Students: ${studentCount}`,
+                `Subjects: ${subjectCount}`,
+                `Lesson Steps: ${completed}/${total}`,
+                `Attendance Days: ${attendance}`
+            ].join('\n');
+        } catch(e) {
+            snapshot.text = `THE ACADEMY SNAPSHOT\n${snapshot.date} ${snapshot.time}`;
+        }
+
+        const list = getJson(SNAP_KEY, []);
+        list.unshift(snapshot);
+        setJson(SNAP_KEY, list);
+
+        try {
+            const blob = new Blob([snapshot.text], {type:'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `the-academy-snapshot-${now.toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        } catch(e) {}
+
+        const btn = [...document.querySelectorAll('button')].find(b => (b.textContent || '').toLowerCase().includes('snapshot'));
+        if (btn) {
+            btn.classList.add('snapshot-saved-flash');
+            setTimeout(() => btn.classList.remove('snapshot-saved-flash'), 1600);
+        }
+
+        if (typeof somniaAlert === 'function') somniaAlert('Snapshot Saved', 'The Academy snapshot was saved locally and downloaded.');
+    };
+
+    // Remove cast/fullscreen modal wording left from old UI.
+    function cleanFullscreenCopy() {
+        document.querySelectorAll('h1,h2,h3,h4,p,button,span,div').forEach(el => {
+            if (!el || !el.textContent) return;
+            if (el.textContent.includes('Full Screen') || el.textContent.includes('cast') || el.textContent.includes('Full Screen')) {
+                el.childNodes.forEach(node => {
+                    if (node.nodeType === Node.TEXT_NODE) {
+                        node.textContent = node.textContent.replace(/Full Screen/g, 'Full Screen').replace(/cast/g, 'full screen').replace(/Full Screen/g, 'Full Screen').replace(/projector/g, 'full screen');
+                    }
+                });
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function(){
+        renderParticles(currentParticleState());
+        cleanFullscreenCopy();
+        setTimeout(() => renderParticles(currentParticleState()), 500);
+        setTimeout(cleanFullscreenCopy, 500);
+    });
+})();
+</script>
+
+
+<style>
+/* === THE ACADEMY RESET v4: subtle particles + journal snapshot === */
+#academy-particle-layer {
+    z-index: 13;
+    opacity: .78;
+    filter: blur(.15px);
+}
+
+.academy-particle-dot {
+    width: var(--size, 2px) !important;
+    height: var(--size, 2px) !important;
+    opacity: var(--particle-opacity, .36) !important;
+    box-shadow: 0 0 6px currentColor, 0 0 13px currentColor !important;
+    background: currentColor !important;
+}
+
+.academy-particle-dot.dust,
+.academy-particle-dot.motes,
+.academy-particle-dot.spores {
+    width: var(--size, 2px) !important;
+    height: var(--size, 2px) !important;
+    border-radius: 999px;
+}
+
+.academy-particle-dot.stars,
+.academy-particle-dot.runes,
+.academy-particle-dot.leaves,
+.academy-particle-dot.bats,
+.academy-particle-dot.snow {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.academy-particle-dot.stars::before {
+    content: '✦';
+    position: absolute;
+    left: -3px;
+    top: -7px;
+    font-size: 9px;
+    opacity: .58;
+    text-shadow: 0 0 8px currentColor;
+}
+
+.academy-particle-dot.runes::before {
+    content: 'ᚠ';
+    position: absolute;
+    left: -3px;
+    top: -8px;
+    font-size: 9px;
+    opacity: .48;
+    text-shadow: 0 0 8px currentColor;
+}
+
+.academy-particle-dot.leaves::before {
+    content: '✧';
+    position: absolute;
+    left: -3px;
+    top: -7px;
+    font-size: 8px;
+    opacity: .46;
+    text-shadow: 0 0 7px currentColor;
+}
+
+.academy-particle-dot.bats::before {
+    content: '⌁';
+    position: absolute;
+    left: -3px;
+    top: -8px;
+    font-size: 10px;
+    opacity: .40;
+    text-shadow: 0 0 7px currentColor;
+}
+
+.academy-particle-dot.snow::before {
+    content: '✧';
+    position: absolute;
+    left: -3px;
+    top: -7px;
+    font-size: 8px;
+    opacity: .54;
+    text-shadow: 0 0 8px currentColor;
+}
+
+.academy-particle-dot.rain {
+    width: 1px !important;
+    height: 10px !important;
+    border-radius: 6px;
+    opacity: .28 !important;
+}
+
+.academy-particle-dot.embers,
+.academy-particle-dot.fireflies,
+.academy-particle-dot.sparks {
+    width: 2px !important;
+    height: 2px !important;
+    opacity: .42 !important;
+}
+
+@keyframes academyParticleFloat {
+    0% { transform: translate3d(0, 105vh, 0) rotate(0deg); opacity: 0; }
+    15% { opacity: var(--particle-opacity, .36); }
+    82% { opacity: var(--particle-opacity, .36); }
+    100% { transform: translate3d(var(--drift, 28px), -12vh, 0) rotate(70deg); opacity: 0; }
+}
+</style>
+
+
+<script>
+/* === THE ACADEMY RESET v4: restore journal snapshot + true fullscreen + subtle particles === */
+(function(){
+    const SNAP_KEY = 'the_academy_snapshots';
+    const PARTICLE_KEY = 'the_academy_particle_state';
+
+    window.toggleFullscreen = function(){
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => console.log(err));
+        } else {
+            document.exitFullscreen().catch(err => console.log(err));
+        }
+    };
+
+    function getJson(key, fallback) {
+        try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }
+        catch(e) { return fallback; }
+    }
+    function setJson(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
+
+    function makeAcademySnapshotText() {
+        let studentCount = 0, subjectCount = 0, completed = 0, total = 0, attendance = 0;
+        try { studentCount = academyData?.students?.length || 0; } catch(e) {}
+        try { subjectCount = pathways?.length || 0; } catch(e) {}
+        try { completed = pathways.reduce((sum,p)=>sum+(p.items||[]).filter(i=>i.completed).length,0); } catch(e) {}
+        try { total = pathways.reduce((sum,p)=>sum+(p.items||[]).length,0); } catch(e) {}
+        try { attendance = attendanceDays || 0; } catch(e) {}
+        return [
+            'THE ACADEMY SNAPSHOT',
+            new Date().toLocaleDateString() + ' // ' + new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}),
+            '',
+            `Students: ${studentCount}`,
+            `Subjects: ${subjectCount}`,
+            `Lesson Steps: ${completed}/${total}`,
+            `Attendance Days: ${attendance}`
+        ].join('\n');
+    }
+
+    // Restore original behavior: snapshot saves into the Journal archive and renders Annals.
+    window.takeDailySnapshot = function(){
+        const text = makeAcademySnapshotText();
+        const timestamp = new Date().toLocaleDateString() + ' // ' + new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+
+        try {
+            if (typeof archive === 'undefined' || !Array.isArray(archive)) {
+                window.archive = getJson('kore_archive', []);
+            }
+        } catch(e) {}
+
+        try {
+            archive.push({ text, timestamp, image: null });
+            localStorage.setItem('kore_archive', JSON.stringify(archive));
+            if (typeof renderAnnals === 'function') renderAnnals();
+            if (typeof flagUnsaved === 'function') flagUnsaved();
+        } catch(e) {
+            const fallbackArchive = getJson('kore_archive', []);
+            fallbackArchive.push({ text, timestamp, image: null });
+            localStorage.setItem('kore_archive', JSON.stringify(fallbackArchive));
+        }
+
+        const snaps = getJson(SNAP_KEY, []);
+        snaps.unshift({ id:'snapshot-' + Date.now(), text, timestamp });
+        setJson(SNAP_KEY, snaps);
+
+        try {
+            const blob = new Blob([text], {type:'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `the-academy-snapshot-${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        } catch(e) {}
+
+        if (typeof somniaAlert === 'function') somniaAlert('Snapshot Captured', 'Saved into the Journal and downloaded.');
+    };
+
+    function particleState(){
+        const existing = getJson(PARTICLE_KEY, null);
+        return Object.assign({ type:'dust', color:'#e0e7ff', density:70, opacity:.34 }, existing || {});
+    }
+    function saveParticleState(state){ setJson(PARTICLE_KEY, state); }
+
+    const colorMap = {
+        lunar:'#e0e7ff', noir:'#D4AF37', vellum:'#C2B280', amethyst:'#d8b4e2', crimson:'#fb7185',
+        emerald:'#34d399', solar:'#fbbf24', void:'#ec4899', obsidian:'#9ca3af', ghost:'#f8fafc',
+        gothic:'#881337', academia:'#b45309', y2k:'#22d3ee', vintage:'#a8a29e', cyber:'#84cc16',
+        twilight:'#a5b4fc', autumn:'#ea580c', abyss:'#0891b2', sepia:'#b45309', frost:'#bae6fd'
+    };
+
+    function ensureParticleLayer(){
+        let layer = document.getElementById('academy-particle-layer');
+        if (!layer) {
+            layer = document.createElement('div');
+            layer.id = 'academy-particle-layer';
+            document.body.appendChild(layer);
+        }
+        return layer;
+    }
+
+    function renderSubtleParticles(state = particleState()){
+        const layer = ensureParticleLayer();
+        layer.innerHTML = '';
+        const count = Math.max(15, Math.min(110, Number(state.density || 70)));
+        const type = String(state.type || 'dust').toLowerCase();
+        const color = state.color || '#e0e7ff';
+        const opacity = Math.max(.08, Math.min(.55, Number(state.opacity ?? .34)));
+
+        document.documentElement.style.setProperty('--particle-color', color);
+        document.documentElement.style.setProperty('--particle-opacity', String(opacity));
+        window.particleType = type;
+        window.particleCount = count;
+
+        for (let i = 0; i < count; i++) {
+            const dot = document.createElement('i');
+            dot.className = `academy-particle-dot ${type}`;
+            const size = 1 + Math.random() * 2.4;
+            dot.style.setProperty('--x', `${Math.random() * 100}vw`);
+            dot.style.setProperty('--y', `${Math.random() * 100}vh`);
+            dot.style.setProperty('--drift', `${(Math.random() * 80) - 40}px`);
+            dot.style.setProperty('--speed', `${11 + Math.random() * 19}s`);
+            dot.style.setProperty('--size', `${size}px`);
+            dot.style.animationDelay = `${-Math.random() * 22}s`;
+            dot.style.color = color;
+            dot.style.background = color;
+            dot.style.opacity = String(opacity);
+            layer.appendChild(dot);
+        }
+
+        const canvas = document.getElementById('particleCanvas');
+        if (canvas) {
+            canvas.style.opacity = '0.28';
+            canvas.style.zIndex = '12';
+            canvas.style.mixBlendMode = 'screen';
+        }
+    }
+
+    document.addEventListener('click', function(event){
+        const btn = event.target.closest('#particle-grid .toy-btn, #particle-color-grid .toy-btn');
+        if (!btn) return;
+        const grid = btn.closest('.btn-grid');
+        if (!grid) return;
+        const state = particleState();
+        const label = btn.textContent.trim().toLowerCase();
+        if (grid.id === 'particle-grid') state.type = label;
+        if (grid.id === 'particle-color-grid') state.color = colorMap[label] || state.color;
+        grid.querySelectorAll('.toy-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        saveParticleState(state);
+        renderSubtleParticles(state);
+    }, true);
+
+    document.addEventListener('input', function(event){
+        const state = particleState();
+        if (event.target.id === 'density-slider') {
+            state.density = Math.max(15, Math.min(110, Number(event.target.value || 70)));
+            saveParticleState(state);
+            renderSubtleParticles(state);
+        }
+        if (event.target.id === 'opac-slider') {
+            state.opacity = Math.max(.08, Math.min(.55, Number(event.target.value || .34)));
+            saveParticleState(state);
+            renderSubtleParticles(state);
+        }
+    }, true);
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const st = particleState();
+        if (!localStorage.getItem(PARTICLE_KEY)) saveParticleState(st);
+        renderSubtleParticles(st);
+        setTimeout(() => renderSubtleParticles(particleState()), 600);
+    });
+})();
+</script>
+
+
+<style>
+/* === THE ACADEMY RESET v5: RESTORE ORIGINAL CANVAS PARTICLES === */
+#academy-particle-layer,
+#syllabus-hard-particles,
+#syllabus-v11-particles {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+#particleCanvas {
+    display: block !important;
+    opacity: var(--glow-opac) !important;
+    z-index: 3 !important;
+    mix-blend-mode: screen !important;
+    filter: none !important;
+}
+</style>
+
+
+<script>
+/* === THE ACADEMY RESET v5: ORIGINAL CANVAS PARTICLE ENGINE RESTORED === */
+(function(){
+    let academyParticleEngineStarted = false;
+    let academyParticleSet = [];
+    let academyParticleCanvas = null;
+    let academyParticleCtx = null;
+    let academyParticleW = 0;
+    let academyParticleH = 0;
+
+    function colorValue(name, fallback) {
+        let color = getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
+        if (color.includes('var(')) {
+            const varName = color.match(/var\(([^)]+)\)/)?.[1]?.trim();
+            if (varName) color = getComputedStyle(document.documentElement).getPropertyValue(varName).trim() || fallback;
+        }
+        return color || fallback;
+    }
+
+    function resetParticle(p, randomY = false) {
+        const type = window.particleType || 'dust';
+        p.x = Math.random() * academyParticleW;
+        p.y = randomY ? Math.random() * academyParticleH : academyParticleH + Math.random() * 80;
+        p.r = Math.random() * 2 + 0.4;
+        p.vx = (Math.random() - 0.5) * 0.65;
+        p.vy = (Math.random() - 0.5) * 0.65;
+        p.t = Math.random() * Math.PI * 2;
+        p.rot = Math.random() * Math.PI * 2;
+        p.spin = (Math.random() - 0.5) * 0.03;
+        if (type === 'rain') { p.y = Math.random() * academyParticleH; p.r = Math.random() * 0.8 + 0.4; }
+        if (type === 'fog') { p.y = Math.random() * academyParticleH; p.r = Math.random() * 18 + 18; p.vx = Math.random() * 0.22 + 0.04; }
+        if (type === 'stars' || type === 'static' || type === 'glitch') { p.y = Math.random() * academyParticleH; }
+        if (type === 'bats') { p.y = Math.random() * academyParticleH * 0.65; p.r = Math.random() * 6 + 5; p.vx = (Math.random() > 0.5 ? 1 : -1) * (0.7 + Math.random() * 1.2); }
+        return p;
+    }
+
+    function buildSet() {
+        const count = Math.max(10, Math.min(260, Number(window.particleCount || 50)));
+        academyParticleSet = Array.from({length: count}, () => resetParticle({}, true));
+    }
+
+    function ensureCanvas() {
+        academyParticleCanvas = document.getElementById('particleCanvas');
+        if (!academyParticleCanvas) return false;
+        academyParticleCtx = academyParticleCanvas.getContext('2d');
+        academyParticleW = academyParticleCanvas.width = window.innerWidth;
+        academyParticleH = academyParticleCanvas.height = window.innerHeight;
+        return true;
+    }
+
+    function drawLeaf(ctx, p, color) {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = color;
+        ctx.globalAlpha = 0.45;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.r * 3.2, p.r * 1.15, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+        ctx.restore();
+    }
+
+    function drawPetal(ctx, p) {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = 'rgba(255,182,193,0.52)';
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.r * 3.2, p.r * 1.25, Math.PI / 6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+    }
+
+    function drawBat(ctx, p, color) {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.fillStyle = color;
+        ctx.globalAlpha = 0.42;
+        ctx.beginPath();
+        ctx.moveTo(-p.r, 0);
+        ctx.quadraticCurveTo(-p.r * 0.45, -p.r * 0.7, 0, 0);
+        ctx.quadraticCurveTo(p.r * 0.45, -p.r * 0.7, p.r, 0);
+        ctx.quadraticCurveTo(p.r * 0.4, p.r * 0.28, 0, 0);
+        ctx.quadraticCurveTo(-p.r * 0.4, p.r * 0.28, -p.r, 0);
+        ctx.fill();
+        ctx.restore();
+    }
+
+    function drawRune(ctx, p, color) {
+        ctx.save();
+        ctx.font = `${Math.max(10, p.r * 6)}px serif`;
+        ctx.globalAlpha = 0.45;
+        ctx.fillStyle = color;
+        ctx.fillText(String.fromCharCode(0x16A0 + Math.floor(Math.random() * 80)), p.x, p.y);
+        ctx.globalAlpha = 1;
+        ctx.restore();
+    }
+
+    function drawParticle(ctx, p, type, color, mult) {
+        p.t += 0.01;
+        p.rot += p.spin;
+
+        ctx.fillStyle = color;
+        ctx.strokeStyle = color;
+        ctx.shadowBlur = 6;
+        ctx.shadowColor = color;
+        ctx.globalAlpha = 0.55;
+
+        if (type === 'dust') { p.x += p.vx * mult; p.y += p.vy * mult; }
+        else if (type === 'embers') { p.y -= (0.28 + Math.abs(p.vy)) * mult; p.x += (p.vx + Math.sin(p.t) * 0.2) * mult; ctx.globalAlpha = 0.46; }
+        else if (type === 'snow') { p.y += (0.25 + Math.abs(p.vy)) * mult; p.x += Math.sin(p.y / 48 + p.t) * 0.42 * mult; ctx.globalAlpha = 0.48; }
+        else if (type === 'void') { p.x += p.vx * 1.6 * mult; p.y += p.vy * 1.6 * mult; ctx.shadowBlur = 0; ctx.globalAlpha = 0.34; }
+        else if (type === 'rain') {
+            p.y += 6.5 * mult;
+            p.x -= 1.4 * mult;
+            ctx.globalAlpha = 0.30;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p.x + 3, p.y - 16);
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+            return;
+        }
+        else if (type === 'ash') { p.y -= (0.10 + Math.abs(p.vy) * 0.25) * mult; p.x += Math.cos(p.y / 30) * 0.45 * mult; ctx.fillStyle = '#777'; ctx.globalAlpha = 0.30; }
+        else if (type === 'stars') { p.x += 0.035 * mult; p.y += 0.025 * mult; if(Math.random()<0.012) p.r = Math.random()*2 + 0.4; ctx.globalAlpha = 0.62; }
+        else if (type === 'bubbles') {
+            p.y -= 0.9 * mult; p.x += Math.sin(p.y/22) * 0.8 * mult;
+            ctx.globalAlpha = 0.34; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*2.1,0,Math.PI*2); ctx.stroke(); ctx.globalAlpha = 1; return;
+        }
+        else if (type === 'spores') { p.x += (Math.random()-0.5) * 0.32 * mult; p.y += (Math.random()-0.5) * 0.32 * mult; ctx.globalAlpha = 0.38; }
+        else if (type === 'leaves') {
+            p.y += (0.35 + Math.abs(p.vy)*0.8) * mult;
+            p.x += Math.sin(p.y / 34 + p.t) * 1.25 * mult;
+            drawLeaf(ctx, p, color); ctx.globalAlpha = 1; return;
+        }
+        else if (type === 'glitch') {
+            if(Math.random()<0.04){ p.x = Math.random()*academyParticleW; p.y = Math.random()*academyParticleH; }
+            ctx.globalAlpha = 0.32; ctx.fillRect(p.x, p.y, p.r*8, 1.5); ctx.globalAlpha = 1; return;
+        }
+        else if (type === 'runes') { p.y -= 0.42 * mult; p.x += Math.sin(p.t) * 0.15 * mult; drawRune(ctx,p,color); ctx.globalAlpha = 1; return; }
+        else if (type === 'fireflies') {
+            p.x += Math.sin(p.t) * 0.65 * mult; p.y += Math.cos(p.t) * 0.45 * mult;
+            ctx.globalAlpha = 0.65; ctx.shadowBlur = 14; ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(1, p.r*1.25), 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha=1; return;
+        }
+        else if (type === 'fog') {
+            p.x += p.vx * mult; p.y += Math.sin(p.t) * 0.05 * mult;
+            ctx.globalAlpha = 0.055; ctx.shadowBlur = 0; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha=1; return;
+        }
+        else if (type === 'petals') {
+            p.y += 0.65 * mult;
+            p.x += Math.sin(p.y / 42 + p.t) * 1.45 * mult;
+            drawPetal(ctx,p); ctx.globalAlpha=1; return;
+        }
+        else if (type === 'sparks') {
+            p.y -= (1.1 + Math.abs(p.vy)) * mult; p.x += (Math.random()-0.5) * 0.65 * mult;
+            ctx.globalAlpha = 0.52; ctx.fillRect(p.x, p.y, 1.4, p.r*3.4); ctx.globalAlpha=1; return;
+        }
+        else if (type === 'bats') {
+            p.x += p.vx * mult;
+            p.y += Math.sin(p.x / 22 + p.t) * 0.9 * mult;
+            drawBat(ctx,p,color); ctx.globalAlpha=1; return;
+        }
+        else if (type === 'static') { if(Math.random()<0.09) { p.x=Math.random()*academyParticleW; p.y=Math.random()*academyParticleH; } ctx.globalAlpha=0.28; ctx.fillRect(p.x,p.y,1.4,1.4); ctx.globalAlpha=1; return; }
+        else if (type === 'motes') {
+            p.y -= 0.22 * mult; p.x += Math.sin(p.y/52+p.t) * 0.35 * mult;
+            ctx.globalAlpha = 0.18 + Math.abs(Math.sin(p.t)) * 0.34;
+        }
+
+        if (p.x < -40) p.x = academyParticleW + 40;
+        if (p.x > academyParticleW + 40) p.x = -40;
+        if (p.y < -50) p.y = academyParticleH + 50;
+        if (p.y > academyParticleH + 50) p.y = -50;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+    }
+
+    function animate(ts) {
+        if (!academyParticleCtx) return;
+        requestAnimationFrame(animate);
+        const ctx = academyParticleCtx;
+        const w = academyParticleW;
+        const h = academyParticleH;
+        ctx.clearRect(0, 0, w, h);
+
+        const wanted = Math.max(10, Math.min(260, Number(window.particleCount || 50)));
+        if (academyParticleSet.length !== wanted) buildSet();
+
+        const type = (window.particleType || 'dust').toLowerCase();
+        const color = colorValue('--particle-color', '#e0e7ff');
+        const speed = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--anim-speed')) || 10;
+        const mult = 10 / speed;
+
+        academyParticleSet.forEach(p => drawParticle(ctx, p, type, color, mult));
+    }
+
+    window.initParticles = function(){
+        if (academyParticleEngineStarted) return;
+        if (!ensureCanvas()) return;
+        academyParticleEngineStarted = true;
+        buildSet();
+        window.addEventListener('resize', () => {
+            ensureCanvas();
+            buildSet();
+        });
+        requestAnimationFrame(animate);
+    };
+
+    // Make Atmos button clicks use the restored canvas state and not the removed overlay.
+    document.addEventListener('click', function(event){
+        const btn = event.target.closest('#particle-grid .toy-btn, #particle-color-grid .toy-btn');
+        if (!btn) return;
+        const grid = btn.closest('.btn-grid');
+        if (!grid) return;
+        const label = btn.textContent.trim();
+        grid.querySelectorAll('.toy-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (grid.id === 'particle-grid') {
+            window.particleType = label.toLowerCase();
+            buildSet();
+        }
+        if (grid.id === 'particle-color-grid') {
+            const match = (typeof particleColors !== 'undefined' ? particleColors : []).find(c => c.name.toLowerCase() === label.toLowerCase());
+            if (match) document.documentElement.style.setProperty('--particle-color', match.value);
+        }
+        try { if (typeof saveCurrentState === 'function') saveCurrentState(); } catch(e) {}
+    }, true);
+
+    // Force the fake layers off if older patches created them.
+    document.addEventListener('DOMContentLoaded', () => {
+        ['academy-particle-layer','syllabus-hard-particles','syllabus-v11-particles'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        });
+        window.initParticles();
+    });
+})();
+</script>
+
 </body>
 </html>
