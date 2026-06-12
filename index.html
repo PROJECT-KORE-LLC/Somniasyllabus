@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-<meta name="somniasyllabus-build" content="the-academy-reset-v5-original-canvas-particles"/><meta charset="utf-8"/>
+<meta name="somniasyllabus-build" content="the-academy-reset-v6-folded-tabs-visible"/><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <meta content="THE ACADEMY // A private offline-first learning chamber and homeschool record table." name="description"/>
 <meta content="#020204" name="theme-color"/>
@@ -3412,6 +3412,88 @@ body.cloaked .academy-guide-widget { opacity:0 !important; pointer-events:none !
         });
         window.initParticles();
     });
+})();
+</script>
+
+
+<style>
+/* === THE ACADEMY RESET v6: FOLDED EDITOR KEEPS TABS VISIBLE === */
+body.editor-collapsed #maker-panel.room-editor-panel {
+    bottom: auto !important;
+    height: auto !important;
+    min-height: 104px !important;
+    max-height: 150px !important;
+}
+
+body.editor-collapsed #maker-panel.room-editor-panel .tab-bar {
+    display: flex !important;
+    flex-shrink: 0 !important;
+    border-bottom: 1px solid var(--glass-border) !important;
+}
+
+body.editor-collapsed #maker-panel.room-editor-panel .editor-collapse-toggle {
+    display: block !important;
+    flex-shrink: 0 !important;
+}
+
+body.editor-collapsed #maker-panel.room-editor-panel .tab-content,
+body.editor-collapsed #maker-panel.room-editor-panel .editor-tab-content {
+    display: none !important;
+}
+
+body.editor-collapsed #maker-panel.room-editor-panel .tab-btn {
+    pointer-events: auto !important;
+    opacity: .9 !important;
+}
+
+body.editor-collapsed #maker-panel.room-editor-panel .tab-btn.active {
+    color: var(--accent) !important;
+    border-bottom-color: var(--accent) !important;
+    background: rgba(255,255,255,0.05) !important;
+}
+</style>
+
+
+<script>
+/* === THE ACADEMY RESET v6: FOLDED TAB BEHAVIOR === */
+(function(){
+    const previousSwitchEditorTab = window.switchEditorTab;
+
+    window.switchEditorTab = function(tabId, btn) {
+        if (typeof previousSwitchEditorTab === 'function') {
+            previousSwitchEditorTab(tabId, btn);
+        } else {
+            document.querySelectorAll('#maker-panel.room-editor-panel .tab-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            document.querySelectorAll('#maker-panel.room-editor-panel .editor-tab-content').forEach(c => c.classList.remove('active'));
+            const tab = document.getElementById(tabId);
+            if (tab) tab.classList.add('active');
+        }
+        /* Keep folded if it was folded. Tabs update, body remains hidden until Open Editor. */
+    };
+
+    window.toggleEditorCollapse = function(){
+        const collapsed = document.body.classList.toggle('editor-collapsed');
+        const btn = document.getElementById('editor-collapse-toggle');
+        if (btn) {
+            btn.setAttribute('aria-expanded', String(!collapsed));
+            btn.textContent = collapsed ? 'Open Editor ▾' : 'Fold Editor ▴';
+        }
+    };
+
+    document.addEventListener('click', function(event){
+        const tab = event.target.closest('#maker-panel.room-editor-panel .tab-btn');
+        if (!tab) return;
+        const call = tab.getAttribute('onclick') || '';
+        const match = call.match(/switchEditorTab\('([^']+)'/);
+        if (!match) return;
+        /* Let switchEditorTab update the active tab, but do not auto-open folded editor. */
+        if (document.body.classList.contains('editor-collapsed')) {
+            event.preventDefault();
+            event.stopPropagation();
+            window.switchEditorTab(match[1], tab);
+        }
+    }, true);
 })();
 </script>
 
