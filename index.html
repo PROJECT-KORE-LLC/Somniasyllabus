@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-<meta name="somniasyllabus-build" content="the-academy-v10-fling-pull-room-fix"/><meta charset="utf-8"/>
+<meta name="somniasyllabus-build" content="the-academy-v11-gated-lore-reactive-presets"/><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <meta content="THE ACADEMY // A private offline-first learning chamber and homeschool record table." name="description"/>
 <meta content="#020204" name="theme-color"/>
@@ -4921,6 +4921,480 @@ body.cloaked .academy-guide-widget {
         if (mode === 'spell' || mode === 'fling') return window.openAcademyFlingGame();
         if (typeof oldOpenAcademyGame === 'function') return oldOpenAcademyGame(mode);
     };
+})();
+</script>
+
+
+<style>
+/* === THE ACADEMY v11: GATED GAMES + LORE + REACTIVE PRESETS === */
+.academy-game-locked-v11 {
+    position: relative !important;
+    opacity: .54 !important;
+    filter: grayscale(.34) brightness(.72);
+}
+.academy-game-locked-v11::after {
+    content: 'LOCKED · LOG FIRST LESSON';
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    padding: 8px 10px;
+    border-radius: 999px;
+    background: rgba(0,0,0,.68);
+    border: 1px solid rgba(212,175,55,.28);
+    color: #fbbf24;
+    font-family: monospace;
+    font-size: .63rem;
+    letter-spacing: 1.8px;
+    text-align: center;
+    pointer-events: none;
+}
+.bookwyrm-pet-widget.bookwyrm-locked-v11 {
+    filter: grayscale(.25) brightness(.78);
+}
+.bookwyrm-pet-widget.bookwyrm-locked-v11 img {
+    opacity: .42;
+}
+.bookwyrm-pet-widget.bookwyrm-locked-v11::after {
+    content: 'Log one lesson to wake the Bookwyrm';
+    position: absolute;
+    right: 80%;
+    bottom: 10px;
+    min-width: 220px;
+    padding: 9px 12px;
+    border-radius: 999px;
+    background: rgba(0,0,0,.62);
+    border: 1px solid rgba(212,175,55,.25);
+    color: #fbbf24;
+    font-family: monospace;
+    font-size: .62rem;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+}
+.academy-lore-bubble-v11 {
+    position: absolute;
+    max-width: 310px;
+    padding: 13px 15px;
+    border-radius: 20px 20px 20px 6px;
+    background: rgba(0,0,0,.72);
+    border: 1px solid rgba(212,175,55,.28);
+    color: var(--text-main);
+    font-family: Georgia, serif;
+    font-size: .86rem;
+    line-height: 1.45;
+    box-shadow: 0 22px 55px rgba(0,0,0,.55);
+    backdrop-filter: blur(15px);
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: .25s ease;
+    z-index: 130;
+}
+.academy-lore-bubble-v11.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+#teacher-lore-bubble-v11 {
+    right: 190px;
+    top: 125px;
+}
+#bookwyrm-lore-bubble-v11 {
+    right: 210px;
+    top: 510px;
+}
+.academy-unlock-toast-v11 {
+    position: fixed;
+    left: 50%;
+    top: 20px;
+    transform: translateX(-50%) translateY(-12px);
+    max-width: min(520px, calc(100vw - 28px));
+    padding: 14px 18px;
+    border-radius: 999px;
+    background: rgba(0,0,0,.78);
+    border: 1px solid rgba(212,175,55,.34);
+    color: #fef3c7;
+    font-family: Georgia, serif;
+    letter-spacing: .4px;
+    box-shadow: 0 22px 60px rgba(0,0,0,.55);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: .3s ease;
+}
+.academy-unlock-toast-v11.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+.preset-react-ring-v11 {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 4;
+    opacity: 0;
+    background:
+        radial-gradient(circle at 22% 26%, rgba(251,191,36,.13), transparent 28%),
+        radial-gradient(circle at 78% 64%, rgba(167,139,250,.13), transparent 34%);
+    transition: opacity .6s ease;
+}
+.preset-react-ring-v11.active { opacity: 1; }
+body.cloaked .academy-lore-bubble-v11,
+body.cloaked .academy-unlock-toast-v11,
+body.cloaked .preset-react-ring-v11 {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+</style>
+
+
+<script>
+/* === THE ACADEMY v11: GATED GAMES + LORE + REACTIVE PRESETS === */
+(function(){
+    const KEY_LESSON = 'somniasyllabus:firstLessonLogged';
+    const KEY_BOOKWYRM = 'somniasyllabus:bookwyrmUnlocked';
+
+    const presetProfilesV11 = {
+        dawnDesk: {
+            label:'Moonlit Path',
+            audio:['crickets.mp3','windchimes.mp3'],
+            particles:'fireflies',
+            glow:'glow-breathe',
+            book:'bookwyrm_curious.png',
+            bookLine:'A path lesson wakes best when followed slowly.',
+            teacherLine:'The first path teaches direction before destination.'
+        },
+        stormStudy: {
+            label:'Ivy Observatory',
+            audio:['windchimes.mp3','clock.mp3'],
+            particles:'stars',
+            glow:'glow-halo',
+            book:'bookwyrm_reading.png',
+            bookLine:'The stars are notes written too high to shelve.',
+            teacherLine:'Look upward, then write what stayed with you.'
+        },
+        candleClass: {
+            label:'Cloud Terrace',
+            audio:['waves.mp3','windchimes.mp3'],
+            particles:'cloudmotes',
+            glow:'glow-aurora',
+            book:'bookwyrm_cozy.png',
+            bookLine:'Cloud lessons are soft until you try to carry them.',
+            teacherLine:'A gentle height still counts as ascent.'
+        },
+        moonLessons: {
+            label:'Moon Greenhouse',
+            audio:['frogs.mp3','crickets.mp3'],
+            particles:'pollen',
+            glow:'glow-flicker',
+            book:'bookwyrm_curious.png',
+            bookLine:'Something is growing under the quiet part.',
+            teacherLine:'Growth often looks like stillness from the door.'
+        },
+        greenhouse: {
+            label:'Sea Terrace',
+            audio:['waves.mp3','teacup.mp3'],
+            particles:'mist',
+            glow:'glow-wave',
+            book:'bookwyrm_cozy.png',
+            bookLine:'Sea air makes the pages breathe.',
+            teacherLine:'Let the tide sort what the mind keeps stacking.'
+        },
+        chalkRunes: {
+            label:'Forgotten Academy',
+            audio:['raven.mp3','darkmusic1.mp3'],
+            particles:'embers',
+            glow:'glow-shimmer',
+            book:'bookwyrm_startled.png',
+            bookLine:'That ruin remembers your footsteps.',
+            teacherLine:'Old rooms answer when approached with respect.'
+        },
+        quietStacks: {
+            label:'Crystal Cavern',
+            audio:['clock.mp3','musicbox1.mp3'],
+            particles:'crystals',
+            glow:'glow-nebula',
+            book:'bookwyrm_reading.png',
+            bookLine:'The crystals keep a syllabus older than paper.',
+            teacherLine:'Listen for the pattern before naming the lesson.'
+        },
+        emberExam: {
+            label:'Forest Ruins',
+            audio:['owls.mp3','winterwind.mp3'],
+            particles:'leaves',
+            glow:'glow-pulse',
+            book:'bookwyrm_startled.png',
+            bookLine:'The trees just turned a page.',
+            teacherLine:'Not every test announces itself first.'
+        }
+    };
+
+    const teacherLoreV11 = [
+        'The Academy does not demand brilliance. It asks for one marked lesson, then opens the next door.',
+        'A lesson logged is a torch placed in the hall. The Bookwyrm follows torchlight.',
+        'The old teachers hid maps in routine. Do the small thing; the room reveals the larger one.',
+        'You do not need to master the whole spell today. Name the first rune and let it hold.'
+    ];
+
+    const bookwyrmLoreV11 = [
+        'One lesson is enough to wake a familiar.',
+        'I collect crumbs of knowing. Tiny notes count.',
+        'The game gates are not punishment. They are doors with handles.',
+        'A page saved is a lantern lit.'
+    ];
+
+    function stateV11(){
+        return {
+            lesson: localStorage.getItem(KEY_LESSON) === '1',
+            bookwyrm: localStorage.getItem(KEY_BOOKWYRM) === '1'
+        };
+    }
+
+    function ensureBubbles(){
+        if (!document.getElementById('teacher-lore-bubble-v11')) {
+            const t = document.createElement('div');
+            t.id = 'teacher-lore-bubble-v11';
+            t.className = 'academy-lore-bubble-v11';
+            document.body.appendChild(t);
+        }
+        if (!document.getElementById('bookwyrm-lore-bubble-v11')) {
+            const b = document.createElement('div');
+            b.id = 'bookwyrm-lore-bubble-v11';
+            b.className = 'academy-lore-bubble-v11';
+            document.body.appendChild(b);
+        }
+        if (!document.getElementById('academy-unlock-toast-v11')) {
+            const u = document.createElement('div');
+            u.id = 'academy-unlock-toast-v11';
+            u.className = 'academy-unlock-toast-v11';
+            document.body.appendChild(u);
+        }
+        if (!document.getElementById('preset-react-ring-v11')) {
+            const r = document.createElement('div');
+            r.id = 'preset-react-ring-v11';
+            r.className = 'preset-react-ring-v11';
+            document.body.appendChild(r);
+        }
+    }
+
+    function showBubble(id, text, ms=5200){
+        ensureBubbles();
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = text;
+        el.classList.add('show');
+        clearTimeout(el.__timer);
+        el.__timer = setTimeout(() => el.classList.remove('show'), ms);
+    }
+
+    function toastV11(text){
+        ensureBubbles();
+        const el = document.getElementById('academy-unlock-toast-v11');
+        if (!el) return;
+        el.textContent = text;
+        el.classList.add('show');
+        clearTimeout(el.__timer);
+        el.__timer = setTimeout(() => el.classList.remove('show'), 4200);
+    }
+
+    function setBookwyrmSprite(src, line){
+        const img = document.getElementById('bookwyrm-pet-img');
+        const bubble = document.getElementById('bookwyrm-pet-bubble');
+        if (img && src) img.src = src;
+        if (bubble && line) {
+            bubble.textContent = line;
+            bubble.classList.add('show');
+            clearTimeout(window.__bookwyrmBubbleTimer);
+            window.__bookwyrmBubbleTimer = setTimeout(() => bubble.classList.remove('show'), 4400);
+        }
+    }
+
+    function applyGateVisuals(){
+        const s = stateV11();
+        const unlocked = s.lesson && s.bookwyrm;
+        document.body.classList.toggle('academy-games-unlocked-v11', unlocked);
+
+        document.querySelectorAll('[onclick*="openAcademyMazeGame"],[onclick*="openAcademyFlingGame"],[onclick*="openAcademyGame"]').forEach(card => {
+            const container = card.closest('.syllabus-game-card,.vault-card,.preset-card,.editor-card,button') || card;
+            if (container) container.classList.toggle('academy-game-locked-v11', !unlocked);
+        });
+
+        const pet = document.getElementById('bookwyrm-pet-widget');
+        if (pet) pet.classList.toggle('bookwyrm-locked-v11', !s.bookwyrm);
+
+        const petImg = document.getElementById('bookwyrm-pet-img');
+        if (petImg && !s.bookwyrm) petImg.src = 'bookwyrm_cozy.png';
+    }
+
+    function unlockBookwyrmBecauseLesson(){
+        localStorage.setItem(KEY_LESSON, '1');
+        if (localStorage.getItem(KEY_BOOKWYRM) !== '1') {
+            localStorage.setItem(KEY_BOOKWYRM, '1');
+            toastV11('The first lesson is logged. The Bookwyrm wakes, and the Academy games unlock.');
+            setBookwyrmSprite('bookwyrm_curious.png', 'I smelled a lesson. The game doors are awake now.');
+            showBubble('teacher-lore-bubble-v11', 'A lesson logged is a torch placed in the hall. Now the small games may teach without stealing the room.');
+            if (typeof addAcademyXP === 'function') addAcademyXP(8);
+        }
+        applyGateVisuals();
+    }
+
+    function detectLessonLogClicks(){
+        const lessonWords = /(save|log|lesson|journal|entry|record|complete|done)/i;
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('button,.toy-btn,.editor-btn,.action-btn');
+            if (!btn) return;
+            const text = (btn.textContent || btn.getAttribute('aria-label') || '').trim();
+            if (lessonWords.test(text) && !/game|maze|fling/i.test(text)) {
+                const possibleText = document.querySelector('textarea,input[type="text"],[contenteditable="true"]');
+                const value = possibleText ? (possibleText.value || possibleText.textContent || '').trim() : '';
+                if (value.length >= 2 || /lesson|save|log|complete|done/i.test(text)) unlockBookwyrmBecauseLesson();
+            }
+        }, true);
+
+        document.addEventListener('change', (e) => {
+            const target = e.target;
+            if (target && (target.matches?.('textarea') || target.matches?.('input[type="text"]'))) {
+                const v = (target.value || '').trim();
+                if (v.length >= 12 && /lesson|learn|today|note|class|study/i.test(v)) {
+                    localStorage.setItem('somniasyllabus:lessonDraftDetected', '1');
+                }
+            }
+        }, true);
+    }
+
+    function gameGateMessage(){
+        toastV11('Games unlock after the first lesson is logged and the Bookwyrm wakes.');
+        showBubble('teacher-lore-bubble-v11', 'First, mark one lesson. The Academy opens play after the page has something to guard.');
+        setBookwyrmSprite('bookwyrm_cozy.png', 'I am still sleeping beside the first blank page.');
+    }
+
+    const previousMaze = window.openAcademyMazeGame;
+    const previousFling = window.openAcademyFlingGame;
+    const previousGeneric = window.openAcademyGame;
+
+    window.openAcademyMazeGame = function(){
+        const s = stateV11();
+        if (!(s.lesson && s.bookwyrm)) return gameGateMessage();
+        if (typeof previousMaze === 'function') return previousMaze();
+    };
+
+    window.openAcademyFlingGame = function(){
+        const s = stateV11();
+        if (!(s.lesson && s.bookwyrm)) return gameGateMessage();
+        if (typeof previousFling === 'function') return previousFling();
+    };
+
+    window.openAcademyGame = function(mode){
+        const s = stateV11();
+        if (!(s.lesson && s.bookwyrm)) return gameGateMessage();
+        if (mode === 'spell' || mode === 'fling') return window.openAcademyFlingGame();
+        if (mode === 'rune' || mode === 'maze') return window.openAcademyMazeGame();
+        if (typeof previousGeneric === 'function') return previousGeneric(mode);
+    };
+
+    const previousPreset = window.applySyllabusPreset;
+    window.applySyllabusPreset = function(key){
+        const profile = presetProfilesV11[key];
+        if (typeof previousPreset === 'function') previousPreset(key);
+
+        if (profile) {
+            // Preset glow + particles
+            const glow = document.getElementById('glow-layer');
+            if (glow && profile.glow) glow.className = profile.glow;
+
+            document.body.dataset.academyParticles = profile.particles;
+            if (typeof setParticleMode === 'function') {
+                try { setParticleMode(profile.particles); } catch(e) {}
+            }
+            if (typeof updateParticles === 'function') {
+                try { updateParticles(profile.particles); } catch(e) {}
+            }
+            if (typeof startParticles === 'function') {
+                try { startParticles(profile.particles); } catch(e) {}
+            }
+
+            // Preset audio: use existing mixer if present, otherwise store intended ambience.
+            window.__academyPresetAudioV11 = profile.audio.slice();
+            localStorage.setItem('somniasyllabus:lastPresetAudio', profile.audio.join(','));
+
+            if (typeof stopAllAudio === 'function') {
+                try { stopAllAudio(); } catch(e) {}
+            }
+            profile.audio.forEach((track, idx) => {
+                const clean = track.replace(/\.[a-z0-9]+$/i, '');
+                try {
+                    if (typeof playAudioTrack === 'function') playAudioTrack(track, idx === 0 ? .34 : .22);
+                    else if (typeof toggleAudio === 'function') toggleAudio(clean);
+                    else if (window.audioEls && window.audioEls[clean]) {
+                        window.audioEls[clean].volume = idx === 0 ? .34 : .22;
+                        window.audioEls[clean].loop = true;
+                        window.audioEls[clean].play?.().catch(()=>{});
+                    }
+                } catch(e) {}
+            });
+
+            // Reactive Bookwyrm + lore.
+            const ring = document.getElementById('preset-react-ring-v11');
+            if (ring) {
+                ring.classList.add('active');
+                clearTimeout(ring.__timer);
+                ring.__timer = setTimeout(() => ring.classList.remove('active'), 1400);
+            }
+
+            if (stateV11().bookwyrm) setBookwyrmSprite(profile.book, profile.bookLine);
+            else setBookwyrmSprite('bookwyrm_cozy.png', 'I will wake after your first logged lesson.');
+
+            showBubble('teacher-lore-bubble-v11', profile.teacherLine);
+        }
+
+        applyGateVisuals();
+    };
+
+    function wireLoreClicks(){
+        ensureBubbles();
+
+        const teacher = document.querySelector('.academy-guide-widget,.teacher-widget,.ai-widget,.guide-widget,[id*="guide"],[class*="guide"]');
+        if (teacher && !teacher.__loreWiredV11) {
+            teacher.__loreWiredV11 = true;
+            teacher.addEventListener('click', (e) => {
+                if (e.target.closest('button,a,input,textarea')) return;
+                const line = teacherLoreV11[Math.floor(Math.random() * teacherLoreV11.length)];
+                showBubble('teacher-lore-bubble-v11', line);
+            });
+        }
+
+        const pet = document.getElementById('bookwyrm-pet-widget');
+        if (pet && !pet.__loreWiredV11) {
+            pet.__loreWiredV11 = true;
+            pet.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const s = stateV11();
+                if (!s.bookwyrm) return gameGateMessage();
+                const line = bookwyrmLoreV11[Math.floor(Math.random() * bookwyrmLoreV11.length)];
+                showBubble('bookwyrm-lore-bubble-v11', line);
+                if (typeof cycleBookwyrmReaction === 'function') {
+                    try { cycleBookwyrmReaction(e); } catch(err) {}
+                }
+            }, true);
+        }
+    }
+
+    function bootNudge(){
+        const s = stateV11();
+        if (!s.lesson) {
+            setTimeout(() => showBubble('teacher-lore-bubble-v11', 'Log one small lesson first. After that, the Bookwyrm wakes and the games become part of the Academy.'), 1400);
+        } else if (s.bookwyrm) {
+            setTimeout(() => setBookwyrmSprite('bookwyrm_reading.png', 'Ready when you are. The lesson doors remember you.'), 1200);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        ensureBubbles();
+        detectLessonLogClicks();
+        wireLoreClicks();
+        applyGateVisuals();
+        bootNudge();
+        setTimeout(() => { wireLoreClicks(); applyGateVisuals(); }, 800);
+        setInterval(() => { wireLoreClicks(); applyGateVisuals(); }, 3500);
+    });
 })();
 </script>
 
