@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-<meta name="somniasyllabus-build" content="the-academy-v11-gated-lore-reactive-presets"/><meta charset="utf-8"/>
+<meta name="somniasyllabus-build" content="the-academy-v19-entry-ambience-avatar-ui"/><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <meta content="THE ACADEMY // A private offline-first learning chamber and homeschool record table." name="description"/>
 <meta content="#020204" name="theme-color"/>
@@ -4956,7 +4956,7 @@ body.cloaked .academy-guide-widget {
     opacity: .42;
 }
 .bookwyrm-pet-widget.bookwyrm-locked-v11::after {
-    content: 'Log one lesson to wake the Bookwyrm';
+    content: 'Log one lesson to unlock games';
     position: absolute;
     right: 80%;
     bottom: 10px;
@@ -5228,7 +5228,7 @@ body.cloaked .preset-react-ring-v11 {
         localStorage.setItem(KEY_LESSON, '1');
         if (localStorage.getItem(KEY_BOOKWYRM) !== '1') {
             localStorage.setItem(KEY_BOOKWYRM, '1');
-            toastV11('The first lesson is logged. The Bookwyrm wakes, and the Academy games unlock.');
+            toastV11('First lesson logged. The Academy games unlock.');
             setBookwyrmSprite('bookwyrm_curious.png', 'I smelled a lesson. The game doors are awake now.');
             showBubble('teacher-lore-bubble-v11', 'A lesson logged is a torch placed in the hall. Now the small games may teach without stealing the room.');
             if (typeof addAcademyXP === 'function') addAcademyXP(8);
@@ -5261,7 +5261,7 @@ body.cloaked .preset-react-ring-v11 {
     }
 
     function gameGateMessage(){
-        toastV11('Games unlock after the first lesson is logged and the Bookwyrm wakes.');
+        toastV11('Games unlock after the first lesson is logged and the Academy unlocks.');
         showBubble('teacher-lore-bubble-v11', 'First, mark one lesson. The Academy opens play after the page has something to guard.');
         setBookwyrmSprite('bookwyrm_cozy.png', 'I am still sleeping beside the first blank page.');
     }
@@ -5380,7 +5380,7 @@ body.cloaked .preset-react-ring-v11 {
     function bootNudge(){
         const s = stateV11();
         if (!s.lesson) {
-            setTimeout(() => showBubble('teacher-lore-bubble-v11', 'Log one small lesson first. After that, the Bookwyrm wakes and the games become part of the Academy.'), 1400);
+            setTimeout(() => showBubble('teacher-lore-bubble-v11', 'Log one small lesson first. After that, the Academy unlocks and the games become part of the Academy.'), 1400);
         } else if (s.bookwyrm) {
             setTimeout(() => setBookwyrmSprite('bookwyrm_reading.png', 'Ready when you are. The lesson doors remember you.'), 1200);
         }
@@ -5395,6 +5395,1730 @@ body.cloaked .preset-react-ring-v11 {
         setTimeout(() => { wireLoreClicks(); applyGateVisuals(); }, 800);
         setInterval(() => { wireLoreClicks(); applyGateVisuals(); }, 3500);
     });
+})();
+</script>
+
+
+<style>
+/* === THE ACADEMY v12: TEACHER BUBBLE + QUIBBLE === */
+
+/* bump teacher/avatar widget upward */
+.academy-guide-widget,
+.teacher-widget,
+.ai-widget,
+.guide-widget,
+[id*="guide"],
+[class*="guide-widget"] {
+    transform: translateY(-42px) !important;
+}
+
+/* keep Bookwyrm/Quibble cute label readable */
+.bookwyrm-pet-widget::before {
+    content: 'Quibble';
+    position: absolute;
+    left: 50%;
+    top: -12px;
+    transform: translateX(-50%);
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: rgba(0,0,0,.62);
+    border: 1px solid rgba(212,175,55,.28);
+    color: #fef3c7;
+    font-family: Georgia, serif;
+    font-size: .75rem;
+    letter-spacing: 1px;
+    box-shadow: 0 10px 28px rgba(0,0,0,.38);
+}
+
+/* teacher chat bubble with buttons */
+.teacher-chat-bubble-v12 {
+    position: absolute;
+    right: 185px;
+    top: 70px;
+    width: min(340px, calc(100vw - 34px));
+    padding: 14px;
+    border-radius: 24px 24px 8px 24px;
+    background: rgba(0,0,0,.72);
+    border: 1px solid rgba(212,175,55,.32);
+    color: var(--text-main);
+    font-family: Georgia, serif;
+    box-shadow: 0 25px 70px rgba(0,0,0,.58);
+    backdrop-filter: blur(16px);
+    z-index: 135;
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: .25s ease;
+}
+.teacher-chat-bubble-v12.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+.teacher-chat-title-v12 {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom: 8px;
+    color: #fbbf24;
+    font-size: .82rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: monospace;
+}
+.teacher-chat-close-v12 {
+    border: 1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.08);
+    color: var(--text-main);
+    border-radius: 999px;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+}
+.teacher-chat-text-v12 {
+    min-height: 58px;
+    line-height: 1.48;
+    font-size: .9rem;
+    color: rgba(255,255,255,.9);
+    margin-bottom: 12px;
+}
+.teacher-chat-buttons-v12 {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+.teacher-chat-buttons-v12 button {
+    border: 1px solid rgba(212,175,55,.28);
+    background: rgba(255,255,255,.075);
+    color: var(--text-main);
+    border-radius: 999px;
+    padding: 9px 10px;
+    cursor: pointer;
+    font-family: monospace;
+    font-size: .68rem;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    transition: .18s ease;
+}
+.teacher-chat-buttons-v12 button:hover {
+    background: rgba(212,175,55,.16);
+    transform: translateY(-1px);
+}
+.teacher-chat-buttons-v12 button.locked {
+    opacity: .55;
+    filter: grayscale(.3);
+}
+.bookwyrm-pet-bubble {
+    min-width: 240px !important;
+}
+body.cloaked .teacher-chat-bubble-v12,
+body.cloaked .bookwyrm-pet-widget::before {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+@media (max-width: 950px) {
+    .teacher-chat-bubble-v12 { display:none; }
+}
+</style>
+
+
+<script>
+/* === THE ACADEMY v12: TEACHER BUBBLE + QUIBBLE === */
+(function(){
+    const KEY_LESSON = 'somniasyllabus:firstLessonLogged';
+    const KEY_BOOKWYRM = 'somniasyllabus:bookwyrmUnlocked';
+    const BOOKWYRM_NAME = 'Quibble';
+
+    const loreLines = [
+        'The Academy was built for wander-learners: those who find wisdom beside gates, greenhouses, ruins, and stars.',
+        'Every preset is a doorway. The room changes because study is not one shape.',
+        'The old halls reward a logged lesson before they reward play. That is how the doors remember you.',
+        'A lesson is not a perfect page. A lesson is a mark that proves you noticed something.'
+    ];
+
+    const quibbleLines = [
+        'Quibble keeps the tiny sparks of learning in a very serious hoard.',
+        'Quibble says: one crumb of knowing still counts as treasure.',
+        'The Bookwyrm blinks twice. That means the page is safe.',
+        'Quibble has inspected the lesson doors. They are bite-proof.'
+    ];
+
+    const nudgeLines = [
+        'Log the smallest true thing you learned. One sentence is enough.',
+        'Pick the preset that feels closest to your brain right now, then do only the next tiny step.',
+        'Do not clean the whole mental desk. Put one thought in one place.',
+        'Start with the thing that has the least resistance. The room can build from there.'
+    ];
+
+    const inspireLines = [
+        'You are not behind. You are gathering keys in a strange order.',
+        'Curiosity is allowed to be messy before it becomes knowledge.',
+        'A small lesson today is still a lantern tomorrow.',
+        'The Academy does not ask for perfection. It asks you to return.'
+    ];
+
+    function isBookwyrmUnlocked(){
+        return localStorage.getItem(KEY_LESSON) === '1' && localStorage.getItem(KEY_BOOKWYRM) === '1';
+    }
+
+    function pick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function ensureTeacherBubble(){
+        if (document.getElementById('teacher-chat-bubble-v12')) return;
+        const bubble = document.createElement('div');
+        bubble.id = 'teacher-chat-bubble-v12';
+        bubble.className = 'teacher-chat-bubble-v12';
+        bubble.innerHTML = `
+            <div class="teacher-chat-title-v12">
+                <span>The Academy Keeper</span>
+                <button class="teacher-chat-close-v12" type="button" aria-label="Close">×</button>
+            </div>
+            <div id="teacher-chat-text-v12" class="teacher-chat-text-v12">
+                Choose a thread. I will keep it light.
+            </div>
+            <div class="teacher-chat-buttons-v12">
+                <button type="button" data-teacher-chat="lore">Lore</button>
+                <button type="button" data-teacher-chat="bookwyrm">${BOOKWYRM_NAME}</button>
+                <button type="button" data-teacher-chat="nudge">Nudge</button>
+                <button type="button" data-teacher-chat="inspire">Inspiration</button>
+            </div>
+        `;
+        document.body.appendChild(bubble);
+
+        bubble.querySelector('.teacher-chat-close-v12')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            bubble.classList.remove('show');
+        });
+
+        bubble.querySelectorAll('[data-teacher-chat]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const type = btn.dataset.teacherChat;
+                teacherChatRespond(type);
+            });
+        });
+    }
+
+    function showTeacherBubble(text){
+        ensureTeacherBubble();
+        const bubble = document.getElementById('teacher-chat-bubble-v12');
+        const textEl = document.getElementById('teacher-chat-text-v12');
+        if (textEl) textEl.textContent = text;
+        bubble?.classList.add('show');
+    }
+
+    function showQuibble(line){
+        const img = document.getElementById('bookwyrm-pet-img');
+        const bubble = document.getElementById('bookwyrm-pet-bubble');
+        if (img && isBookwyrmUnlocked()) {
+            const sprites = ['bookwyrm_reading.png','bookwyrm_cozy.png','bookwyrm_curious.png','bookwyrm_startled.png'];
+            img.src = sprites[Math.floor(Math.random() * sprites.length)];
+        }
+        if (bubble) {
+            bubble.textContent = line;
+            bubble.classList.add('show');
+            clearTimeout(window.__bookwyrmBubbleTimer);
+            window.__bookwyrmBubbleTimer = setTimeout(() => bubble.classList.remove('show'), 5200);
+        }
+        const loreBubble = document.getElementById('bookwyrm-lore-bubble-v11');
+        if (loreBubble) {
+            loreBubble.textContent = line;
+            loreBubble.classList.add('show');
+            clearTimeout(loreBubble.__timer);
+            loreBubble.__timer = setTimeout(() => loreBubble.classList.remove('show'), 5200);
+        }
+    }
+
+    function teacherChatRespond(type){
+        const unlocked = isBookwyrmUnlocked();
+        if (type === 'lore') {
+            showTeacherBubble(pick(loreLines));
+            return;
+        }
+        if (type === 'bookwyrm') {
+            if (!unlocked) {
+                showTeacherBubble(`${BOOKWYRM_NAME} is still curled around the first blank lesson. Log one lesson to wake them.`);
+                showQuibble('Still sleeping. One lesson will do.');
+                return;
+            }
+            const line = pick(quibbleLines);
+            showTeacherBubble(line);
+            showQuibble(line);
+            return;
+        }
+        if (type === 'nudge') {
+            const line = pick(nudgeLines);
+            showTeacherBubble(line);
+            return;
+        }
+        if (type === 'inspire') {
+            const line = pick(inspireLines);
+            showTeacherBubble(line);
+            return;
+        }
+    }
+
+    function wireTeacherOpen(){
+        const teacher = document.querySelector('.academy-guide-widget,.teacher-widget,.ai-widget,.guide-widget,[id*="guide"],[class*="guide-widget"]');
+        if (teacher && !teacher.__teacherBubbleV12) {
+            teacher.__teacherBubbleV12 = true;
+            teacher.addEventListener('click', (e) => {
+                if (e.target.closest('button,a,input,textarea')) return;
+                showTeacherBubble('Choose a thread. I will keep it light.');
+            }, true);
+        }
+    }
+
+    function renameBookwyrmText(){
+        document.querySelectorAll('*').forEach(el => {
+            if (!el.childNodes || el.childNodes.length !== 1) return;
+            const node = el.childNodes[0];
+            if (node.nodeType === Node.TEXT_NODE && /Bookwyrm/.test(node.nodeValue)) {
+                node.nodeValue = node.nodeValue.replace(/Bookwyrm/g, BOOKWYRM_NAME);
+            }
+        });
+        const pet = document.getElementById('bookwyrm-pet-widget');
+        if (pet) pet.title = `${BOOKWYRM_NAME} Familiar`;
+        const img = document.getElementById('bookwyrm-pet-img');
+        if (img) img.alt = `${BOOKWYRM_NAME} Familiar`;
+    }
+
+    function markLockedButton(){
+        const unlocked = isBookwyrmUnlocked();
+        const btn = document.querySelector('[data-teacher-chat="bookwyrm"]');
+        if (btn) btn.classList.toggle('locked', !unlocked);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        ensureTeacherBubble();
+        wireTeacherOpen();
+        renameBookwyrmText();
+        markLockedButton();
+
+        setInterval(() => {
+            wireTeacherOpen();
+            renameBookwyrmText();
+            markLockedButton();
+        }, 2500);
+    });
+})();
+</script>
+
+
+<style>
+/* === THE ACADEMY v13: NO PERMANENT CHATBOX === */
+.teacher-chat-bubble-v12 {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(8px) scale(.98) !important;
+    right: 24px !important;
+    top: 165px !important;
+    z-index: 140 !important;
+}
+.teacher-chat-bubble-v12.show {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: translateY(0) scale(1) !important;
+}
+body:not(.teacher-chat-open-v13) .teacher-chat-bubble-v12 {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+</style>
+
+
+<script>
+/* === THE ACADEMY v13: NO PERMANENT CHATBOX === */
+(function(){
+    function closeTeacherChatV13(){
+        document.body.classList.remove('teacher-chat-open-v13');
+        document.querySelectorAll('.teacher-chat-bubble-v12').forEach(b => b.classList.remove('show'));
+    }
+
+    function openTeacherChatV13(){
+        const bubble = document.getElementById('teacher-chat-bubble-v12');
+        if (!bubble) return;
+        document.body.classList.add('teacher-chat-open-v13');
+        bubble.classList.add('show');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        closeTeacherChatV13();
+
+        // Rewire close buttons to also clear the body state.
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.teacher-chat-close-v12')) {
+                e.stopPropagation();
+                closeTeacherChatV13();
+            }
+        }, true);
+
+        // Avatar click opens it. Nothing opens on boot.
+        const wire = () => {
+            const teacher = document.querySelector('.academy-guide-widget,.teacher-widget,.ai-widget,.guide-widget,[id*="guide"],[class*="guide-widget"]');
+            if (teacher && !teacher.__teacherOpenOnlyV13) {
+                teacher.__teacherOpenOnlyV13 = true;
+                teacher.addEventListener('click', (e) => {
+                    if (e.target.closest('button,a,input,textarea')) return;
+                    openTeacherChatV13();
+                }, true);
+            }
+        };
+        wire();
+        setInterval(wire, 2500);
+    });
+
+    // Any existing showTeacherBubble call may still set content, but it must also intentionally open.
+    const oldShow = window.showTeacherBubble;
+    window.showTeacherBubble = function(text){
+        if (typeof oldShow === 'function') oldShow(text);
+        openTeacherChatV13();
+    };
+})();
+</script>
+
+
+<style>
+/* === THE ACADEMY v14: SINGLE COMPANION PANEL, NO STACKED BUBBLES === */
+
+/* kill the stacked bubble mess */
+.teacher-chat-bubble-v12,
+.academy-lore-bubble-v11,
+#teacher-lore-bubble-v11,
+#bookwyrm-lore-bubble-v11,
+.bookwyrm-pet-bubble,
+.academy-unlock-toast-v11 {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* keep widgets clear */
+.academy-guide-widget,
+.teacher-widget,
+.ai-widget,
+.guide-widget,
+[id*="guide"],
+[class*="guide-widget"] {
+    transform: translateY(-28px) !important;
+}
+
+/* one clean panel, hidden unless clicked */
+.academy-companion-panel-v14 {
+    position: fixed;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%) translateY(18px) scale(.98);
+    width: min(520px, calc(100vw - 28px));
+    border-radius: 26px;
+    border: 1px solid rgba(212,175,55,.34);
+    background: rgba(0,0,0,.78);
+    color: var(--text-main);
+    box-shadow: 0 28px 85px rgba(0,0,0,.72);
+    backdrop-filter: blur(18px);
+    z-index: 240;
+    opacity: 0;
+    pointer-events: none;
+    transition: .22s ease;
+    overflow: hidden;
+}
+.academy-companion-panel-v14.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0) scale(1);
+}
+.academy-companion-head-v14 {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding: 13px 15px 8px;
+    border-bottom: 1px solid rgba(255,255,255,.09);
+}
+.academy-companion-title-v14 {
+    color:#fbbf24;
+    font-family:monospace;
+    font-size:.75rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+.academy-companion-close-v14 {
+    width:28px;
+    height:28px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.16);
+    background:rgba(255,255,255,.08);
+    color:var(--text-main);
+    cursor:pointer;
+}
+.academy-companion-text-v14 {
+    padding: 13px 16px 12px;
+    min-height: 62px;
+    font-family: Georgia, serif;
+    font-size: .92rem;
+    line-height: 1.48;
+    color: rgba(255,255,255,.9);
+}
+.academy-companion-buttons-v14 {
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 0 14px 14px;
+}
+.academy-companion-buttons-v14 button {
+    border-radius: 999px;
+    border: 1px solid rgba(212,175,55,.26);
+    background: rgba(255,255,255,.075);
+    color: var(--text-main);
+    padding: 9px 8px;
+    font-family: monospace;
+    font-size: .64rem;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.academy-companion-buttons-v14 button:hover {
+    background: rgba(212,175,55,.17);
+}
+.academy-companion-buttons-v14 button.locked {
+    opacity:.52;
+    filter:grayscale(.35);
+}
+.bookwyrm-pet-widget::before {
+    content: 'Quibble';
+}
+body.cloaked .academy-companion-panel-v14 {
+    opacity:0 !important;
+    pointer-events:none !important;
+}
+@media (max-width: 900px) {
+    .academy-companion-buttons-v14 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style>
+
+
+<script>
+/* === THE ACADEMY v14: SINGLE COMPANION PANEL, NO STACKED BUBBLES === */
+(function(){
+    const KEY_LESSON = 'somniasyllabus:firstLessonLogged';
+    const KEY_BOOKWYRM = 'somniasyllabus:bookwyrmUnlocked';
+    const NAME = 'Quibble';
+
+    const lines = {
+        lore: [
+            'The Academy was never one classroom. It is a trail of rooms disguised as adventures.',
+            'Every preset is a doorway. Choose the room that makes learning feel less sharp.',
+            'The old halls unlock play only after one lesson is logged, so the games serve the page.',
+            'A lesson is not a perfect page. It is proof that you noticed something.'
+        ],
+        quibble: [
+            'Quibble keeps tiny sparks of learning in a very serious hoard.',
+            'Quibble says one crumb of knowing still counts as treasure.',
+            'The Bookwyrm blinks twice. That means the page is safe.',
+            'Quibble inspected the game doors. They are bite-proof.'
+        ],
+        nudge: [
+            'Log the smallest true thing you learned. One sentence is enough.',
+            'Pick the preset closest to your brain right now, then do one tiny step.',
+            'Do not organize the whole day. Put one thought in one place.',
+            'Start with the thing that has the least resistance.'
+        ],
+        inspire: [
+            'You are not behind. You are gathering keys in a strange order.',
+            'Curiosity is allowed to be messy before it becomes knowledge.',
+            'A small lesson today is still a lantern tomorrow.',
+            'The Academy does not ask for perfection. It asks you to return.'
+        ],
+        locked: [
+            'Log one lesson first. The Academy games unlock after that.',
+            'One lesson wakes Quibble. The game doors open after that.',
+            'First mark the page. Then the familiar follows.'
+        ]
+    };
+
+    function unlocked(){
+        return localStorage.getItem(KEY_LESSON) === '1' && localStorage.getItem(KEY_BOOKWYRM) === '1';
+    }
+    function pick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function ensurePanel(){
+        if (document.getElementById('academy-companion-panel-v14')) return;
+        const panel = document.createElement('div');
+        panel.id = 'academy-companion-panel-v14';
+        panel.className = 'academy-companion-panel-v14';
+        panel.innerHTML = `
+            <div class="academy-companion-head-v14">
+                <div class="academy-companion-title-v14">The Academy Keeper · ${NAME}</div>
+                <button type="button" class="academy-companion-close-v14" aria-label="Close">×</button>
+            </div>
+            <div id="academy-companion-text-v14" class="academy-companion-text-v14">
+                Choose one thread.
+            </div>
+            <div class="academy-companion-buttons-v14">
+                <button type="button" data-academy-companion="lore">Lore</button>
+                <button type="button" data-academy-companion="quibble">Quibble</button>
+                <button type="button" data-academy-companion="nudge">Nudge</button>
+                <button type="button" data-academy-companion="inspire">Inspire</button>
+            </div>
+        `;
+        document.body.appendChild(panel);
+
+        panel.querySelector('.academy-companion-close-v14')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closePanel();
+        });
+
+        panel.querySelectorAll('[data-academy-companion]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                respond(btn.dataset.academyCompanion);
+            });
+        });
+    }
+
+    function closePanel(){
+        document.getElementById('academy-companion-panel-v14')?.classList.remove('show');
+    }
+
+    function openPanel(text){
+        ensurePanel();
+        const panel = document.getElementById('academy-companion-panel-v14');
+        const textEl = document.getElementById('academy-companion-text-v14');
+        if (textEl) textEl.textContent = text || 'Choose one thread.';
+        panel?.classList.add('show');
+        updateLockState();
+    }
+
+    function updateLockState(){
+        const nibBtn = document.querySelector('[data-academy-companion="quibble"]');
+        if (nibBtn) nibBtn.classList.toggle('locked', !unlocked());
+    }
+
+    function respond(type){
+        if (type === 'quibble' && !unlocked()) {
+            openPanel(pick(lines.locked));
+            return;
+        }
+        const bucket = type === 'inspire' ? 'inspire' : type;
+        openPanel(pick(lines[bucket] || lines.lore));
+
+        if (type === 'quibble') {
+            const img = document.getElementById('bookwyrm-pet-img');
+            if (img) {
+                const sprites = ['bookwyrm_reading.png','bookwyrm_cozy.png','bookwyrm_curious.png','bookwyrm_startled.png'];
+                img.src = sprites[Math.floor(Math.random() * sprites.length)];
+            }
+        }
+    }
+
+    function killOldBubbles(){
+        document.querySelectorAll('.teacher-chat-bubble-v12,.academy-lore-bubble-v11,#teacher-lore-bubble-v11,#bookwyrm-lore-bubble-v11,.bookwyrm-pet-bubble,.academy-unlock-toast-v11').forEach(el => {
+            el.classList.remove('show');
+            el.style.display = 'none';
+            el.style.opacity = '0';
+            el.style.pointerEvents = 'none';
+        });
+        document.body.classList.remove('teacher-chat-open-v13');
+    }
+
+    function wireOpeners(){
+        const teacher = document.querySelector('.academy-guide-widget,.teacher-widget,.ai-widget,.guide-widget,[id*="guide"],[class*="guide-widget"]');
+        if (teacher && !teacher.__singlePanelV14) {
+            teacher.__singlePanelV14 = true;
+            teacher.addEventListener('click', (e) => {
+                if (e.target.closest('button,a,input,textarea')) return;
+                e.stopPropagation();
+                killOldBubbles();
+                openPanel('Choose one thread.');
+            }, true);
+        }
+
+        const pet = document.getElementById('bookwyrm-pet-widget');
+        if (pet && !pet.__singlePanelV14) {
+            pet.__singlePanelV14 = true;
+            pet.addEventListener('click', (e) => {
+                e.stopPropagation();
+                killOldBubbles();
+                openPanel(unlocked() ? pick(lines.quibble) : pick(lines.locked));
+            }, true);
+        }
+    }
+
+    document.addEventListener('click', (e) => {
+        const panel = document.getElementById('academy-companion-panel-v14');
+        if (!panel?.classList.contains('show')) return;
+        if (e.target.closest('#academy-companion-panel-v14')) return;
+        if (e.target.closest('.academy-guide-widget,.teacher-widget,.ai-widget,.guide-widget,#bookwyrm-pet-widget')) return;
+        closePanel();
+    }, true);
+
+    document.addEventListener('DOMContentLoaded', () => {
+        ensurePanel();
+        killOldBubbles();
+        wireOpeners();
+        updateLockState();
+        setInterval(() => {
+            killOldBubbles();
+            wireOpeners();
+            updateLockState();
+        }, 1800);
+    });
+
+    // Neutralize v12 global opener if present.
+    window.showTeacherBubble = function(text){
+        killOldBubbles();
+        openPanel(text || 'Choose one thread.');
+    };
+})();
+</script>
+
+
+<script>
+/* === THE ACADEMY v15: BOOKWYRM NAME IS QUIBBLE === */
+(function(){
+    const PET_NAME = 'Quibble';
+    function renamePetV15(){
+        document.querySelectorAll('*').forEach(el => {
+            if (!el.childNodes || el.childNodes.length !== 1) return;
+            const node = el.childNodes[0];
+            if (node.nodeType === Node.TEXT_NODE) {
+                node.nodeValue = node.nodeValue
+                    .replace(/\bNibsley\b/g, PET_NAME)
+                    .replace(/\bNibs\b/g, PET_NAME)
+                    .replace(/\bBookwyrm\b/g, PET_NAME);
+            }
+        });
+        const pet = document.getElementById('bookwyrm-pet-widget');
+        if (pet) pet.title = `${PET_NAME} Familiar`;
+        const img = document.getElementById('bookwyrm-pet-img');
+        if (img) img.alt = `${PET_NAME} Familiar`;
+        const btn = document.querySelector('[data-academy-companion="quibble"]');
+        if (btn) btn.textContent = PET_NAME;
+        const title = document.querySelector('.academy-companion-title-v14');
+        if (title) title.textContent = `The Academy Keeper · ${PET_NAME}`;
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        renamePetV15();
+        setInterval(renamePetV15, 2500);
+    });
+})();
+</script>
+
+
+<style>
+/* === THE ACADEMY v16: QUIBBLE ROAMS + OWN TINY BUBBLES === */
+
+/* Quibble is no longer a fixed dock pet. He roams the room. */
+#bookwyrm-pet-widget.quibble-roaming-v16 {
+    position: fixed !important;
+    left: 78vw;
+    top: 62vh;
+    right: auto !important;
+    bottom: auto !important;
+    width: 132px !important;
+    height: 132px !important;
+    z-index: 118 !important;
+    transition: left 3.2s cubic-bezier(.22,.8,.2,1), top 3.2s cubic-bezier(.22,.8,.2,1), transform .4s ease, opacity .25s ease;
+    pointer-events: auto !important;
+}
+
+#bookwyrm-pet-widget.quibble-roaming-v16 img {
+    animation: quibbleWingFloatV16 4.4s ease-in-out infinite alternate !important;
+}
+
+#bookwyrm-pet-widget.quibble-roaming-v16.quibble-pop-v16 {
+    transform: scale(1.08) rotate(-2deg);
+}
+
+@keyframes quibbleWingFloatV16 {
+    from { transform: translateY(0) rotate(2deg); }
+    to { transform: translateY(-12px) rotate(-3deg); }
+}
+
+/* Quibble label follows him, but stays tiny. */
+#bookwyrm-pet-widget.quibble-roaming-v16::before {
+    content: 'Quibble';
+    position: absolute;
+    left: 50%;
+    top: -10px;
+    transform: translateX(-50%);
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: rgba(0,0,0,.58);
+    border: 1px solid rgba(212,175,55,.25);
+    color: #fef3c7;
+    font-family: Georgia, serif;
+    font-size: .68rem;
+    letter-spacing: .7px;
+    box-shadow: 0 9px 24px rgba(0,0,0,.36);
+    white-space: nowrap;
+}
+
+/* Separate from the Keeper panel. This is a small speech bubble only. */
+.quibble-speech-v16 {
+    position: fixed;
+    max-width: 260px;
+    min-width: 170px;
+    padding: 10px 12px;
+    border-radius: 18px 18px 18px 5px;
+    background: rgba(0,0,0,.72);
+    border: 1px solid rgba(212,175,55,.30);
+    color: rgba(255,255,255,.92);
+    font-family: Georgia, serif;
+    font-size: .78rem;
+    line-height: 1.38;
+    box-shadow: 0 20px 55px rgba(0,0,0,.55);
+    backdrop-filter: blur(12px);
+    z-index: 119;
+    opacity: 0;
+    transform: translateY(8px) scale(.98);
+    pointer-events: none;
+    transition: opacity .22s ease, transform .22s ease, left 3.2s cubic-bezier(.22,.8,.2,1), top 3.2s cubic-bezier(.22,.8,.2,1);
+}
+
+.quibble-speech-v16.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.quibble-speech-v16::after {
+    content:'';
+    position:absolute;
+    left: 18px;
+    bottom: -8px;
+    width: 14px;
+    height: 14px;
+    transform: rotate(45deg);
+    background: rgba(0,0,0,.72);
+    border-right: 1px solid rgba(212,175,55,.24);
+    border-bottom: 1px solid rgba(212,175,55,.24);
+}
+
+/* Prevent old hidden Bookwyrm bubble from coming back. */
+.bookwyrm-pet-bubble {
+    display: none !important;
+}
+
+/* Cloak must hide Quibble too. */
+body.cloaked #bookwyrm-pet-widget.quibble-roaming-v16,
+body.cloaked .quibble-speech-v16 {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+@media (max-width: 950px) {
+    #bookwyrm-pet-widget.quibble-roaming-v16,
+    .quibble-speech-v16 {
+        display: none !important;
+    }
+}
+</style>
+
+
+<script>
+/* === THE ACADEMY v16: QUIBBLE ROAMS + OWN TINY BUBBLES === */
+(function(){
+    const KEY_LESSON = 'somniasyllabus:firstLessonLogged';
+    const KEY_BOOKWYRM = 'somniasyllabus:bookwyrmUnlocked';
+
+    const sprites = {
+        reading:'bookwyrm_reading.png',
+        cozy:'bookwyrm_cozy.png',
+        curious:'bookwyrm_curious.png',
+        startled:'bookwyrm_startled.png'
+    };
+
+    const roamSpots = [
+        {x:78,y:62}, {x:68,y:28}, {x:42,y:18}, {x:18,y:38},
+        {x:24,y:70}, {x:56,y:72}, {x:83,y:42}, {x:50,y:52}
+    ];
+
+    const presetLines = {
+        dawnDesk: ['The path has crumbs of knowing on it.', 'Quibble likes lessons with footprints.'],
+        stormStudy: ['The sky wrote something. Did you catch it?', 'Stars are just shy notes.'],
+        candleClass: ['Cloud pages are soft, but they still count.', 'Quibble approves of high places.'],
+        moonLessons: ['The greenhouse is thinking quietly.', 'Something tiny is growing in that lesson.'],
+        greenhouse: ['Sea air makes the pages breathe.', 'The tide can sort a crowded thought.'],
+        chalkRunes: ['Old stones remember old homework.', 'Quibble is watching the ruins blink.'],
+        quietStacks: ['Crystal lessons hum when you stand still.', 'That cavern has library bones.'],
+        emberExam: ['Forest ruins turn pages when no one looks.', 'Careful. The trees are testing you.']
+    };
+
+    const useLines = [
+        'Tiny lesson. Tiny treasure.',
+        'Quibble saw that. It counts.',
+        'A crumb of knowing goes in the hoard.',
+        'Page spark saved.',
+        'The Academy noticed.'
+    ];
+
+    const gameLines = [
+        'Games open after the page has a mark.',
+        'Quibble guards the game doors.',
+        'Maze first, chaos later.',
+        'Aiming is also a lesson.',
+        'The room likes when play has a purpose.'
+    ];
+
+    const idleLines = [
+        'Quibble is orbiting the syllabus.',
+        'A tiny dragon can still keep records.',
+        'One sentence is enough to light a shelf.',
+        'Quibble found a comma and is suspicious of it.',
+        'The room is listening softly.'
+    ];
+
+    function isUnlocked(){
+        return localStorage.getItem(KEY_LESSON) === '1' && localStorage.getItem(KEY_BOOKWYRM) === '1';
+    }
+
+    function pick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function ensureQuibble(){
+        const pet = document.getElementById('bookwyrm-pet-widget');
+        if (!pet) return null;
+
+        pet.classList.add('quibble-roaming-v16');
+        pet.title = 'Quibble Familiar';
+
+        const img = document.getElementById('bookwyrm-pet-img');
+        if (img) img.alt = 'Quibble Familiar';
+
+        let bubble = document.getElementById('quibble-speech-v16');
+        if (!bubble) {
+            bubble = document.createElement('div');
+            bubble.id = 'quibble-speech-v16';
+            bubble.className = 'quibble-speech-v16';
+            document.body.appendChild(bubble);
+        }
+        return {pet, img, bubble};
+    }
+
+    function setSprite(kind){
+        const q = ensureQuibble();
+        if (!q?.img) return;
+        q.img.src = sprites[kind] || sprites.reading;
+    }
+
+    function moveQuibble(spot){
+        const q = ensureQuibble();
+        if (!q) return;
+        const s = spot || pick(roamSpots);
+        q.pet.style.left = `${s.x}vw`;
+        q.pet.style.top = `${s.y}vh`;
+        positionBubble();
+    }
+
+    function positionBubble(){
+        const q = ensureQuibble();
+        if (!q) return;
+        const rect = q.pet.getBoundingClientRect();
+        const bubble = q.bubble;
+        const left = Math.max(12, Math.min(window.innerWidth - 280, rect.left - 185));
+        const top = Math.max(12, Math.min(window.innerHeight - 120, rect.top - 4));
+        bubble.style.left = `${left}px`;
+        bubble.style.top = `${top}px`;
+    }
+
+    function speak(text, kind='reading', ms=3900){
+        const q = ensureQuibble();
+        if (!q) return;
+        setSprite(kind);
+        positionBubble();
+        q.bubble.textContent = text;
+        q.bubble.classList.add('show');
+        q.pet.classList.add('quibble-pop-v16');
+        clearTimeout(q.bubble.__hideTimer);
+        clearTimeout(q.pet.__popTimer);
+        q.pet.__popTimer = setTimeout(() => q.pet.classList.remove('quibble-pop-v16'), 520);
+        q.bubble.__hideTimer = setTimeout(() => q.bubble.classList.remove('show'), ms);
+    }
+
+    function reactToPreset(key){
+        const lines = presetLines[key] || idleLines;
+        const moods = ['curious','reading','cozy','startled'];
+        moveQuibble();
+        speak(pick(lines), pick(moods), 4400);
+    }
+
+    function reactToAcademyUse(){
+        if (!isUnlocked()) {
+            moveQuibble({x:76,y:64});
+            speak('Log one lesson first. Then the game doors unlock.', 'cozy', 4200);
+            return;
+        }
+        moveQuibble();
+        speak(pick(useLines), pick(['reading','curious','cozy']), 3600);
+    }
+
+    function reactToGame(){
+        moveQuibble();
+        speak(pick(gameLines), pick(['curious','startled','reading']), 4000);
+    }
+
+    function wireExistingFunctions(){
+        if (!window.__quibblePresetWrappedV16) {
+            window.__quibblePresetWrappedV16 = true;
+            const oldPreset = window.applySyllabusPreset;
+            window.applySyllabusPreset = function(key){
+                const result = typeof oldPreset === 'function' ? oldPreset.apply(this, arguments) : undefined;
+                setTimeout(() => reactToPreset(key), 220);
+                return result;
+            };
+        }
+
+        if (!window.__quibbleGamesWrappedV16) {
+            window.__quibbleGamesWrappedV16 = true;
+            const oldMaze = window.openAcademyMazeGame;
+            const oldFling = window.openAcademyFlingGame;
+            window.openAcademyMazeGame = function(){
+                reactToGame();
+                return typeof oldMaze === 'function' ? oldMaze.apply(this, arguments) : undefined;
+            };
+            window.openAcademyFlingGame = function(){
+                reactToGame();
+                return typeof oldFling === 'function' ? oldFling.apply(this, arguments) : undefined;
+            };
+        }
+    }
+
+    function wirePetClick(){
+        const q = ensureQuibble();
+        if (!q?.pet || q.pet.__quibbleClickV16) return;
+        q.pet.__quibbleClickV16 = true;
+        q.pet.addEventListener('click', (e) => {
+            e.stopPropagation();
+            moveQuibble();
+            if (!isUnlocked()) speak('Locked until the first lesson is logged.', 'cozy', 4600);
+            else speak(pick(idleLines), pick(['reading','curious','cozy','startled']), 4300);
+        }, true);
+    }
+
+    function wireAcademyUseDetection(){
+        if (window.__quibbleUseDetectionV16) return;
+        window.__quibbleUseDetectionV16 = true;
+        document.addEventListener('click', (e) => {
+            const target = e.target.closest('button,.toy-btn,.editor-btn,.action-btn,.preset-card,.syllabus-preset-card');
+            if (!target) return;
+            const text = (target.textContent || '').trim();
+            if (/maze|fling|game/i.test(text)) return;
+            if (/preset|lesson|save|log|journal|complete|done|academy|vault|plan|note/i.test(text)) {
+                setTimeout(reactToAcademyUse, 250);
+            }
+        }, true);
+    }
+
+    function idleRoam(){
+        if (document.body.classList.contains('cloaked')) return;
+        moveQuibble();
+        if (isUnlocked() && Math.random() < .45) speak(pick(idleLines), pick(['cozy','curious','reading']), 3300);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        ensureQuibble();
+        wireExistingFunctions();
+        wirePetClick();
+        wireAcademyUseDetection();
+        moveQuibble({x:78,y:62});
+        setTimeout(() => {
+            if (isUnlocked()) speak('', 'curious', 4300);
+        }, 1400);
+        setInterval(() => {
+            ensureQuibble();
+            wireExistingFunctions();
+            wirePetClick();
+            positionBubble();
+        }, 1800);
+        setInterval(idleRoam, 14000);
+    });
+
+    window.addEventListener('resize', positionBubble);
+    window.QuibbleAcademy = {
+        speak,
+        move: moveQuibble,
+        reactToPreset,
+        reactToAcademyUse,
+        reactToGame
+    };
+})();
+</script>
+
+
+<style>
+/* === THE ACADEMY v17: QUIBBLE SMALLER + CLEAN AVATAR CHAT === */
+
+/* Quibble: smaller, no overhead name tag */
+#bookwyrm-pet-widget.quibble-roaming-v16 {
+    width: 76px !important;
+    height: 76px !important;
+    z-index: 114 !important;
+}
+#bookwyrm-pet-widget.quibble-roaming-v16::before,
+.bookwyrm-pet-widget::before {
+    content: none !important;
+    display: none !important;
+}
+
+/* Quibble tiny bubble stays tiny and short-lived */
+.quibble-speech-v16 {
+    max-width: 210px !important;
+    min-width: 132px !important;
+    padding: 8px 10px !important;
+    font-size: .70rem !important;
+    line-height: 1.32 !important;
+    z-index: 115 !important;
+}
+
+/* Kill the big bottom companion panel visual. Replace with compact avatar-style bubble. */
+.academy-companion-panel-v14 {
+    position: fixed !important;
+    right: 128px !important;
+    top: 118px !important;
+    left: auto !important;
+    bottom: auto !important;
+    transform: translateY(8px) scale(.98) !important;
+    width: 310px !important;
+    border-radius: 22px 22px 6px 22px !important;
+    background: rgba(0,0,0,.70) !important;
+    border: 1px solid rgba(212,175,55,.30) !important;
+    box-shadow: 0 22px 62px rgba(0,0,0,.58) !important;
+    z-index: 132 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+.academy-companion-panel-v14.show {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: translateY(0) scale(1) !important;
+}
+.academy-companion-head-v14 {
+    padding: 10px 12px 6px !important;
+}
+.academy-companion-title-v14 {
+    font-size: .66rem !important;
+    letter-spacing: 1.7px !important;
+}
+.academy-companion-text-v14 {
+    padding: 10px 13px 9px !important;
+    min-height: 46px !important;
+    font-size: .82rem !important;
+    line-height: 1.42 !important;
+}
+.academy-companion-buttons-v14 {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 7px !important;
+    padding: 0 12px 12px !important;
+}
+.academy-companion-buttons-v14 button {
+    padding: 8px 8px !important;
+    font-size: .60rem !important;
+    letter-spacing: 1.15px !important;
+}
+.academy-companion-close-v14 {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+/* No avatar/teacher bubble unless explicitly opened by avatar click */
+body:not(.avatar-chat-open-v17) .academy-companion-panel-v14 {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(8px) scale(.98) !important;
+}
+
+/* remove old bubble stack forever */
+.teacher-chat-bubble-v12,
+.academy-lore-bubble-v11,
+#teacher-lore-bubble-v11,
+#bookwyrm-lore-bubble-v11,
+.bookwyrm-pet-bubble,
+.academy-unlock-toast-v11 {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+body.cloaked .academy-companion-panel-v14,
+body.cloaked #bookwyrm-pet-widget.quibble-roaming-v16,
+body.cloaked .quibble-speech-v16 {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+</style>
+
+
+<script>
+/* === THE ACADEMY v17: QUIBBLE SMALLER + CLEAN AVATAR CHAT === */
+(function(){
+    function closeAvatarChatV17(){
+        document.body.classList.remove('avatar-chat-open-v17');
+        document.querySelectorAll('.academy-companion-panel-v14').forEach(p => p.classList.remove('show'));
+    }
+
+    function openAvatarChatV17(text){
+        const panel = document.getElementById('academy-companion-panel-v14');
+        const textEl = document.getElementById('academy-companion-text-v14');
+        if (!panel) return;
+        if (textEl) textEl.textContent = text || 'Choose one thread.';
+        document.body.classList.add('avatar-chat-open-v17');
+        panel.classList.add('show');
+    }
+
+    function killOldAutoBubblesV17(){
+        document.querySelectorAll('.teacher-chat-bubble-v12,.academy-lore-bubble-v11,#teacher-lore-bubble-v11,#bookwyrm-lore-bubble-v11,.bookwyrm-pet-bubble,.academy-unlock-toast-v11').forEach(el => {
+            el.classList.remove('show');
+            el.style.display = 'none';
+            el.style.opacity = '0';
+            el.style.pointerEvents = 'none';
+        });
+        document.body.classList.remove('teacher-chat-open-v13');
+    }
+
+    function sizeAndQuietQuibbleV17(){
+        const pet = document.getElementById('bookwyrm-pet-widget');
+        if (pet) {
+            pet.classList.add('quibble-roaming-v16');
+            pet.style.width = '76px';
+            pet.style.height = '76px';
+            pet.removeAttribute('title');
+        }
+        const img = document.getElementById('bookwyrm-pet-img');
+        if (img) img.alt = 'Quibble';
+    }
+
+    function wireAvatarOnlyV17(){
+        const teacher = document.querySelector('.academy-guide-widget,.teacher-widget,.ai-widget,.guide-widget,[id*="guide"],[class*="guide-widget"]');
+        if (teacher && !teacher.__avatarOnlyChatV17) {
+            teacher.__avatarOnlyChatV17 = true;
+            teacher.addEventListener('click', (e) => {
+                if (e.target.closest('button,a,input,textarea')) return;
+                e.stopPropagation();
+                killOldAutoBubblesV17();
+                openAvatarChatV17('Choose one thread.');
+            }, true);
+        }
+
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.academy-companion-close-v14')) {
+                e.stopPropagation();
+                closeAvatarChatV17();
+                return;
+            }
+            const panel = document.getElementById('academy-companion-panel-v14');
+            if (!panel?.classList.contains('show')) return;
+            if (e.target.closest('.academy-companion-panel-v14')) return;
+            if (e.target.closest('.academy-guide-widget,.teacher-widget,.ai-widget,.guide-widget,[id*="guide"],[class*="guide-widget"]')) return;
+            closeAvatarChatV17();
+        }, true);
+    }
+
+    function removeQuibbleIntroV17(){
+        const bubble = document.getElementById('quibble-speech-v16');
+        if (bubble) bubble.classList.remove('show');
+        const panel = document.getElementById('academy-companion-panel-v14');
+        if (panel) panel.classList.remove('show');
+        document.body.classList.remove('avatar-chat-open-v17');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        killOldAutoBubblesV17();
+        sizeAndQuietQuibbleV17();
+        wireAvatarOnlyV17();
+        closeAvatarChatV17();
+
+        // Overrides previous global panel opener so preset/game/use reactions cannot open avatar chat.
+        window.showTeacherBubble = function(text){
+            const textEl = document.getElementById('academy-companion-text-v14');
+            if (textEl && document.body.classList.contains('avatar-chat-open-v17')) {
+                textEl.textContent = text || textEl.textContent;
+            }
+        };
+
+        // Keep Quibble quiet on boot. He can react later, but no introduction.
+        setTimeout(removeQuibbleIntroV17, 250);
+        setTimeout(removeQuibbleIntroV17, 1200);
+
+        setInterval(() => {
+            killOldAutoBubblesV17();
+            sizeAndQuietQuibbleV17();
+            wireAvatarOnlyV17();
+        }, 2200);
+    });
+
+    window.AcademyAvatarChatV17 = {
+        open: openAvatarChatV17,
+        close: closeAvatarChatV17
+    };
+})();
+</script>
+
+
+<style>
+/* === THE ACADEMY v18: QUIBBLE HIDDEN UNTIL UNLOCKED === */
+
+/* Quibble is completely hidden until first lesson + pet unlock are true. */
+body:not(.quibble-unlocked-v18) #bookwyrm-pet-widget,
+body:not(.quibble-unlocked-v18) #bookwyrm-pet-widget.quibble-roaming-v16,
+body:not(.quibble-unlocked-v18) .quibble-speech-v16,
+body:not(.quibble-unlocked-v18) #quibble-speech-v16,
+body:not(.quibble-unlocked-v18) .bookwyrm-pet-bubble {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* No duplicate Quibble follower bubbles. Only v16 tiny speech may exist after unlock. */
+.bookwyrm-pet-bubble,
+#bookwyrm-pet-bubble,
+#bookwyrm-lore-bubble-v11,
+.academy-lore-bubble-v11#bookwyrm-lore-bubble-v11 {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Quibble stays small after unlock and never spawns over the avatar. */
+body.quibble-unlocked-v18 #bookwyrm-pet-widget.quibble-roaming-v16 {
+    display: block !important;
+    width: 64px !important;
+    height: 64px !important;
+    left: 82vw !important;
+    top: 68vh !important;
+    right: auto !important;
+    bottom: auto !important;
+    z-index: 112 !important;
+}
+
+body.quibble-unlocked-v18 #bookwyrm-pet-widget.quibble-roaming-v16 img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+}
+
+#bookwyrm-pet-widget::before,
+#bookwyrm-pet-widget.quibble-roaming-v16::before,
+.bookwyrm-pet-widget::before {
+    content: none !important;
+    display: none !important;
+}
+
+.quibble-speech-v16 {
+    max-width: 190px !important;
+    min-width: 118px !important;
+    font-size: .68rem !important;
+    padding: 7px 9px !important;
+    z-index: 113 !important;
+}
+
+/* Avatar chat remains click-only. */
+body:not(.avatar-chat-open-v17) .academy-companion-panel-v14 {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+</style>
+
+
+<script>
+/* === THE ACADEMY v18: QUIBBLE HIDDEN UNTIL UNLOCKED === */
+(function(){
+    const KEY_LESSON = 'somniasyllabus:firstLessonLogged';
+    const KEY_BOOKWYRM = 'somniasyllabus:bookwyrmUnlocked';
+
+    function quibbleUnlockedV18(){
+        return localStorage.getItem(KEY_LESSON) === '1' && localStorage.getItem(KEY_BOOKWYRM) === '1';
+    }
+
+    function killDuplicateQuibbleBubblesV18(){
+        document.querySelectorAll('#bookwyrm-pet-bubble,.bookwyrm-pet-bubble,#bookwyrm-lore-bubble-v11,.academy-lore-bubble-v11#bookwyrm-lore-bubble-v11').forEach(el => {
+            el.classList.remove('show');
+            el.style.display = 'none';
+            el.style.opacity = '0';
+            el.style.pointerEvents = 'none';
+        });
+    }
+
+    function applyQuibbleVisibilityV18(){
+        const unlocked = quibbleUnlockedV18();
+        document.body.classList.toggle('quibble-unlocked-v18', unlocked);
+
+        const pet = document.getElementById('bookwyrm-pet-widget');
+        const speech = document.getElementById('quibble-speech-v16');
+
+        if (!unlocked) {
+            if (pet) {
+                pet.style.display = 'none';
+                pet.style.opacity = '0';
+                pet.style.pointerEvents = 'none';
+                pet.style.left = '82vw';
+                pet.style.top = '68vh';
+            }
+            if (speech) {
+                speech.classList.remove('show');
+                speech.style.display = 'none';
+                speech.style.opacity = '0';
+                speech.style.pointerEvents = 'none';
+            }
+        } else {
+            if (pet) {
+                pet.style.display = 'block';
+                pet.style.opacity = '1';
+                pet.style.pointerEvents = 'auto';
+                pet.style.width = '64px';
+                pet.style.height = '64px';
+                // only force this if it has never been placed after unlock
+                if (!pet.dataset.quibblePlacedV18) {
+                    pet.style.left = '82vw';
+                    pet.style.top = '68vh';
+                    pet.dataset.quibblePlacedV18 = '1';
+                }
+                pet.removeAttribute('title');
+            }
+            if (speech) {
+                speech.style.display = '';
+                speech.style.pointerEvents = 'none';
+            }
+        }
+
+        killDuplicateQuibbleBubblesV18();
+    }
+
+    function noLockedQuibbleSpeechV18(){
+        if (quibbleUnlockedV18()) return false;
+        killDuplicateQuibbleBubblesV18();
+        const speech = document.getElementById('quibble-speech-v16');
+        if (speech) {
+            speech.classList.remove('show');
+            speech.textContent = '';
+            speech.style.display = 'none';
+            speech.style.opacity = '0';
+        }
+        return true;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        applyQuibbleVisibilityV18();
+
+        // Do not show Quibble, Quibble bubbles, or Quibble intro before unlock.
+        setTimeout(applyQuibbleVisibilityV18, 50);
+        setTimeout(applyQuibbleVisibilityV18, 500);
+        setTimeout(applyQuibbleVisibilityV18, 1500);
+
+        // Override Quibble API so locked state is silent, not "will wake" copy.
+        setTimeout(() => {
+            if (window.QuibbleAcademy) {
+                const oldSpeak = window.QuibbleAcademy.speak;
+                const oldMove = window.QuibbleAcademy.move;
+                const oldPreset = window.QuibbleAcademy.reactToPreset;
+                const oldUse = window.QuibbleAcademy.reactToAcademyUse;
+                const oldGame = window.QuibbleAcademy.reactToGame;
+
+                window.QuibbleAcademy.speak = function(){
+                    if (noLockedQuibbleSpeechV18()) return;
+                    return typeof oldSpeak === 'function' ? oldSpeak.apply(this, arguments) : undefined;
+                };
+                window.QuibbleAcademy.move = function(){
+                    if (!quibbleUnlockedV18()) return;
+                    return typeof oldMove === 'function' ? oldMove.apply(this, arguments) : undefined;
+                };
+                window.QuibbleAcademy.reactToPreset = function(){
+                    if (!quibbleUnlockedV18()) return;
+                    return typeof oldPreset === 'function' ? oldPreset.apply(this, arguments) : undefined;
+                };
+                window.QuibbleAcademy.reactToAcademyUse = function(){
+                    if (!quibbleUnlockedV18()) return;
+                    return typeof oldUse === 'function' ? oldUse.apply(this, arguments) : undefined;
+                };
+                window.QuibbleAcademy.reactToGame = function(){
+                    if (!quibbleUnlockedV18()) return;
+                    return typeof oldGame === 'function' ? oldGame.apply(this, arguments) : undefined;
+                };
+            }
+        }, 80);
+
+        setInterval(applyQuibbleVisibilityV18, 1000);
+    });
+
+    // Watch storage changes after first lesson unlock.
+    window.addEventListener('storage', applyQuibbleVisibilityV18);
+
+    // When lesson unlock happens in same page, show Quibble only after unlock, no wake wording.
+    document.addEventListener('click', () => setTimeout(applyQuibbleVisibilityV18, 250), true);
+
+    window.AcademyQuibbleVisibilityV18 = {
+        apply: applyQuibbleVisibilityV18,
+        unlocked: quibbleUnlockedV18
+    };
+})();
+</script>
+
+
+<style>
+/* === THE ACADEMY v19: ENTRY AMBIENCE + AVATAR UI CLEANUP === */
+
+/* Avatar chat: compact room-style bubble, not a big app panel. */
+.academy-companion-panel-v14 {
+    position: fixed !important;
+    right: 118px !important;
+    top: 132px !important;
+    left: auto !important;
+    bottom: auto !important;
+    width: 286px !important;
+    max-width: calc(100vw - 28px) !important;
+    border-radius: 20px 20px 6px 20px !important;
+    background: rgba(0,0,0,.66) !important;
+    border: 1px solid rgba(212,175,55,.26) !important;
+    box-shadow: 0 18px 48px rgba(0,0,0,.55) !important;
+    backdrop-filter: blur(14px) !important;
+    z-index: 134 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(8px) scale(.98) !important;
+    overflow: hidden !important;
+}
+.academy-companion-panel-v14.show,
+body.avatar-chat-open-v19 .academy-companion-panel-v14 {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: translateY(0) scale(1) !important;
+}
+body:not(.avatar-chat-open-v19) .academy-companion-panel-v14 {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+.academy-companion-head-v14 {
+    padding: 9px 11px 5px !important;
+    border-bottom: 1px solid rgba(255,255,255,.08) !important;
+}
+.academy-companion-title-v14 {
+    font-size: .61rem !important;
+    letter-spacing: 1.45px !important;
+    color: #fbbf24 !important;
+}
+.academy-companion-close-v14 {
+    width: 23px !important;
+    height: 23px !important;
+}
+.academy-companion-text-v14 {
+    padding: 9px 12px 8px !important;
+    min-height: 42px !important;
+    font-size: .79rem !important;
+    line-height: 1.38 !important;
+}
+.academy-companion-buttons-v14 {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 6px !important;
+    padding: 0 11px 11px !important;
+}
+.academy-companion-buttons-v14 button {
+    padding: 7px 7px !important;
+    font-size: .57rem !important;
+    letter-spacing: 1px !important;
+}
+
+/* Quibble remains hidden until unlocked and never labels himself. */
+body:not(.quibble-unlocked-v18) #bookwyrm-pet-widget,
+body:not(.quibble-unlocked-v18) .quibble-speech-v16 {
+    display: none !important;
+}
+#bookwyrm-pet-widget::before,
+.bookwyrm-pet-widget::before {
+    content: none !important;
+    display: none !important;
+}
+
+/* Make default state visibly motes/flicker friendly. */
+body.academy-entry-ambience-v19 #glow-layer {
+    opacity: var(--glow-opac, .34);
+}
+</style>
+
+
+<script>
+/* === THE ACADEMY v19: ENTRY AMBIENCE + AVATAR UI CLEANUP === */
+(function(){
+    const DEFAULT_ENTRY = {
+        audio: [
+            {id:'cat', url:'cat.mp3', vol:.32},
+            {id:'fire', url:'fire.mp3', vol:.28}
+        ],
+        particles:'motes',
+        glow:'flicker',
+        mode:'solar-mode'
+    };
+
+    const PRESET_AMBIENCE_V19 = {
+        dawnDesk:    {audio:[['cat','cat.mp3',.24],['fire','fire.mp3',.26]], particles:'motes',     glow:'flicker', mode:'solar-mode'},
+        stormStudy:  {audio:[['rain','rain.mp3',.26],['thunder','thunder.mp3',.16]], particles:'sparks',    glow:'strobe',  mode:'lunar-mode'},
+        candleClass: {audio:[['windchimes','windchimes.mp3',.24],['musicbox1','musicbox1.mp3',.18]], particles:'stars', glow:'aurora', mode:'amethyst-mode'},
+        moonLessons: {audio:[['crickets','crickets.mp3',.24],['frogs','frogs.mp3',.18]], particles:'fireflies', glow:'breathe', mode:'emerald-mode'},
+        greenhouse:  {audio:[['waves','waves.mp3',.28],['windchimes','windchimes.mp3',.16]], particles:'mist', glow:'wave', mode:'twilight-mode'},
+        chalkRunes:  {audio:[['raven','raven.mp3',.16],['darkmusic','darkmusic1.mp3',.20]], particles:'runes', glow:'phantom', mode:'gothic-mode'},
+        quietStacks: {audio:[['clock','clock.mp3',.18],['musicbox2','musicbox2.mp3',.18]], particles:'motes', glow:'nebula', mode:'abyss-mode'},
+        emberExam:   {audio:[['owls','owls.mp3',.18],['winterwind','winterwind.mp3',.22]], particles:'leaves', glow:'pulse', mode:'autumn-mode'}
+    };
+
+    function setGlowV19(name){
+        const glow = document.getElementById('glow-layer');
+        if (glow) glow.className = `glow-${name}`;
+        document.documentElement.style.setProperty('--glow-opac', name === 'flicker' ? '.34' : '.30');
+    }
+
+    function setParticlesV19(type){
+        window.particleType = type || 'motes';
+        document.body.dataset.academyParticles = window.particleType;
+        try { localStorage.setItem('somniasyllabus:lastParticles', window.particleType); } catch(e) {}
+    }
+
+    function setModeV19(mode){
+        if (!mode) return;
+        document.body.className = document.body.className
+            .split(' ')
+            .filter(c => !/-mode$/.test(c))
+            .join(' ')
+            .trim();
+        document.body.classList.add(mode);
+    }
+
+    function stopAudioV19(){
+        try { if (typeof stopAllAudio === 'function') stopAllAudio(); } catch(e) {}
+    }
+
+    function playAudioSetV19(tracks, stopFirst=true){
+        try { if (typeof initAudioContext === 'function') initAudioContext(); } catch(e) {}
+        if (stopFirst) stopAudioV19();
+
+        (tracks || []).forEach(track => {
+            const id = Array.isArray(track) ? track[0] : track.id;
+            const url = Array.isArray(track) ? track[1] : track.url;
+            const vol = Array.isArray(track) ? track[2] : track.vol;
+            try {
+                const slider = document.getElementById(`vol-${id}`);
+                if (slider) slider.value = String(vol ?? .25);
+                if (typeof toggleStem === 'function') {
+                    const active = typeof activeAudio !== 'undefined' && activeAudio[id];
+                    if (!active) toggleStem(id, url);
+                    setTimeout(() => { try { if (typeof adjustVol === 'function') adjustVol(id, vol ?? .25); } catch(e) {} }, 80);
+                }
+            } catch(e) {}
+        });
+
+        try { localStorage.setItem('somniasyllabus:lastAudio', JSON.stringify(tracks || [])); } catch(e) {}
+    }
+
+    function applyEntryAmbienceV19(){
+        document.body.classList.add('academy-entry-ambience-v19');
+        setModeV19(DEFAULT_ENTRY.mode);
+        setParticlesV19(DEFAULT_ENTRY.particles);
+        setGlowV19(DEFAULT_ENTRY.glow);
+        playAudioSetV19(DEFAULT_ENTRY.audio, true);
+    }
+
+    // Hook actual enter button/boot. Audio starts only after the Enter click, so browser allows it.
+    const oldEnterSanctuary = window.enterSanctuary;
+    window.enterSanctuary = function(){
+        const result = typeof oldEnterSanctuary === 'function' ? oldEnterSanctuary.apply(this, arguments) : undefined;
+        setTimeout(applyEntryAmbienceV19, 120);
+        return result;
+    };
+
+    // Ensure all presets set audio + particles + glow reliably.
+    const oldApplySyllabusPresetV19 = window.applySyllabusPreset;
+    window.applySyllabusPreset = function(key){
+        const result = typeof oldApplySyllabusPresetV19 === 'function' ? oldApplySyllabusPresetV19.apply(this, arguments) : undefined;
+        const p = PRESET_AMBIENCE_V19[key];
+        if (p) {
+            setModeV19(p.mode);
+            setParticlesV19(p.particles);
+            setGlowV19(p.glow);
+            playAudioSetV19(p.audio, true);
+        }
+        return result;
+    };
+
+    function killBadChatOpenersV19(){
+        // No avatar chat unless avatar itself is clicked.
+        document.body.classList.remove('teacher-chat-open-v13');
+        if (!document.body.classList.contains('avatar-chat-open-v19')) {
+            document.querySelectorAll('.academy-companion-panel-v14').forEach(p => p.classList.remove('show'));
+        }
+    }
+
+    function openAvatarChatV19(text){
+        const panel = document.getElementById('academy-companion-panel-v14');
+        const txt = document.getElementById('academy-companion-text-v14');
+        if (!panel) return;
+        if (txt) txt.textContent = text || 'Choose one thread.';
+        document.body.classList.add('avatar-chat-open-v19');
+        panel.classList.add('show');
+    }
+
+    function closeAvatarChatV19(){
+        document.body.classList.remove('avatar-chat-open-v19');
+        document.querySelectorAll('.academy-companion-panel-v14').forEach(p => p.classList.remove('show'));
+    }
+
+    function wireAvatarChatV19(){
+        const teacher = document.querySelector('.academy-guide-widget,.teacher-widget,.ai-widget,.guide-widget,[id*="guide"],[class*="guide-widget"]');
+        if (teacher && !teacher.__academyAvatarChatV19) {
+            teacher.__academyAvatarChatV19 = true;
+            teacher.addEventListener('click', e => {
+                if (e.target.closest('button,a,input,textarea')) return;
+                e.stopPropagation();
+                openAvatarChatV19('Choose one thread.');
+            }, true);
+        }
+        document.addEventListener('click', e => {
+            if (e.target.closest('.academy-companion-close-v14')) {
+                e.stopPropagation();
+                closeAvatarChatV19();
+                return;
+            }
+            const panel = document.getElementById('academy-companion-panel-v14');
+            if (!panel?.classList.contains('show')) return;
+            if (e.target.closest('.academy-companion-panel-v14')) return;
+            if (e.target.closest('.academy-guide-widget,.teacher-widget,.ai-widget,.guide-widget,[id*="guide"],[class*="guide-widget"]')) return;
+            closeAvatarChatV19();
+        }, true);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Set visual defaults immediately, but audio waits for Enter.
+        setModeV19(DEFAULT_ENTRY.mode);
+        setParticlesV19(DEFAULT_ENTRY.particles);
+        setGlowV19(DEFAULT_ENTRY.glow);
+
+        wireAvatarChatV19();
+        closeAvatarChatV19();
+        killBadChatOpenersV19();
+
+        // Neutralize old global showTeacherBubble: content only updates if chat is already open.
+        window.showTeacherBubble = function(text){
+            const txt = document.getElementById('academy-companion-text-v14');
+            if (txt && document.body.classList.contains('avatar-chat-open-v19')) txt.textContent = text || txt.textContent;
+        };
+
+        setInterval(() => {
+            wireAvatarChatV19();
+            killBadChatOpenersV19();
+        }, 2200);
+    });
+
+    window.AcademyEntryAmbienceV19 = {
+        apply: applyEntryAmbienceV19,
+        preset: key => {
+            const p = PRESET_AMBIENCE_V19[key];
+            if (p) {
+                setModeV19(p.mode);
+                setParticlesV19(p.particles);
+                setGlowV19(p.glow);
+                playAudioSetV19(p.audio, true);
+            }
+        },
+        closeAvatarChat: closeAvatarChatV19
+    };
 })();
 </script>
 
