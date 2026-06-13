@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-<meta name="somniasyllabus-build" content="the-academy-reset-v6-folded-tabs-visible"/><meta charset="utf-8"/>
+<meta name="somniasyllabus-build" content="the-academy-v7-assets-wired"/><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <meta content="THE ACADEMY // A private offline-first learning chamber and homeschool record table." name="description"/>
 <meta content="#020204" name="theme-color"/>
@@ -571,10 +571,16 @@
 
 <div id="academy-guide-widget" class="academy-guide-widget" onclick="sayAcademyGuide(event)" title="Academy Guide">
   <div class="academy-guide-inner">
-    <img src="witch.png" alt="Academy Guide" class="academy-guide-avatar">
+    <img src="necromancer_cat_elf_teacher_alt_1_TRUE_TRANSPARENT.png" alt="Academy Guide" class="academy-guide-avatar">
   </div>
   <div id="academy-guide-bubble" class="academy-guide-bubble">The Academy table is ready.</div>
 </div>
+
+<div id="bookwyrm-pet-widget" class="bookwyrm-pet-widget" onclick="cycleBookwyrmReaction(event)" title="Bookwyrm Familiar">
+  <img id="bookwyrm-pet-img" src="bookwyrm_reading.png" alt="Bookwyrm Familiar">
+  <div id="bookwyrm-pet-bubble" class="bookwyrm-pet-bubble">The lesson hoard is safe.</div>
+</div>
+
 <main class="room-editor-panel" id="maker-panel" onclick="event.stopPropagation()">
 <div class="tab-bar">
 <button class="tab-btn active" onclick="switchEditorTab('editor-audio', this)">Audio</button>
@@ -628,14 +634,14 @@
 <div class="tab-content editor-tab-content" id="editor-vault">
 <h4 class="section-title">Academy Presets</h4>
 <div class="syllabus-preset-grid">
-<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('dawnDesk')"><img alt="" src="syllabus1.png"/><span><b>Dawn Desk</b><small>Morning Lesson</small></span></button>
-<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('stormStudy')"><img alt="" src="syllabus2.png"/><span><b>Storm Study</b><small>Rain &amp; Focus</small></span></button>
-<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('candleClass')"><img alt="" src="syllabus3.png"/><span><b>Candle Class</b><small>Warm Table</small></span></button>
-<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('moonLessons')"><img alt="" src="syllabus4.png"/><span><b>Moon Lessons</b><small>Night Work</small></span></button>
-<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('greenhouse')"><img alt="" src="syllabus5.png"/><span><b>Greenhouse</b><small>Soft Growth</small></span></button>
-<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('chalkRunes')"><img alt="" src="syllabus6.png"/><span><b>Chalk Runes</b><small>Arcane Board</small></span></button>
-<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('quietStacks')"><img alt="" src="syllabus7.png"/><span><b>Quiet Stacks</b><small>Library Hour</small></span></button>
-<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('emberExam')"><img alt="" src="syllabus8.png"/><span><b>Ember Exam</b><small>Deep Focus</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('dawnDesk')"><img alt="" src="academy9.png"/><span><b>Moonlit Path</b><small>Hidden Village</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('stormStudy')"><img alt="" src="academy10.png"/><span><b>Ivy Observatory</b><small>Rain &amp; Focus</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('candleClass')"><img alt="" src="academy11.png"/><span><b>Cloud Terrace</b><small>Sunrise Islands</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('moonLessons')"><img alt="" src="academy12.png"/><span><b>Moon Sea Terrace</b><small>Glass Garden</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('greenhouse')"><img alt="" src="academy13.png"/><span><b>Sea Terrace</b><small>Moonlit Coast</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('chalkRunes')"><img alt="" src="academy14.png"/><span><b>Forgotten Academy</b><small>Overgrown Ruins</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('quietStacks')"><img alt="" src="academy15.png"/><span><b>Crystal Cavern</b><small>Glowstone Path</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('emberExam')"><img alt="" src="academy16.png"/><span><b>Forest Ruins</b><small>Ancient Walk</small></span></button>
 </div>
 <h4 class="section-title" style="margin-top:18px;">Academy Games</h4>
 <div class="syllabus-games-panel">
@@ -2209,7 +2215,7 @@ body.editor-collapsed #maker-panel.room-editor-panel .tab-bar, body.editor-colla
 .syllabus-game-btn { min-height:72px; border-radius:22px; white-space:normal; }
 .syllabus-game-btn span { display:block; font-size:1.3rem; margin-bottom:5px; }
 
-.academy-game-stage { position:relative; width:min(860px,92vw); height:min(620px,74vh); border-radius:34px; overflow:hidden; border:1px solid var(--glass-border); background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.66)),url('syllabusgame1.png') center/cover no-repeat; box-shadow:0 40px 90px rgba(0,0,0,.78), inset 0 1px 0 rgba(255,255,255,.08); }
+.academy-game-stage { position:relative; width:min(860px,92vw); height:min(620px,74vh); border-radius:34px; overflow:hidden; border:1px solid var(--glass-border); background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.66)),url('academymaze.png') center/cover no-repeat; box-shadow:0 40px 90px rgba(0,0,0,.78), inset 0 1px 0 rgba(255,255,255,.08); }
 .academy-game-header { position:absolute; top:14px; left:16px; right:16px; z-index:8; display:flex; justify-content:space-between; gap:12px; font-family:monospace; letter-spacing:2px; text-transform:uppercase; color:var(--primary); pointer-events:none; }
 .academy-game-close { position:absolute; right:16px; bottom:16px; z-index:10; }
 .academy-game-toast { position:absolute; left:50%; bottom:80px; transform:translateX(-50%); z-index:9; border:1px solid var(--glass-border); background:rgba(0,0,0,.54); border-radius:999px; padding:10px 16px; color:var(--text-main); font-family:monospace; letter-spacing:1px; pointer-events:none; }
@@ -2278,14 +2284,14 @@ body.cloaked #top-nav, body.cloaked #maker-panel, body.cloaked .nav-logo, body.c
     };
 
     const PRESETS = {
-        dawnDesk:{img:'syllabus1.png',mode:'vellum-mode',glow:'glow-breathe',bright:'0.92',opac:'0.26',label:'Dawn Desk'},
-        stormStudy:{img:'syllabus2.png',mode:'twilight-mode',glow:'glow-scanner',bright:'0.82',opac:'0.38',label:'Storm Study'},
-        candleClass:{img:'syllabus3.png',mode:'noir-mode',glow:'glow-flicker',bright:'0.86',opac:'0.32',label:'Candle Class'},
-        moonLessons:{img:'syllabus4.png',mode:'lunar-mode',glow:'glow-halo',bright:'0.78',opac:'0.34',label:'Moon Lessons'},
-        greenhouse:{img:'syllabus5.png',mode:'emerald-mode',glow:'glow-nebula',bright:'0.88',opac:'0.24',label:'Greenhouse'},
-        chalkRunes:{img:'syllabus6.png',mode:'academia-mode',glow:'glow-shimmer',bright:'0.82',opac:'0.30',label:'Chalk Runes'},
-        quietStacks:{img:'syllabus7.png',mode:'sepia-mode',glow:'glow-pulse',bright:'0.84',opac:'0.22',label:'Quiet Stacks'},
-        emberExam:{img:'syllabus8.png',mode:'autumn-mode',glow:'glow-inferno',bright:'0.76',opac:'0.38',label:'Ember Exam'}
+        dawnDesk:{img:'academy9.png',mode:'vellum-mode',glow:'glow-breathe',bright:'0.92',opac:'0.26',label:'Moonlit Path'},
+        stormStudy:{img:'academy10.png',mode:'twilight-mode',glow:'glow-scanner',bright:'0.82',opac:'0.38',label:'Ivy Observatory'},
+        candleClass:{img:'academy11.png',mode:'noir-mode',glow:'glow-flicker',bright:'0.86',opac:'0.32',label:'Cloud Terrace'},
+        moonLessons:{img:'academy12.png',mode:'lunar-mode',glow:'glow-halo',bright:'0.78',opac:'0.34',label:'Moon Sea Terrace'},
+        greenhouse:{img:'academy13.png',mode:'emerald-mode',glow:'glow-nebula',bright:'0.88',opac:'0.24',label:'Sea Terrace'},
+        chalkRunes:{img:'academy14.png',mode:'academia-mode',glow:'glow-shimmer',bright:'0.82',opac:'0.30',label:'Forgotten Academy'},
+        quietStacks:{img:'academy15.png',mode:'sepia-mode',glow:'glow-pulse',bright:'0.84',opac:'0.22',label:'Crystal Cavern'},
+        emberExam:{img:'academy16.png',mode:'autumn-mode',glow:'glow-inferno',bright:'0.76',opac:'0.38',label:'Forest Ruins'}
     };
     window.applySyllabusPreset = function(key){
         const preset = PRESETS[key];
@@ -3494,6 +3500,144 @@ body.editor-collapsed #maker-panel.room-editor-panel .tab-btn.active {
             window.switchEditorTab(match[1], tab);
         }
     }, true);
+})();
+</script>
+
+
+<style>
+/* === THE ACADEMY v7 ASSET WIRING === */
+.bookwyrm-pet-widget {
+    position: absolute;
+    right: 74px;
+    top: 560px;
+    width: 150px;
+    height: 150px;
+    z-index: 92;
+    cursor: pointer;
+    pointer-events: auto;
+}
+.bookwyrm-pet-widget img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 18px var(--primary-glow)) drop-shadow(0 16px 28px rgba(0,0,0,.55));
+    animation: bookwyrmFloat 4.6s ease-in-out infinite alternate;
+}
+.bookwyrm-pet-bubble {
+    position: absolute;
+    right: 78%;
+    top: 18px;
+    min-width: 210px;
+    max-width: 270px;
+    padding: 10px 13px;
+    border-radius: 18px 18px 4px 18px;
+    border: 1px solid var(--glass-border);
+    background: rgba(0,0,0,.62);
+    color: var(--text-main);
+    font-family: Georgia, serif;
+    font-size: .8rem;
+    line-height: 1.4;
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: .25s ease;
+    box-shadow: 0 18px 40px rgba(0,0,0,.45);
+}
+.bookwyrm-pet-bubble.show { opacity: 1; transform: translateY(0); }
+@keyframes bookwyrmFloat { from { transform: translateY(0) rotate(2deg); } to { transform: translateY(-10px) rotate(-2deg); } }
+
+body.cloaked .bookwyrm-pet-widget,
+body.cloaked .academy-guide-widget {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+@media (max-width: 950px) {
+    .bookwyrm-pet-widget { display:none; }
+}
+
+/* Make the new adventure presets look intentional in the Vault cards */
+.syllabus-preset-card img {
+    filter: saturate(1.05) contrast(1.04);
+}
+</style>
+
+
+<script>
+/* === THE ACADEMY v7 ASSET WIRING === */
+(function(){
+    const academyPresetAssets = {
+        dawnDesk:{img:'academy9.png',mode:'emerald-mode',glow:'glow-breathe',bright:'0.84',opac:'0.24',label:'Moonlit Path'},
+        stormStudy:{img:'academy10.png',mode:'lunar-mode',glow:'glow-halo',bright:'0.78',opac:'0.30',label:'Ivy Observatory'},
+        candleClass:{img:'academy11.png',mode:'solar-mode',glow:'glow-aurora',bright:'0.92',opac:'0.22',label:'Cloud Terrace'},
+        moonLessons:{img:'academy12.png',mode:'emerald-mode',glow:'glow-flicker',bright:'0.74',opac:'0.32',label:'Moon Sea Terrace'},
+        greenhouse:{img:'academy13.png',mode:'twilight-mode',glow:'glow-wave',bright:'0.80',opac:'0.26',label:'Sea Terrace'},
+        chalkRunes:{img:'academy14.png',mode:'academia-mode',glow:'glow-shimmer',bright:'0.76',opac:'0.34',label:'Forgotten Academy'},
+        quietStacks:{img:'academy15.png',mode:'abyss-mode',glow:'glow-nebula',bright:'0.72',opac:'0.36',label:'Crystal Cavern'},
+        emberExam:{img:'academy16.png',mode:'gothic-mode',glow:'glow-pulse',bright:'0.74',opac:'0.34',label:'Forest Ruins'}
+    };
+
+    window.applySyllabusPreset = function(key){
+        const preset = academyPresetAssets[key];
+        if (!preset) return;
+        const bg = document.getElementById('bg-anchor');
+        const glow = document.getElementById('glow-layer');
+        document.body.className = document.body.className.split(' ').filter(c => !c.endsWith('-mode')).join(' ').trim();
+        document.body.classList.add(preset.mode);
+        if (bg) {
+            bg.style.backgroundImage = `url('${preset.img}')`;
+            bg.style.backgroundSize = 'cover';
+            bg.style.backgroundPosition = 'center';
+        }
+        if (glow) glow.className = preset.glow;
+        document.documentElement.style.setProperty('--bg-bright', preset.bright);
+        document.documentElement.style.setProperty('--glow-opac', preset.opac);
+        if (typeof saveCurrentState === 'function') saveCurrentState();
+        if (typeof somniaAlert === 'function') somniaAlert('Academy Preset', `${preset.label} has opened.`);
+        if (typeof addAcademyXP === 'function') addAcademyXP(3);
+    };
+
+    const bookwyrmSprites = [
+        {src:'bookwyrm_reading.png', line:'The lesson hoard is safe.'},
+        {src:'bookwyrm_cozy.png', line:'A soft pause counts too.'},
+        {src:'bookwyrm_curious.png', line:'Something interesting is nearby.'},
+        {src:'bookwyrm_startled.png', line:'A wild idea just leapt from the page.'}
+    ];
+    let bookwyrmIndex = 0;
+
+    window.cycleBookwyrmReaction = function(event){
+        if (event) event.stopPropagation();
+        bookwyrmIndex = (bookwyrmIndex + 1) % bookwyrmSprites.length;
+        const pet = bookwyrmSprites[bookwyrmIndex];
+        const img = document.getElementById('bookwyrm-pet-img');
+        const bubble = document.getElementById('bookwyrm-pet-bubble');
+        if (img) img.src = pet.src;
+        if (bubble) {
+            bubble.textContent = pet.line;
+            bubble.classList.add('show');
+            clearTimeout(window.__bookwyrmBubbleTimer);
+            window.__bookwyrmBubbleTimer = setTimeout(() => bubble.classList.remove('show'), 3600);
+        }
+    };
+
+    const oldOpenAcademyGame = window.openAcademyGame;
+    window.openAcademyGame = function(mode){
+        if (typeof oldOpenAcademyGame === 'function') oldOpenAcademyGame(mode);
+        const stage = document.getElementById('academy-game-stage');
+        if (stage) {
+            stage.style.backgroundImage = mode === 'spell'
+                ? "linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,.55)), url('academyfling.png')"
+                : "linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,.55)), url('academymaze.png')";
+            stage.style.backgroundSize = 'cover';
+            stage.style.backgroundPosition = 'center';
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const img = document.getElementById('bookwyrm-pet-img');
+        if (img) img.src = 'bookwyrm_reading.png';
+        const avatar = document.querySelector('.academy-guide-avatar');
+        if (avatar) avatar.src = 'necromancer_cat_elf_teacher_alt_1_TRUE_TRANSPARENT.png';
+    });
 })();
 </script>
 
