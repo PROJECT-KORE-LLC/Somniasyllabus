@@ -634,14 +634,14 @@
 <div class="tab-content editor-tab-content" id="editor-vault">
 <h4 class="section-title">Academy Presets</h4>
 <div class="syllabus-preset-grid">
-<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('dawnDesk')"><img alt="" src="academy9.png"/><span><b>Moonlit Path</b><small>Hidden Village</small></span></button>
-<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('stormStudy')"><img alt="" src="academy10.png"/><span><b>Ivy Observatory</b><small>Rain &amp; Focus</small></span></button>
-<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('candleClass')"><img alt="" src="academy11.png"/><span><b>Cloud Terrace</b><small>Sunrise Islands</small></span></button>
-<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('moonLessons')"><img alt="" src="academy12.png"/><span><b>Moon Sea Terrace</b><small>Glass Garden</small></span></button>
-<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('greenhouse')"><img alt="" src="academy13.png"/><span><b>Sea Terrace</b><small>Moonlit Coast</small></span></button>
-<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('chalkRunes')"><img alt="" src="academy14.png"/><span><b>Forgotten Academy</b><small>Overgrown Ruins</small></span></button>
-<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('quietStacks')"><img alt="" src="academy15.png"/><span><b>Crystal Cavern</b><small>Glowstone Path</small></span></button>
-<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('emberExam')"><img alt="" src="academy16.png"/><span><b>Forest Ruins</b><small>Ancient Walk</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('dawnDesk')"><img alt="" src="academy9.png"/><span><b>Forest Path</b><small>Woodland Walk</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('stormStudy')"><img alt="" src="academy10.png"/><span><b>Waterfall</b><small>Cascading Mist</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('candleClass')"><img alt="" src="academy11.png"/><span><b>Winter Solstice</b><small>Aurora Quiet</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('moonLessons')"><img alt="" src="academy12.png"/><span><b>Mountain Fog</b><small>Highland Veil</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('greenhouse')"><img alt="" src="academy13.png"/><span><b>Floral View</b><small>Blooming Outlook</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('chalkRunes')"><img alt="" src="academy14.png"/><span><b>Serene Scene</b><small>Quiet Haven</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('quietStacks')"><img alt="" src="academy15.png"/><span><b>Sky Terrace</b><small>Above the Clouds</small></span></button>
+<button class="toy-btn syllabus-preset-card" onclick="applySyllabusPreset('emberExam')"><img alt="" src="academy16.png"/><span><b>Seaside View</b><small>Saltwind Horizon</small></span></button>
 </div>
 <h4 class="section-title" style="margin-top:18px;">Academy Games</h4>
 <div class="syllabus-games-panel">
@@ -7119,6 +7119,128 @@ body.academy-entry-ambience-v19 #glow-layer {
         },
         closeAvatarChat: closeAvatarChatV19
     };
+})();
+</script>
+
+
+<script>
+/* === THE ACADEMY v20: FINAL PRESET NAME + IMAGE OVERRIDE === */
+(function(){
+    const ACADEMY_PRESET_V20 = {
+        "dawnDesk": {
+                "img": "academy9.png",
+                "title": "Forest Path",
+                "small": "Woodland Walk",
+                "mode": "emerald-mode",
+                "glow": "glow-breathe",
+                "bright": "0.84",
+                "opac": "0.24"
+        },
+        "stormStudy": {
+                "img": "academy10.png",
+                "title": "Waterfall",
+                "small": "Cascading Mist",
+                "mode": "emerald-mode",
+                "glow": "glow-wave",
+                "bright": "0.92",
+                "opac": "0.20"
+        },
+        "candleClass": {
+                "img": "academy11.png",
+                "title": "Winter Solstice",
+                "small": "Aurora Quiet",
+                "mode": "frost-mode",
+                "glow": "glow-aurora",
+                "bright": "0.82",
+                "opac": "0.30"
+        },
+        "moonLessons": {
+                "img": "academy12.png",
+                "title": "Mountain Fog",
+                "small": "Highland Veil",
+                "mode": "vellum-mode",
+                "glow": "glow-halo",
+                "bright": "0.86",
+                "opac": "0.28"
+        },
+        "greenhouse": {
+                "img": "academy13.png",
+                "title": "Floral View",
+                "small": "Blooming Outlook",
+                "mode": "amethyst-mode",
+                "glow": "glow-nebula",
+                "bright": "0.86",
+                "opac": "0.28"
+        },
+        "chalkRunes": {
+                "img": "academy14.png",
+                "title": "Serene Scene",
+                "small": "Quiet Haven",
+                "mode": "lunar-mode",
+                "glow": "glow-breathe",
+                "bright": "0.94",
+                "opac": "0.18"
+        },
+        "quietStacks": {
+                "img": "academy15.png",
+                "title": "Sky Terrace",
+                "small": "Above the Clouds",
+                "mode": "solar-mode",
+                "glow": "glow-aurora",
+                "bright": "0.98",
+                "opac": "0.16"
+        },
+        "emberExam": {
+                "img": "academy16.png",
+                "title": "Seaside View",
+                "small": "Saltwind Horizon",
+                "mode": "twilight-mode",
+                "glow": "glow-wave",
+                "bright": "0.80",
+                "opac": "0.30"
+        }
+};
+
+    function updatePresetCardsV20(){
+        Object.keys(ACADEMY_PRESET_V20).forEach(key => {
+            const p = ACADEMY_PRESET_V20[key];
+            const btn = document.querySelector(`.syllabus-preset-card[onclick*="${key}"]`);
+            if (!btn) return;
+            const img = btn.querySelector('img');
+            const b = btn.querySelector('b');
+            const small = btn.querySelector('small');
+            if (img) img.src = p.img;
+            if (b) b.textContent = p.title;
+            if (small) small.textContent = p.small;
+        });
+    }
+
+    const previousApplySyllabusPresetV20 = window.applySyllabusPreset;
+    window.applySyllabusPreset = function(key){
+        const p = ACADEMY_PRESET_V20[key];
+        if (p) {
+            document.body.classList.remove(
+                'lunar-mode','noir-mode','vellum-mode','amethyst-mode','crimson-mode','emerald-mode',
+                'solar-mode','void-mode','obsidian-mode','ghost-mode','gothic-mode','academia-mode',
+                'y2k-mode','vintage-mode','cyber-mode','twilight-mode','autumn-mode','abyss-mode','sepia-mode','frost-mode'
+            );
+            document.body.classList.add(p.mode);
+            const bg = document.getElementById('bg-anchor');
+            if (bg) bg.style.backgroundImage = `url('${p.img}')`;
+            const glow = document.getElementById('glow-layer');
+            if (glow) glow.className = p.glow;
+            document.documentElement.style.setProperty('--bg-bright', p.bright);
+            document.documentElement.style.setProperty('--glow-opac', p.opac);
+            localStorage.setItem('somniasyllabus:lastAcademyPreset', key);
+            if (typeof somniaAlert === 'function') somniaAlert('Academy Preset', `${p.title} has opened.`);
+            return;
+        }
+        if (typeof previousApplySyllabusPresetV20 === 'function') return previousApplySyllabusPresetV20.apply(this, arguments);
+    };
+
+    window.addEventListener('DOMContentLoaded', updatePresetCardsV20);
+    setTimeout(updatePresetCardsV20, 300);
+    setTimeout(updatePresetCardsV20, 1200);
 })();
 </script>
 
